@@ -62,7 +62,7 @@ server.put('/api/claims/:userId/:claimId/:claimStatus', async (req, res) => {
     [userId, claimId, claimStatus] = [userId, claimId, claimStatus].map((e) =>
       Number(e)
     );
-
+    claimTypes[claimStatus]();
     const connection = await pool.getConnection();
     // await connection.execute(
     //   `UPDATE reclamos set  idReclamoEstado = ${claimStatus} WHERE idReclamo = ${claimId}`

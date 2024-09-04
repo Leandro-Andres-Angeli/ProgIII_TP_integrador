@@ -12,7 +12,7 @@ const claimTypes = Object.freeze({
     return ``;
   },
   4: function (p1) {
-    console.log(p1);
+    console.log('d');
     return ``;
   },
 });
