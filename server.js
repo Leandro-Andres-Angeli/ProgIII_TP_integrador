@@ -1,5 +1,6 @@
 const express = require('express');
 const pool = require('./src/config/dbConfig');
+const moment = require('moment');
 require('dotenv').config();
 const PORT = process.env.SERVER_PORT || 3001;
 
@@ -14,12 +15,13 @@ server.get('/api/users', async (req, res) => {
     connection.release();
     return res.status(200).json({ ok: true, users });
   } catch (error) {
-    return res.status(500).json({ ok: false, message: error.message });
+    return res.status(500).json({ ok: false, message: 'error de servidor' });
   }
 });
 /* USERS */
 
 /* CLAIMS */
+/* get reclamo by id  */
 server.get('/api/claims/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -36,9 +38,40 @@ server.get('/api/claims/:id', async (req, res) => {
     connection.release();
     return res.status(200).json({ ok: true, claims: userClaims });
   } catch (error) {
-    return res.status(500).json({ ok: false, message: error.message });
+    return res.status(500).json({ ok: false, message: 'error de servidor' });
   }
 });
+/* get reclamo by id  */
+/* post reclamo */
+
+/* post reclamo */
+
+/* update reclamo */
+const handleUpdateQuery = (userId, claimId, claimStatus) => {
+  fechaFinalizado = moment().format('YYYY-MM-DD hh:mm:ss');
+  console.log(fechaFinalizado);
+
+  return claimStatus == 4
+    ? `UPDATE reclamos set  idReclamoEstado = ${claimStatus} , fechaFinalizado = CURRENT_DATE()  ,idUsuarioFinalizador = ${userId}  WHERE idReclamo = ${claimId} `
+    : `UPDATE reclamos set  idReclamoEstado = ${claimStatus} WHERE idReclamo = ${claimId}`;
+};
+server.put('/api/claims/:userId/:claimId/:claimStatus', async (req, res) => {
+  try {
+    const { userId, claimId, claimStatus } = req.params;
+    const connection = await pool.getConnection();
+    // await connection.execute(
+    //   `UPDATE reclamos set  idReclamoEstado = ${claimStatus} WHERE idReclamo = ${claimId}`
+    // );
+    await connection.execute(handleUpdateQuery(userId, claimId, claimStatus));
+
+    return res.status(204).json({ ok: true, message: 'reclamo actualizado' });
+  } catch (err) {
+    /*   console.log(err); */
+
+    return res.status(500).json({ ok: 'false', message: err.message });
+  }
+});
+/* upate reclamo */
 
 /* CLAIMS */
 
