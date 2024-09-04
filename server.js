@@ -1,6 +1,7 @@
 const express = require('express');
 const pool = require('./src/config/dbConfig');
 const moment = require('moment');
+const claimTypes = require('./src/utils/claimsStatus');
 require('dotenv').config();
 const PORT = process.env.SERVER_PORT || 3001;
 
@@ -47,7 +48,7 @@ server.get('/api/claims/:id', async (req, res) => {
 /* post reclamo */
 
 /* update reclamo */
-const handleUpdateQuery = (userId, claimId, claimStatus) => {
+const handleUpdateQuery1 = (userId, claimId, claimStatus) => {
   fechaFinalizado = moment().format('YYYY-MM-DD hh:mm:ss');
   console.log(fechaFinalizado);
 
@@ -57,12 +58,18 @@ const handleUpdateQuery = (userId, claimId, claimStatus) => {
 };
 server.put('/api/claims/:userId/:claimId/:claimStatus', async (req, res) => {
   try {
-    const { userId, claimId, claimStatus } = req.params;
+    let { userId, claimId, claimStatus } = req.params;
+    [userId, claimId, claimStatus] = [userId, claimId, claimStatus].map((e) =>
+      Number(e)
+    );
+
     const connection = await pool.getConnection();
     // await connection.execute(
     //   `UPDATE reclamos set  idReclamoEstado = ${claimStatus} WHERE idReclamo = ${claimId}`
     // );
-    await connection.execute(handleUpdateQuery(userId, claimId, claimStatus));
+
+    /* await connection.execute(handleUpdateQuery1(userId, claimId, claimStatus)); */
+    connection.release();
 
     return res.status(204).json({ ok: true, message: 'reclamo actualizado' });
   } catch (err) {

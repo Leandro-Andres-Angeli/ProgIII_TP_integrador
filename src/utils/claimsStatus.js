@@ -1,11 +1,19 @@
-/* const claimTypes = Object.freeze({
-  1: {
-    id: 1,
+const claimTypes = Object.freeze({
+  1: function (p1) {
+    console.log(p1);
+    return ``;
   },
-  2:{
-    id:2
-  },3:{
-    id:3
-  }
-
-}); */
+  2: function (p1) {
+    console.log(p1);
+    return ``;
+  },
+  3: function (p1) {
+    console.log(p1);
+    return ``;
+  },
+  4: function (p1) {
+    console.log(p1);
+    return ``;
+  },
+});
+module.exports = claimTypes;
