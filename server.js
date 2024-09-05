@@ -1,7 +1,7 @@
 const express = require('express');
 const pool = require('./src/config/dbConfig');
 const moment = require('moment');
-const claimTypes = require('./src/utils/claimsStatus');
+const claimUpdateQueries = require('./src/utils/claimsStatus');
 const { checkIsLogged, middleTest } = require('./src/middlewares/auth');
 
 require('dotenv').config();
@@ -57,12 +57,11 @@ server.put('/api/claims/:userId/:claimId/:claimStatus', async (req, res) => {
     [userId, claimId, claimStatus] = [userId, claimId, claimStatus].map((e) =>
       Number(e)
     );
-    const newClaimStatusQuery = Object.keys(claimTypes)
+    const newClaimStatusQuery = Object.keys(claimUpdateQueries)
       .map((el) => Number(el))
       .includes(claimStatus)
-      ? claimTypes[claimStatus](userId, claimId, claimStatus)
+      ? claimUpdateQueries[claimStatus](userId, claimId, claimStatus)
       : null;
-    console.log(newClaimStatusQuery);
 
     if (!Boolean(newClaimStatusQuery)) {
       throw Error('Error en la consulta');
@@ -71,20 +70,16 @@ server.put('/api/claims/:userId/:claimId/:claimStatus', async (req, res) => {
     const connection = await pool.getConnection();
     const [results, fields] = await connection.execute(newClaimStatusQuery, [
       claimStatus,
-      userId,
+
+      claimId === 4 ? userId : null,
       claimId,
     ]);
     const { affectedRows } = results;
-    console.log(results.affectedRows);
-    console.log(fields);
+
     if (!affectedRows) {
       return res.status(404).json('id de reclamo no encontrado');
     }
-    // await connection.execute(
-    //   `UPDATE reclamos set  idReclamoEstado = ${claimStatus} WHERE idReclamo = ${claimId}`
-    // );
 
-    /* await connection.execute(handleUpdateQuery1(userId, claimId, claimStatus)); */
     connection.release();
 
     return res.status(204).json({ ok: true, message: 'reclamo actualizado' });
