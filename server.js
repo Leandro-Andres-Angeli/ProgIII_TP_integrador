@@ -2,13 +2,15 @@ const express = require('express');
 const pool = require('./src/config/dbConfig');
 const moment = require('moment');
 const claimTypes = require('./src/utils/claimsStatus');
+const { checkIsLogged, middleTest } = require('./src/middlewares/auth');
+
 require('dotenv').config();
 const PORT = process.env.SERVER_PORT || 3001;
 
 const server = express();
 server.use(express.json());
 /* USERS */
-server.get('/api/users', async (req, res) => {
+server.get('/api/users', [checkIsLogged, middleTest], async (req, res) => {
   try {
     const connection = await pool.getConnection();
     const [users] = await connection.query('SELECT * FROM usuarios');
@@ -48,22 +50,36 @@ server.get('/api/claims/:id', async (req, res) => {
 /* post reclamo */
 
 /* update reclamo */
-const handleUpdateQuery1 = (userId, claimId, claimStatus) => {
-  fechaFinalizado = moment().format('YYYY-MM-DD hh:mm:ss');
-  console.log(fechaFinalizado);
 
-  return claimStatus == 4
-    ? `UPDATE reclamos set  idReclamoEstado = ${claimStatus} , fechaFinalizado = CURRENT_DATE()  ,idUsuarioFinalizador = ${userId}  WHERE idReclamo = ${claimId} `
-    : `UPDATE reclamos set  idReclamoEstado = ${claimStatus} WHERE idReclamo = ${claimId}`;
-};
 server.put('/api/claims/:userId/:claimId/:claimStatus', async (req, res) => {
   try {
     let { userId, claimId, claimStatus } = req.params;
     [userId, claimId, claimStatus] = [userId, claimId, claimStatus].map((e) =>
       Number(e)
     );
-    claimTypes[claimStatus]();
+    const newClaimStatusQuery = Object.keys(claimTypes)
+      .map((el) => Number(el))
+      .includes(claimStatus)
+      ? claimTypes[claimStatus](userId, claimId, claimStatus)
+      : null;
+    console.log(newClaimStatusQuery);
+
+    if (!Boolean(newClaimStatusQuery)) {
+      throw Error('Error en la consulta');
+    }
+
     const connection = await pool.getConnection();
+    const [results, fields] = await connection.execute(newClaimStatusQuery, [
+      claimStatus,
+      userId,
+      claimId,
+    ]);
+    const { affectedRows } = results;
+    console.log(results.affectedRows);
+    console.log(fields);
+    if (!affectedRows) {
+      return res.status(404).json('id de reclamo no encontrado');
+    }
     // await connection.execute(
     //   `UPDATE reclamos set  idReclamoEstado = ${claimStatus} WHERE idReclamo = ${claimId}`
     // );
