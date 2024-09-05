@@ -68,7 +68,7 @@ server.put('/api/claims/:userId/:claimId/:claimStatus', async (req, res) => {
     }
 
     const connection = await pool.getConnection();
-    const [results, fields] = await connection.execute(newClaimStatusQuery, [
+    const [results] = await connection.execute(newClaimStatusQuery, [
       claimStatus,
 
       claimId === 4 ? userId : null,
