@@ -5,11 +5,13 @@ const pool = require('./src/config/dbConfig');
 const claimUpdateQueries = require('./src/utils/claimsStatus');
 const { checkIsLogged, middleTest } = require('./src/middlewares/auth');
 const dotenv = require('dotenv');
+
 dotenv.config();
 const PORT = process.env.SERVER_PORT || 3001;
 
 const server = express();
 server.use(express.json());
+
 /* USERS */
 server.use('/api/user', require('./src/routes/user'));
 /* server.get('/api/users', [checkIsLogged, middleTest], async (req, res) => {
