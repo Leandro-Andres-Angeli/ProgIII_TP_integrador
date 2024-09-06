@@ -9,11 +9,13 @@ const checkAvailableEmail = async (req, res, next) => {
   console.log(getUserIfExists.length);
 
   if (getUserIfExists.length > 0) {
-    console.log('in');
+    console.log('error');
 
-    return res
+    throw new Error('ya hay una cuenta asociada a ese email');
+
+    /*   return res
       .status(400)
-      .json({ message: 'ya hay una cuenta asociada a ese email' });
+      .json({ message: 'ya hay una cuenta asociada a ese email' }); */
   }
 
   next();
