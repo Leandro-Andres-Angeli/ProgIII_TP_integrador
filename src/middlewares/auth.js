@@ -20,7 +20,7 @@ const passportStrategy = new Strategy(
       const connection = await pool.getConnection();
 
       const [user] = await connection.query(
-        `SELECT * FROM usuarios WHERE correoElectronico = 's${username}' AND contrasenia =sha2('${password}',256) `
+        `SELECT * FROM usuarios WHERE correoElectronico = '${username}' AND contrasenia =sha2('${password}',256) `
       );
 
       if (user.length !== 1) {

@@ -110,7 +110,7 @@ router.post(
 
 router.post(
   '/login',
-  passport.authenticate('local', { session: false, failWithError: true }),
+  passport.authenticate('local', { session: false }),
   async (req, res) => {
     try {
       console.log('in');

@@ -14,7 +14,7 @@ server.use(express.json());
 
 /* USERS */
 server.use('/api/user', require('./src/routes/user'));
-/* server.get('/api/users', [checkIsLogged, middleTest], async (req, res) => {
+server.get('/api/users', async (req, res) => {
   try {
     const connection = await pool.getConnection();
     const [users] = await connection.query('SELECT * FROM usuarios');
@@ -24,7 +24,7 @@ server.use('/api/user', require('./src/routes/user'));
   } catch (error) {
     return res.status(500).json({ ok: false, message: 'error de servidor' });
   }
-}); */
+});
 /* USERS */
 
 /* CLAIMS */
