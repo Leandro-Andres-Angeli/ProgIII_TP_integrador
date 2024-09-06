@@ -1,8 +1,12 @@
 const { Router } = require('express');
 const { check, body } = require('express-validator');
 const { validateFields } = require('../middlewares/validate');
-const checkAvailableEmail = require('../middlewares/checkAvailableEmail');
+const {
+  checkAvailableEmail,
+  checkValidRole,
+} = require('../middlewares/validations');
 const pool = require('../config/dbConfig');
+const userRoles = require('../utils/userRoles');
 const router = Router();
 /* 
 Email ya registrado 4 test
@@ -18,27 +22,25 @@ router.post(
     check('password', 'campo password requerido').notEmpty(),
     check('lastName', 'campo apellido requerido').notEmpty(),
     check('role', 'campo role requerido').notEmpty(),
-    body('email').custom(async (val) => {
-      console.log(val);
-
-      const connection = await pool.getConnection();
-      const [getUserIfExists] = await connection.query(
-        `SELECT * FROM usuarios WHERE  correoElectronico ='${val}'`
-      );
-      /*  console.log(getUserIfExists); */
-
-      if (getUserIfExists.length > 0) {
-        throw new Error('ya hay una cuenta asociada a ese email');
-      }
-      connection.release();
-      return false;
-    }),
+    body('email').custom(checkAvailableEmail),
+    body('role').custom(checkValidRole),
     validateFields,
   ],
   (req, res) => {
     try {
-      const { name, email, password } = req.body;
-
+      const { name, lastName, email, password, role } = req.body;
+      const newUser = {
+        name,
+        email,
+        password,
+        lastName,
+        role: userRoles[role],
+      };
+      /* 
+      Test query
+      INSERT INTO usuarios (nombre , apellido ,correoElectronico,contrasenia , idTipoUsuario , activo) VALUES ("J","J","mail@mail","123",1,1) 
+      Test query
+      */
       return res.status(403).json({ message: 'usuario creado' });
     } catch (err) {
       return res.status(500).json({ message: 'error de servidor' });
