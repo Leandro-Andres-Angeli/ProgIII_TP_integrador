@@ -9,9 +9,10 @@ const pool = require('../config/dbConfig');
 const userRoles = require('../utils/userRoles');
 const bcrypt = require('bcrypt');
 const { Strategy } = require('passport-local');
-/* 
+
 const passport = require('passport');
-const session = require('express-session'); */
+const { passportStrategy } = require('../middlewares/auth');
+/* const session = require('express-session'); */
 
 const router = Router();
 /* 
@@ -59,6 +60,7 @@ router.use(
     saveUninitialized: false,
   })
 ); */
+passport.use(passportStrategy);
 router.post(
   '/',
   [
@@ -106,18 +108,24 @@ router.post(
   }
 );
 
-router.post('/login', async (req, res) => {
-  try {
-    const password = req.baseUrl;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    users.push({
-      id: Date.now(),
-      username: 'user',
-      password: hashedPassword,
-    });
-    return res.status(200).json({ ok: true });
-  } catch (err) {
-    res.status(400).json({ err: err.message });
+router.post(
+  '/login',
+  passport.authenticate('local', { session: false, failWithError: true }),
+  async (req, res) => {
+    try {
+      console.log('in');
+
+      const password = req.baseUrl;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      users.push({
+        id: Date.now(),
+        username: 'user',
+        password: hashedPassword,
+      });
+      return res.status(200).json({ ok: true });
+    } catch (err) {
+      res.status(400).json({ err: err.message });
+    }
   }
-});
+);
 module.exports = router;
