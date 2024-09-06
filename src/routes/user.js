@@ -26,7 +26,7 @@ router.post(
     body('role').custom(checkValidRole),
     validateFields,
   ],
-  (req, res) => {
+  async (req, res) => {
     try {
       const { name, lastName, email, password, role } = req.body;
       const newUser = {
@@ -41,8 +41,21 @@ router.post(
       INSERT INTO usuarios (nombre , apellido ,correoElectronico,contrasenia , idTipoUsuario , activo) VALUES ("J","J","mail@mail","123",1,1) 
       Test query
       */
-      return res.status(403).json({ message: 'usuario creado' });
+      const connection = await pool.getConnection();
+      const [createUser] = await connection.query(
+        `INSERT INTO usuarios (nombre , apellido ,correoElectronico,contrasenia , idTipoUsuario , activo) VALUES ('${newUser.name}' , '${newUser.lastName}' ,'${newUser.email}', sha2('${newUser.password}',256) , ${newUser.role} ,1)`
+      );
+      console.log(createUser);
+
+      if (Number(createUser.affectedRows) !== 1) {
+        throw Error('error creando usuario');
+      }
+      console.log(createUser);
+
+      return res.status(403).json({ ok: true, message: 'usuario creado' });
     } catch (err) {
+      console.log(err);
+
       return res.status(500).json({ message: 'error de servidor' });
     }
   }
