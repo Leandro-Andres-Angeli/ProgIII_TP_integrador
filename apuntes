@@ -1,0 +1,1 @@
+algoritmo password sha2('',256)

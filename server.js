@@ -1,16 +1,18 @@
 const express = require('express');
+
 const pool = require('./src/config/dbConfig');
-const moment = require('moment');
+
 const claimUpdateQueries = require('./src/utils/claimsStatus');
 const { checkIsLogged, middleTest } = require('./src/middlewares/auth');
-
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const PORT = process.env.SERVER_PORT || 3001;
 
 const server = express();
 server.use(express.json());
 /* USERS */
-server.get('/api/users', [checkIsLogged, middleTest], async (req, res) => {
+server.use('/api/user', require('./src/routes/user'));
+/* server.get('/api/users', [checkIsLogged, middleTest], async (req, res) => {
   try {
     const connection = await pool.getConnection();
     const [users] = await connection.query('SELECT * FROM usuarios');
@@ -20,7 +22,7 @@ server.get('/api/users', [checkIsLogged, middleTest], async (req, res) => {
   } catch (error) {
     return res.status(500).json({ ok: false, message: 'error de servidor' });
   }
-});
+}); */
 /* USERS */
 
 /* CLAIMS */
@@ -92,7 +94,9 @@ server.put('/api/claims/:userId/:claimId/:claimStatus', async (req, res) => {
 /* upate reclamo */
 
 /* CLAIMS */
-
+server.get('/*', (req, res) => {
+  return res.status(404).json({ message: 'no existe ruta' });
+});
 server.listen(PORT, () => {
   console.log(`running on ${PORT}`);
 });
