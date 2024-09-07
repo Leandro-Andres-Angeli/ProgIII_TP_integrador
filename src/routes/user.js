@@ -7,8 +7,6 @@ const {
 } = require('../middlewares/validations');
 const pool = require('../config/dbConfig');
 const userRoles = require('../utils/userRoles');
-const bcrypt = require('bcrypt');
-const { Strategy } = require('passport-local');
 
 const passport = require('passport');
 const { passportStrategy } = require('../middlewares/auth');
