@@ -22,6 +22,7 @@ server.get('/api/users', async (req, res) => {
     connection.release();
     return res.status(200).json({ ok: true, users });
   } catch (error) {
+    console.log(error.message);
     return res.status(500).json({ ok: false, message: 'error de servidor' });
   }
 });

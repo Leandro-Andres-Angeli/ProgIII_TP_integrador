@@ -107,14 +107,21 @@ router.post(
     }
   }
 );
-
+/* 
 router.post(
   '/login',
-  passport.authenticate('local', { session: false }),
+  function (req, res, next) {
+    passport.authenticate(
+      'local',
+      { session: false },
+      function (err, user, info) {
+        console.log('user');
+        console.log(user);
+      }
+    );
+  },
   async (req, res) => {
     try {
-      console.log('in');
-
       const password = req.baseUrl;
       const hashedPassword = await bcrypt.hash(password, 10);
       users.push({
@@ -126,6 +133,61 @@ router.post(
     } catch (err) {
       res.status(400).json({ err: err.message });
     }
+  }
+); */
+
+/* router.post(
+  '/login',
+
+  passport.authenticate('local', { session: false }),
+
+  async (req, res) => {
+    try {
+      const password = req.baseUrl;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      users.push({
+        id: Date.now(),
+        username: 'user',
+        password: hashedPassword,
+      });
+      return res.status(200).json({ ok: true });
+    } catch (err) {
+      res.status(400).json({ err: err.message });
+    }
+  }
+); */
+/* app.get('/login', function (req, res, next) {
+  passport.authenticate('local', function (err, user, info) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.redirect('/login');
+    }
+    req.logIn(user, function (err) {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect('/users/' + user.username);
+    });
+  })(req, res, next);
+}); */
+router.post(
+  '/login',
+  function (req, res, next) {
+    passport.authenticate(
+      'local',
+      { session: false },
+      function (err, user, info) {
+        if (!user) {
+          return res.status(401).json({ ok: false, message: err.message });
+        }
+        next();
+      }
+    )(req, res, next);
+  },
+  (req, res) => {
+    return res.status(400).json({ ok: true });
   }
 );
 module.exports = router;

@@ -14,8 +14,6 @@ const middleTest = (req, res, next) => {
 const passportStrategy = new Strategy(
   { usernameField: 'email' },
   async (username, password, cb) => {
-    console.log(username);
-    console.log(password);
     try {
       const connection = await pool.getConnection();
 
@@ -24,14 +22,12 @@ const passportStrategy = new Strategy(
       );
 
       if (user.length !== 1) {
-        throw new Error('error de autenticacion');
+        throw new Error('Error de autenticacion');
       }
       connection.release();
       cb(null, user);
     } catch (error) {
-      cb(error, false, {
-        message: error,
-      });
+      return cb(error, false);
     }
   }
 );
