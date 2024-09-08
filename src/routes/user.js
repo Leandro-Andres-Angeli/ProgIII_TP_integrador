@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check, body } = require('express-validator');
 const { validateFields } = require('../middlewares/validate');
-const jwt = require('jsonwebtoken');
+
 const {
   checkAvailableEmail,
   checkValidRole,
@@ -213,21 +213,11 @@ router.post(
         }
         req.body.user = user;
         next();
-        /*    req.logIn(user, { session: false }, async function (err) {
-          if (err) return next(err);
-          const body = {
-            id: user.idUsuario,
-            email: user.correoElectronico,
-            rol: user.idTipoUsuario,
-          };
-          const token = jwt.sign({ user: body }, 'secret');
-          return res.json({ token });
-        }); */
       }
     )(req, res, next);
   },
 
-  (req, res) => {
+  /*   (req, res) => {
     const {
       body: { user },
       logIn,
@@ -246,7 +236,7 @@ router.post(
         usuario: { ...body, token },
       });
     });
-    /* return res.status(400).json({ ok: true }); */
-  }
+  } */
+  generateToken
 );
 module.exports = router;

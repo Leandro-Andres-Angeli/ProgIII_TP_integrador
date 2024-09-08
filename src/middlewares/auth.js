@@ -1,15 +1,31 @@
 const passport = require('passport');
 const { Strategy } = require('passport-local');
-
+const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
 const pool = require('../config/dbConfig');
 
-const generateToken = (req, res, next) => {
-  console.log('user', req.Login);
-  next();
+const generateToken = (req, res) => {
+  const {
+    body: { user },
+    logIn,
+  } = req;
+  logIn(user, { session: false }, async (err) => {
+    if (err) return err;
+    const body = {
+      id: user.idUsuario,
+      email: user.correoElectronico,
+      rol: user.idTipoUsuario,
+    };
+    const token = jwt.sign({ user: body }, 'secret', { expiresIn: '90d' });
+    return res.status(200).json({
+      ok: true,
+      message: 'Logueo extiso',
+      usuario: { ...body, token },
+    });
+  });
 };
 const passportLocalStrategy = new Strategy(
   { usernameField: 'email' },
