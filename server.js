@@ -14,6 +14,7 @@ server.use(express.json());
 
 /* USERS */
 server.use('/api/user', require('./src/routes/user'));
+server.use('/api/claims', require('./src/routes/claims'));
 server.get('/api/users', async (req, res) => {
   try {
     const connection = await pool.getConnection();
@@ -30,7 +31,7 @@ server.get('/api/users', async (req, res) => {
 
 /* CLAIMS */
 /* get reclamo by id  */
-server.get('/api/claims/:id', async (req, res) => {
+/* server.get('/api/claims/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const connection = await pool.getConnection();
@@ -48,14 +49,14 @@ server.get('/api/claims/:id', async (req, res) => {
   } catch (error) {
     return res.status(500).json({ ok: false, message: 'error de servidor' });
   }
-});
+}); */
 /* get reclamo by id  */
 /* post reclamo */
 
 /* post reclamo */
 
 /* update reclamo */
-
+/* 
 server.put('/api/claims/:userId/:claimId/:claimStatus', async (req, res) => {
   try {
     let { userId, claimId, claimStatus } = req.params;
@@ -89,11 +90,11 @@ server.put('/api/claims/:userId/:claimId/:claimStatus', async (req, res) => {
 
     return res.status(204).json({ ok: true, message: 'reclamo actualizado' });
   } catch (err) {
-    /*   console.log(err); */
+       console.log(err); 
 
     return res.status(500).json({ ok: 'false', message: err.message });
   }
-});
+}); */
 /* upate reclamo */
 
 /* CLAIMS */

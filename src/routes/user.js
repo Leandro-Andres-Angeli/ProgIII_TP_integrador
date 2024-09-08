@@ -10,7 +10,11 @@ const pool = require('../config/dbConfig');
 const { userRoles } = require('../utils/userRoles');
 
 const passport = require('passport');
-const { passportLocalStrategy, generateToken } = require('../middlewares/auth');
+const {
+  passportLocalStrategy,
+  generateToken,
+  handleLogin,
+} = require('../middlewares/auth');
 
 const router = Router();
 /* 
@@ -73,15 +77,7 @@ router.post(
   check('email', 'ingrese un email valido').isEmail(),
   check('password', 'campo password requerido').notEmpty(),
   validateFields,
-  function (req, res, next) {
-    passport.authenticate('local', { session: false }, function (err, user) {
-      if (!user) {
-        return res.status(401).json({ ok: false, message: err.message });
-      }
-      req.body.user = user;
-      next();
-    })(req, res, next);
-  },
+  handleLogin,
   generateToken
 );
 module.exports = router;

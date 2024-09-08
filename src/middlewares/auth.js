@@ -52,4 +52,23 @@ const passportLocalStrategy = new Strategy(
   }
 );
 
-module.exports = { passportLocalStrategy, generateToken };
+function handleLogin(req, res, next) {
+  passport.authenticate('local', { session: false }, function (err, user) {
+    if (!user) {
+      return res.status(401).json({ ok: false, message: err.message });
+    }
+    req.body.user = user;
+    next();
+  })(req, res, next);
+}
+
+function handleTokenValidity(req, res, next) {
+  passport.authenticate('jwt', { session: false }, function (err, user) {
+    if (!user) {
+      return res.status(401).json({ ok: false, message: err.message });
+    }
+    req.body.user = user;
+    next();
+  })(req, res, next);
+}
+module.exports = { passportLocalStrategy, generateToken, handleLogin };
