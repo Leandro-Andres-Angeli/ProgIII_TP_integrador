@@ -181,8 +181,7 @@ router.post(
         if (!user) {
           return res.status(401).json({ ok: false, message: err.message });
         }
-        /*  req.user = user;
-        next(); */
+
         req.logIn(user, { session: false }, async function (err) {
           if (err) return next(err);
           const body = {
