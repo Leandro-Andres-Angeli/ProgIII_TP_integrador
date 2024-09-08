@@ -171,7 +171,8 @@ router.post(
     });
   })(req, res, next);
 }); */
-router.post(
+
+/* router.post(
   '/login',
   function (req, res, next) {
     passport.authenticate(
@@ -195,10 +196,57 @@ router.post(
       }
     )(req, res, next);
   },
-  generateToken,
 
   (req, res) => {
     return res.status(400).json({ ok: true });
+  }
+); */
+router.post(
+  '/login',
+  function (req, res, next) {
+    passport.authenticate(
+      'local',
+      { session: false },
+      function (err, user, info) {
+        if (!user) {
+          return res.status(401).json({ ok: false, message: err.message });
+        }
+        req.body.user = user;
+        next();
+        /*    req.logIn(user, { session: false }, async function (err) {
+          if (err) return next(err);
+          const body = {
+            id: user.idUsuario,
+            email: user.correoElectronico,
+            rol: user.idTipoUsuario,
+          };
+          const token = jwt.sign({ user: body }, 'secret');
+          return res.json({ token });
+        }); */
+      }
+    )(req, res, next);
+  },
+
+  (req, res) => {
+    const {
+      body: { user },
+      logIn,
+    } = req;
+    logIn(user, { session: false }, async (err) => {
+      if (err) return err;
+      const body = {
+        id: user.idUsuario,
+        email: user.correoElectronico,
+        rol: user.idTipoUsuario,
+      };
+      const token = jwt.sign({ user: body }, 'secret', { expiresIn: '90d' });
+      return res.status(200).json({
+        ok: true,
+        message: 'Logueo extiso',
+        usuario: { ...body, token },
+      });
+    });
+    /* return res.status(400).json({ ok: true }); */
   }
 );
 module.exports = router;

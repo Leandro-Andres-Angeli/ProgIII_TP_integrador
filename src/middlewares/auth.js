@@ -27,7 +27,7 @@ const passportLocalStrategy = new Strategy(
       connection.release();
       cb(null, user[0]);
     } catch (error) {
-      return cb(error, false);
+      return cb(new Error('Error de servidor'), false);
     }
   }
 );
