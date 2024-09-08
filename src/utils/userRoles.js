@@ -3,4 +3,9 @@ const userRoles = Object.freeze({
   empleado: 2,
   admin: 1,
 });
-module.exports = userRoles;
+const userTypes = Object.freeze({
+  3: 'cliente',
+  2: 'empleado',
+  1: 'admin',
+});
+module.exports = { userRoles, userTypes };

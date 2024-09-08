@@ -1,15 +1,16 @@
 const { Router } = require('express');
 const { check, body } = require('express-validator');
 const { validateFields } = require('../middlewares/validate');
+const jwt = require('jsonwebtoken');
 const {
   checkAvailableEmail,
   checkValidRole,
 } = require('../middlewares/validations');
 const pool = require('../config/dbConfig');
-const userRoles = require('../utils/userRoles');
+const { userRoles, userTypes } = require('../utils/userRoles');
 
 const passport = require('passport');
-const { passportStrategy } = require('../middlewares/auth');
+const { passportLocalStrategy, generateToken } = require('../middlewares/auth');
 /* const session = require('express-session'); */
 
 const router = Router();
@@ -58,7 +59,7 @@ router.use(
     saveUninitialized: false,
   })
 ); */
-passport.use(passportStrategy);
+passport.use(passportLocalStrategy);
 router.post(
   '/',
   [
@@ -180,10 +181,23 @@ router.post(
         if (!user) {
           return res.status(401).json({ ok: false, message: err.message });
         }
-        next();
+        /*  req.user = user;
+        next(); */
+        req.logIn(user, { session: false }, async function (err) {
+          if (err) return next(err);
+          const body = {
+            id: user.idUsuario,
+            email: user.correoElectronico,
+            rol: user.idTipoUsuario,
+          };
+          const token = jwt.sign({ user: body }, 'secret');
+          return res.json({ token });
+        });
       }
     )(req, res, next);
   },
+  generateToken,
+
   (req, res) => {
     return res.status(400).json({ ok: true });
   }

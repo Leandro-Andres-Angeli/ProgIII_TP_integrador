@@ -1,17 +1,17 @@
 const passport = require('passport');
 const { Strategy } = require('passport-local');
+
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 const pool = require('../config/dbConfig');
 
-const checkIsLogged = (req, res, next) => {
-  console.log('logged func in ');
+const generateToken = (req, res, next) => {
+  console.log('user', req.Login);
   next();
 };
-const middleTest = (req, res, next) => {
-  console.log('middle Test');
-  next();
-};
-
-const passportStrategy = new Strategy(
+const passportLocalStrategy = new Strategy(
   { usernameField: 'email' },
   async (username, password, cb) => {
     try {
@@ -21,15 +21,15 @@ const passportStrategy = new Strategy(
         `SELECT * FROM usuarios WHERE correoElectronico = '${username}' AND contrasenia =sha2('${password}',256) `
       );
 
-      if (user.length !== 1) {
+      if (!user[0]) {
         throw new Error('Error de autenticacion');
       }
       connection.release();
-      cb(null, user);
+      cb(null, user[0]);
     } catch (error) {
       return cb(error, false);
     }
   }
 );
 
-module.exports = { checkIsLogged, middleTest, passportStrategy };
+module.exports = { passportLocalStrategy, generateToken };

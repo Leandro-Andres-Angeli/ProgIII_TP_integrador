@@ -1,5 +1,5 @@
 const pool = require('../config/dbConfig');
-const userRoles = require('../utils/userRoles');
+const { userRoles } = require('../utils/userRoles');
 
 const checkAvailableEmail = async (val) => {
   const connection = await pool.getConnection();
