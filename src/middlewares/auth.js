@@ -19,10 +19,11 @@ const generateToken = (req, res) => {
       email: user.correoElectronico,
       rol: user.idTipoUsuario,
     };
+
     const token = jwt.sign({ user: body }, 'secret', { expiresIn: '90d' });
     return res.status(200).json({
       ok: true,
-      message: 'Logueo extiso',
+      message: 'Autenticacion exitosa',
       usuario: { ...body, token },
     });
   });

@@ -7,11 +7,10 @@ const {
   checkValidRole,
 } = require('../middlewares/validations');
 const pool = require('../config/dbConfig');
-const { userRoles, userTypes } = require('../utils/userRoles');
+const { userRoles } = require('../utils/userRoles');
 
 const passport = require('passport');
 const { passportLocalStrategy, generateToken } = require('../middlewares/auth');
-/* const session = require('express-session'); */
 
 const router = Router();
 /* 
@@ -19,46 +18,7 @@ Email ya registrado 4 test
 daetar@correo.com 
 Email ya registrado 4 test
 */
-const users = [];
 
-// Initialize Passport
-/* 
-function initialize(
-  passport,
-  getUserByEmail = (email) => users.find((user) => user.email === email)
-) {
-  passport.use(
-    new Strategy({ usernameField: 'email' }, async (email, password, done) => {
-      const user = getUserByEmail(email);
-      if (getUserByEmail === null) {
-        return done(null, false, { message: 'no user' });
-      }
-      try {
-        if (await bcrypt.compare(password, user.password)) {
-          return done(null, user);
-        } else {
-          return done(null, false, { message: 'pass not' });
-        }
-      } catch (e) {
-        return done(e);
-      }
-    })
-  );
-  passport.serializeUser((user, done) => {});
-  passport.deserializeUser((user, done) => {});
-}
-initialize(passport);
-router.use(session);
-router.use(passport.initialize());
-router.use(passport.session());
-
-router.use(
-  session({
-    secret: '123',
-    resave: false,
-    saveUninitialized: false,
-  })
-); */
 passport.use(passportLocalStrategy);
 router.post(
   '/',
@@ -217,26 +177,6 @@ router.post(
     )(req, res, next);
   },
 
-  /*   (req, res) => {
-    const {
-      body: { user },
-      logIn,
-    } = req;
-    logIn(user, { session: false }, async (err) => {
-      if (err) return err;
-      const body = {
-        id: user.idUsuario,
-        email: user.correoElectronico,
-        rol: user.idTipoUsuario,
-      };
-      const token = jwt.sign({ user: body }, 'secret', { expiresIn: '90d' });
-      return res.status(200).json({
-        ok: true,
-        message: 'Logueo extiso',
-        usuario: { ...body, token },
-      });
-    });
-  } */
   generateToken
 );
 module.exports = router;
