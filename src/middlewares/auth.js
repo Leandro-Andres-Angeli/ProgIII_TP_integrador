@@ -37,12 +37,15 @@ const passportLocalStrategy = new Strategy(
       const [user] = await connection.query(
         `SELECT * FROM usuarios WHERE correoElectronico = '${username}' AND contrasenia =sha2('${password}',256) `
       );
+      console.log(user.length);
 
-      if (!user[0]) {
-        throw new Error('Error de autenticacion');
+      if (!Boolean(user.length)) {
+        console.log('in');
+
+        return cb(new Error('Error de autenticacion'), false);
       }
       connection.release();
-      cb(null, user[0]);
+      return cb(null, user[0]);
     } catch (error) {
       return cb(new Error('Error de servidor'), false);
     }

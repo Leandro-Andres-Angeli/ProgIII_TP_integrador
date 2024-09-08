@@ -66,117 +66,22 @@ router.post(
     }
   }
 );
-/* 
+
 router.post(
   '/login',
+  check('email', 'campo email requerido').notEmpty(),
+  check('email', 'ingrese un email valido').isEmail(),
+  check('password', 'campo password requerido').notEmpty(),
+  validateFields,
   function (req, res, next) {
-    passport.authenticate(
-      'local',
-      { session: false },
-      function (err, user, info) {
-        console.log('user');
-        console.log(user);
+    passport.authenticate('local', { session: false }, function (err, user) {
+      if (!user) {
+        return res.status(401).json({ ok: false, message: err.message });
       }
-    );
+      req.body.user = user;
+      next();
+    })(req, res, next);
   },
-  async (req, res) => {
-    try {
-      const password = req.baseUrl;
-      const hashedPassword = await bcrypt.hash(password, 10);
-      users.push({
-        id: Date.now(),
-        username: 'user',
-        password: hashedPassword,
-      });
-      return res.status(200).json({ ok: true });
-    } catch (err) {
-      res.status(400).json({ err: err.message });
-    }
-  }
-); */
-
-/* router.post(
-  '/login',
-
-  passport.authenticate('local', { session: false }),
-
-  async (req, res) => {
-    try {
-      const password = req.baseUrl;
-      const hashedPassword = await bcrypt.hash(password, 10);
-      users.push({
-        id: Date.now(),
-        username: 'user',
-        password: hashedPassword,
-      });
-      return res.status(200).json({ ok: true });
-    } catch (err) {
-      res.status(400).json({ err: err.message });
-    }
-  }
-); */
-/* app.get('/login', function (req, res, next) {
-  passport.authenticate('local', function (err, user, info) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.redirect('/login');
-    }
-    req.logIn(user, function (err) {
-      if (err) {
-        return next(err);
-      }
-      return res.redirect('/users/' + user.username);
-    });
-  })(req, res, next);
-}); */
-
-/* router.post(
-  '/login',
-  function (req, res, next) {
-    passport.authenticate(
-      'local',
-      { session: false },
-      function (err, user, info) {
-        if (!user) {
-          return res.status(401).json({ ok: false, message: err.message });
-        }
-
-        req.logIn(user, { session: false }, async function (err) {
-          if (err) return next(err);
-          const body = {
-            id: user.idUsuario,
-            email: user.correoElectronico,
-            rol: user.idTipoUsuario,
-          };
-          const token = jwt.sign({ user: body }, 'secret');
-          return res.json({ token });
-        });
-      }
-    )(req, res, next);
-  },
-
-  (req, res) => {
-    return res.status(400).json({ ok: true });
-  }
-); */
-router.post(
-  '/login',
-  function (req, res, next) {
-    passport.authenticate(
-      'local',
-      { session: false },
-      function (err, user, info) {
-        if (!user) {
-          return res.status(401).json({ ok: false, message: err.message });
-        }
-        req.body.user = user;
-        next();
-      }
-    )(req, res, next);
-  },
-
   generateToken
 );
 module.exports = router;
