@@ -14,6 +14,8 @@ const {
   passportLocalStrategy,
   generateToken,
   handleLogin,
+  passportJWTStrategy,
+  handleTokenValidity,
 } = require('../middlewares/auth');
 
 const router = Router();
@@ -24,7 +26,7 @@ Email ya registrado 4 test
 */
 
 passport.use(passportLocalStrategy);
-passport.use(passportLocalStrategy);
+passport.use(passportJWTStrategy);
 router.post(
   '/',
   [
@@ -80,5 +82,17 @@ router.post(
   validateFields,
   handleLogin,
   generateToken
+);
+router.get(
+  '/protected',
+  /* check('email', 'campo email requerido').notEmpty(),
+  check('email', 'ingrese un email valido').isEmail(),
+  check('password', 'campo password requerido').notEmpty(),
+  validateFields */
+  handleTokenValidity,
+  (req, res) => {
+    console.log(req.body.user);
+    return res.status(200).json({ ok: true });
+  }
 );
 module.exports = router;

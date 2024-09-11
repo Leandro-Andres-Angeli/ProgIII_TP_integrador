@@ -1,12 +1,13 @@
 const passport = require('passport');
 const { Strategy } = require('passport-local');
-
+const JWTStrategy = require('passport-jwt').Strategy;
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
 const pool = require('../config/dbConfig');
+const { ExtractJwt } = require('passport-jwt');
 
 const generateToken = (req, res) => {
   const {
@@ -15,17 +16,12 @@ const generateToken = (req, res) => {
   } = req;
   logIn(user, { session: false }, async (err) => {
     if (err) return err;
-    const body = {
-      id: user.idUsuario,
-      email: user.correoElectronico,
-      rol: user.idTipoUsuario,
-    };
 
-    const token = jwt.sign({ user: body }, 'secret', { expiresIn: '90d' });
+    const token = jwt.sign({ user }, 'secret', { expiresIn: '90d' });
     return res.status(200).json({
       ok: true,
       message: 'Autenticacion exitosa',
-      usuario: { ...body, token },
+      usuario: { ...user, token },
     });
   });
 };
@@ -62,13 +58,46 @@ function handleLogin(req, res, next) {
   })(req, res, next);
 }
 
+const passportJWTStrategy = new JWTStrategy(
+  {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: 'secret',
+  },
+  async function (JWTPayload, cb) {
+    try {
+      const connection = await pool.getConnection();
+
+      const { contrasenia, correoElectronico } = JWTPayload?.user;
+      const [user] = await connection.query(
+        `SELECT * FROM usuarios WHERE correoElectronico='${correoElectronico}' AND contrasenia='${contrasenia}'`
+      );
+      if (user.length === 0) {
+        return cb(new Error('No autorizado'), false);
+      }
+
+      connection.release();
+      return cb(null, user);
+    } catch (err) {
+      return cb(new Error('Error de servidor'), false);
+    }
+  }
+);
+
 function handleTokenValidity(req, res, next) {
-  passport.authenticate('jwt', { session: false }, function (err, user) {
+  passport.authorize('jwt', { session: false }, function (err, user) {
     if (!user) {
       return res.status(401).json({ ok: false, message: err.message });
     }
-    req.body.user = user;
+
+    req.body.user = user[0];
+
     next();
   })(req, res, next);
 }
-module.exports = { passportLocalStrategy, generateToken, handleLogin };
+module.exports = {
+  passportLocalStrategy,
+  passportJWTStrategy,
+  generateToken,
+  handleLogin,
+  handleTokenValidity,
+};
