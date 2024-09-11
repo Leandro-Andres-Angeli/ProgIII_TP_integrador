@@ -1,5 +1,6 @@
 const passport = require('passport');
 const { Strategy } = require('passport-local');
+
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
@@ -28,6 +29,7 @@ const generateToken = (req, res) => {
     });
   });
 };
+//PASSPORT STRATEGIES
 const passportLocalStrategy = new Strategy(
   { usernameField: 'email' },
   async (username, password, cb) => {
@@ -37,11 +39,8 @@ const passportLocalStrategy = new Strategy(
       const [user] = await connection.query(
         `SELECT * FROM usuarios WHERE correoElectronico = '${username}' AND contrasenia =sha2('${password}',256) `
       );
-      console.log(user.length);
 
       if (!Boolean(user.length)) {
-        console.log('in');
-
         return cb(new Error('Error de autenticacion'), false);
       }
       connection.release();
@@ -52,6 +51,7 @@ const passportLocalStrategy = new Strategy(
   }
 );
 
+//PASSPORT STRATEGIES
 function handleLogin(req, res, next) {
   passport.authenticate('local', { session: false }, function (err, user) {
     if (!user) {

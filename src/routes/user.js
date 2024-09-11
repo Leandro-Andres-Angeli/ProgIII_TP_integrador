@@ -24,6 +24,7 @@ Email ya registrado 4 test
 */
 
 passport.use(passportLocalStrategy);
+passport.use(passportLocalStrategy);
 router.post(
   '/',
   [
