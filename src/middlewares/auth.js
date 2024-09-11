@@ -17,7 +17,7 @@ const generateToken = (req, res) => {
   logIn(user, { session: false }, async (err) => {
     if (err) return err;
 
-    const token = jwt.sign({ user }, 'secret', { expiresIn: 120 });
+    const token = jwt.sign({ user }, 'secret', { expiresIn: '90d' });
     return res.status(200).json({
       ok: true,
       message: 'Autenticacion exitosa',
@@ -68,6 +68,7 @@ const passportJWTStrategy = new JWTStrategy(
       if (!JWTPayload) {
         return cb(new Error('No autorizado'), false);
       }
+
       const connection = await pool.getConnection();
 
       const { contrasenia, correoElectronico } = JWTPayload?.user;
@@ -87,15 +88,21 @@ const passportJWTStrategy = new JWTStrategy(
 );
 
 function handleTokenValidity(req, res, next) {
-  passport.authorize('jwt', { session: false }, function (err, user) {
-    if (!user) {
-      return res.status(401).json({ ok: false, message: err.message });
+  passport.authorize(
+    'jwt',
+    { session: false },
+    function (err, user, isExpired) {
+      if (!user) {
+        return res
+          .status(401)
+          .json({ ok: false, message: isExpired || err.message });
+      }
+
+      req.body.user = user[0];
+
+      next();
     }
-
-    req.body.user = user[0];
-
-    next();
-  })(req, res, next);
+  )(req, res, next);
 }
 module.exports = {
   passportLocalStrategy,

@@ -89,7 +89,6 @@ router.get(
   validateFields */
   handleTokenValidity,
   (req, res) => {
-    console.log(req.body.user);
     return res.status(200).json({ ok: true });
   }
 );
