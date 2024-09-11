@@ -88,21 +88,18 @@ const passportJWTStrategy = new JWTStrategy(
 );
 
 function handleTokenValidity(req, res, next) {
-  passport.authorize(
-    'jwt',
-    { session: false },
-    function (err, user, isExpired) {
-      if (!user) {
-        return res
-          .status(401)
-          .json({ ok: false, message: isExpired || err.message });
-      }
-
-      req.body.user = user[0];
-
-      next();
+  passport.authorize('jwt', { session: false }, function (err, user, error) {
+    if (!user) {
+      return res.status(401).json({
+        ok: false,
+        message: error?.message || 'Error de autenticacion',
+      });
     }
-  )(req, res, next);
+
+    req.body.user = user[0];
+
+    next();
+  })(req, res, next);
 }
 module.exports = {
   passportLocalStrategy,

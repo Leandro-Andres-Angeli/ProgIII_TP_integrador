@@ -81,15 +81,14 @@ router.post(
   handleLogin,
   generateToken
 );
+//WITHOUT CONTROLLERS
 router.get(
   '/protected',
-  /* check('email', 'campo email requerido').notEmpty(),
-  check('email', 'ingrese un email valido').isEmail(),
-  check('password', 'campo password requerido').notEmpty(),
-  validateFields */
+
   handleTokenValidity,
   (req, res) => {
     return res.status(200).json({ ok: true });
   }
 );
+//WITHOUT CONTROLLERS
 module.exports = router;

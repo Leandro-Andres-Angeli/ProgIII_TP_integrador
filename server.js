@@ -14,7 +14,7 @@ server.use(express.json());
 
 /* USERS */
 server.use('/api/user', require('./src/routes/user'));
-server.use('/api/claims', require('./src/routes/claims'));
+server.use('/api/claim', require('./src/routes/claims'));
 server.get('/api/users', async (req, res) => {
   try {
     const connection = await pool.getConnection();
