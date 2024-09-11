@@ -63,8 +63,6 @@ router.post(
       if (Number(createUser.affectedRows) !== 1) {
         throw Error('error creando usuario');
       }
-      console.log(createUser);
-
       return res.status(403).json({ ok: true, message: 'usuario creado' });
     } catch (err) {
       console.log(err);

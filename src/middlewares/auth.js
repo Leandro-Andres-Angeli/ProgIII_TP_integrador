@@ -17,7 +17,7 @@ const generateToken = (req, res) => {
   logIn(user, { session: false }, async (err) => {
     if (err) return err;
 
-    const token = jwt.sign({ user }, 'secret', { expiresIn: '90d' });
+    const token = jwt.sign({ user }, 'secret', { expiresIn: 120 });
     return res.status(200).json({
       ok: true,
       message: 'Autenticacion exitosa',
@@ -65,6 +65,9 @@ const passportJWTStrategy = new JWTStrategy(
   },
   async function (JWTPayload, cb) {
     try {
+      if (!JWTPayload) {
+        return cb(new Error('No autorizado'), false);
+      }
       const connection = await pool.getConnection();
 
       const { contrasenia, correoElectronico } = JWTPayload?.user;
