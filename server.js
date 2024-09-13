@@ -31,6 +31,7 @@ server.post('/api/claim', async (req, res) => {
     res.status(500).json({ ok: false, message: 'Error de servidor' });
   }
 });
+
 //GET  USER CLAIMS
 const getClaimsByClientId = async (req, res) => {
   const userId = Number(req.params.userId);
@@ -47,13 +48,31 @@ const getClaimsByClientId = async (req, res) => {
 server.get('/api/claims/:userId', async (req, res) => {
   const { userId } = req.params;
   const connection = await pool.getConnection();
-  const getReclamosByOffice = await connection.query(
-    'SELECT r.* from reclamos r  WHERE idReclamoTipo=( SELECT of.idOficina  FROM usuarios_oficinas  of WHERE idUsuario=?);',
+  const [getUserType] = await connection.query(
+    'SELECT  idTipoUsuario  from usuarios  WHERE idUsuario = ?',
     [userId]
   );
-  console.log(getReclamosByOffice);
+  const { idTipoUsuario } = getUserType[0];
+  let queryResult;
 
-  const queryResult = await getClaimsByClientId(req, res);
+  if (idTipoUsuario === 1) {
+    const [getReclamosAdmin] = await connection.query(
+      'SELECT r.* from reclamos r'
+    );
+
+    queryResult = getReclamosAdmin;
+  }
+  if (idTipoUsuario === 2) {
+    const [getReclamosByOffice] = await connection.query(
+      'SELECT r.* from reclamos r  WHERE idReclamoTipo=( SELECT of.idOficina  FROM usuarios_oficinas  of WHERE idUsuario=?);',
+      [userId]
+    );
+    queryResult = getReclamosByOffice;
+  }
+  if (idTipoUsuario === 3) {
+    queryResult = await getClaimsByClientId(req, res);
+  }
+
   if (queryResult.length === 0) {
     return res
       .status(404)
