@@ -32,24 +32,34 @@ server.post('/api/claim', async (req, res) => {
   }
 });
 //GET  USER CLAIMS
-
-server.get('/api/claims/:clientId', async (req, res) => {
-  const clientId = Number(req.params.clientId);
-  console.log(clientId);
+const getClaimsByClientId = async (req, res) => {
+  const userId = Number(req.params.userId);
 
   const connection = await pool.getConnection();
   const [getClaimsByClientId] = await connection.query(
     'SELECT * FROM `reclamos` r  where r.idUsuarioCreador=? ',
-    [clientId]
+    [userId]
   );
-  if (getClaimsByClientId.length === 0) {
+
+  connection.release();
+  return getClaimsByClientId;
+};
+server.get('/api/claims/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const connection = await pool.getConnection();
+  const getReclamosByOffice = await connection.query(
+    'SELECT r.* from reclamos r  WHERE idReclamoTipo=( SELECT of.idOficina  FROM usuarios_oficinas  of WHERE idUsuario=?);',
+    [userId]
+  );
+  console.log(getReclamosByOffice);
+
+  const queryResult = await getClaimsByClientId(req, res);
+  if (queryResult.length === 0) {
     return res
       .status(404)
       .json({ ok: true, message: 'No hay reclamos para este usuario' });
   }
-  console.log(getClaimsByClientId);
-  connection.release();
-  return res.status(200).json({ ok: true, claims: getClaimsByClientId });
+  return res.status(200).json({ ok: true, claims: queryResult });
 });
 
 //GET  USER CLAIMS
