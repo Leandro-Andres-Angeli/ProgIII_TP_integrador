@@ -2,8 +2,8 @@ const mysql = require('mysql2/promise');
 require('dotenv').config();
 const PORT = process.env.DB_PORT || 3306;
 
-// Create the connection pool. The pool-specific settings are the defaults
-const pool = mysql.createPool({
+// Create the connection connection. The connection-specific settings are the defaults
+const connection = mysql.createconnection({
   host: 'localhost',
   user: 'root',
 
@@ -17,4 +17,4 @@ const pool = mysql.createPool({
   enableKeepAlive: true,
   keepAliveInitialDelay: 0,
 });
-module.exports = pool;
+module.exports = connection;
