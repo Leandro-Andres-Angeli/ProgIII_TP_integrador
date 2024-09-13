@@ -20,9 +20,9 @@ const {
 
 const router = Router();
 /* 
-Email ya registrado 4 test
+Email ya registrado para test
 daetar@correo.com 
-Email ya registrado 4 test
+Email ya registrado para test
 */
 
 passport.use(passportLocalStrategy);
@@ -81,7 +81,8 @@ router.post(
   handleLogin,
   generateToken
 );
-//WITHOUT CONTROLLERS
+
+//CHECK HANDLETOKENVALIDITY
 router.get(
   '/protected',
 
@@ -90,5 +91,6 @@ router.get(
     return res.status(200).json({ ok: true });
   }
 );
-//WITHOUT CONTROLLERS
+//CHECK HANDLETOKENVALIDITY
+
 module.exports = router;
