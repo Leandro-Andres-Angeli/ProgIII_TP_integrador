@@ -52,6 +52,10 @@ server.get('/api/claims/:userId', async (req, res) => {
     'SELECT  idTipoUsuario  from usuarios  WHERE idUsuario = ?',
     [userId]
   );
+  if (getUserType.length === 0) {
+    return res.status(404).json({ ok: true, message: 'No existe usuario' });
+  }
+
   const { idTipoUsuario } = getUserType[0];
   let queryResult;
 
@@ -83,6 +87,77 @@ server.get('/api/claims/:userId', async (req, res) => {
 
 //GET  USER CLAIMS
 
+//CANCEL INIT CLAIM
+server.patch('/api/claims/:userId', async (req, res) => {
+  try {
+    const { claimId, claimNewStatus } = req.body;
+    const { userId } = req.params;
+
+    const connection = await pool.getConnection();
+    const [userType] = await connection.query(
+      'SELECT  idTipoUsuario  from usuarios  WHERE idUsuario=?',
+      [userId]
+    );
+
+    if (userType.length === 0) {
+      return res.status(404).json({ ok: true, message: 'No existe usuario' });
+    }
+    const { idTipoUsuario } = userType[0];
+
+    let claim = [];
+    if (idTipoUsuario === 1) {
+      const [getReclamosAdmin] = await connection.query(
+        'SELECT * from reclamos WHERE idReclamo=? ',
+        claimId
+      );
+      claim = getReclamosAdmin;
+    }
+    if (idTipoUsuario === 2) {
+      const [getEmpOfficeId] = await connection.query(
+        'SELECT uo.idOficina FROM usuarios u  JOIN usuarios_oficinas uo ON u.idUsuario = uo.idUsuario WHERE u.idUsuario = ? ',
+        userId
+      );
+      [claim] = await connection.query(
+        'SELECT * FROM reclamos WHERE idReclamo=?',
+        [claimId]
+      );
+      if (claim[0].idReclamoTipo !== getEmpOfficeId) {
+        res.status(403).json({
+          ok: true,
+          message:
+            'No puede modificar reclamos que no pertenecen a su propia oficina',
+        });
+      }
+
+      if (!getEmpOfficeId) {
+        return res.status(404).json({
+          ok: true,
+          message: 'Error obteniendo informacion de usuario',
+        });
+      }
+    }
+
+    /*  const [claim1] = await connection.query(
+      'SELECT * FROM reclamos WHERE idReclamo = ?',
+      claimId
+    ); */
+    if (claim.length === 0) {
+      return res
+        .status(404)
+        .json({ ok: false, message: 'No se encontro reclamo' });
+    }
+    console.log(claim);
+
+    connection.release();
+    return res.status(200).json({ ok: true });
+  } catch (error) {
+    console.log(error.message);
+
+    return res.status(500).json({ ok: false, message: 'Error de servidor' });
+  }
+});
+
+//CANCEL INIT CLAIM
 server.get('/*', (req, res) => {
   return res.status(404).json({ message: 'no existe ruta' });
 });
