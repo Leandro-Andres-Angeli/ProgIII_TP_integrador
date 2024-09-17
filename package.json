@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "start": "nodemon index"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
