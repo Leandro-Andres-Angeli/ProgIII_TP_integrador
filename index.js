@@ -18,16 +18,52 @@ app.get('/',(req,res) =>{
 
 app.post('/notificacion',(req,res) =>{
     const correoEnviado = req.body.correoElectronico
+    console.log(req.body);
    
     const filename = fileURLToPath(import.meta.url)
     const dir = path.dirname(`${filename}`)
-//aca me tira error
-    const mensaje = fs.readFileSync(path.join(dir + '/utils/notificacion.hbs'),'utf-8')
-    console.log(mensaje)
-});
-//hasta aca
+
+    
+    const mensaje = fs.readFileSync(path.join(dir, 'utils', 'notificacion.hbs'), 'utf-8');
+
+    const templete = handlebars.compile(mensaje);
+
+    const datos = {
+        nombre : "Mariano",
+        reclamo : "1236"
+    };    
+    
+    const correo = templete(datos)  
+
+    const transporter = nodemailer.createTransport({
+        service : 'gmail',
+        auth : {
+            user : process.env.CORREO,
+            pass : process.env.CLAVE
+        }
+
+    });
+
+    const mail = {
+        to : correoEnviado,
+        subject : 'NOTIFICACION',
+        text : 'mail enviado con nodemailer',
+        html : correo
+    };
+    console.log('Mail a enviar:', mail);
+    transporter.sendMail(mail, (error, info) => {
+        if(error){
+            console.log('Error al enviar mail', error);
+        }else{
+            console.log('El mail ha sido enviado', info.response);
+            res.json({'estado': true, 'mensaje': 'Notificación enviada'});
+        }
+    });
+    
+});   
+
 const puerto = process.env.PUERTO;
 
-app.listen(3001, () => {
-    console.log('Estoy escuchando el puerto 3001');
+app.listen(puerto, () => {
+    console.log(`Estoy escuchando el puerto ${puerto}`);
 });
