@@ -2,40 +2,55 @@ const express = require('express');
 
 const dotenv = require('dotenv');
 
+const claimController = require('../controllers/claimController');
+const router = express.Router();
 dotenv.config();
-const pool = require('./src/config/dbConfig');
-const claimRoutes = require('./src/routes/claimRoutes');
+
 const PORT = process.env.SERVER_PORT || 3001;
-const bodyParser = require('body-parser');
 
-const server = express();
-server.use(bodyParser.json());
+// const Claim = {
+//   getClaims: async (id) => {
+//     const query = `SELECT * FROM reclamos`;
+//     const [result] = await pool.execute(query);
 
-server.use(express.json());
-server.use('/api', claimRoutes);
-// server.use('/api', claimRoutes);
-//POST  CLAIM
+//     return result;
+//   },
+// };
+
+// const getAllClaims = async (req, res) => {
+//   try {
+//     const conn = await pool.getConnection();
+//     console.log(conn);
+
+//     return res.status(200).json({ ok: true, p });
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(500).json({ ok: false });
+//   }
+// };
+router.get('/claims', claimController.getAllClaims);
 /*
-server.post('/api/claim', async (req, res) => {
+//POST  CLAIM
+router.post('/claim', async (req, res) => {
   try {
     const { asunto, descripcion, idReclamoTipo } = req.body;
-    const connection = await pool.getConnection();
-    const [newClaimQuery] = await connection.query(
-      'INSERT INTO reclamos (asunto , descripcion , fechaCreado,idReclamoTipo , idReclamoEstado , idUsuarioCreador) VALUES (?,?,?,?,1,1)',
-      [asunto, descripcion, new Date(), idReclamoTipo]
-    );
+    const connection = pool.getConnection();
+    // const [newClaimQuery] = await connection.query(
+    //   'INSERT INTO reclamos (asunto , descripcion , fechaCreado,idReclamoTipo , idReclamoEstado , idUsuarioCreador) VALUES (?,?,?,?,1,1)',
+    //   [asunto, descripcion, new Date(), idReclamoTipo]
+    // );
 
-    if (newClaimQuery.affectedRows === 0) {
-      return res
-        .status(500)
-        .json({ ok: false, message: 'Error creando nuevo Reclamo' });
-    }
+    //   if (newClaimQuery.affectedRows === 0) {
+    //     return res
+    //       .status(500)
+    //       .json({ ok: false, message: 'Error creando nuevo Reclamo' });
+    //   }
     connection.release();
     return res
       .status(200)
       .json({ ok: true, message: 'Reclamo creado con exito' });
   } catch (error) {
-    res.status(500).json({ ok: false, message: 'Error de servidor' });
+    return res.status(500).json({ ok: false, message: 'Error de servidor' });
   }
 });
 
@@ -52,7 +67,7 @@ const getClaimsByClientId = async (req, res) => {
   connection.release();
   return getClaimsByClientId;
 };
-server.get('/api/claims/:userId', async (req, res) => {
+router.get('/claims/:userId', async (req, res) => {
   const { userId } = req.params;
   const connection = await pool.getConnection();
   const [getUserType] = await connection.query(
@@ -95,7 +110,7 @@ server.get('/api/claims/:userId', async (req, res) => {
 //GET  USER CLAIMS
 
 //CANCEL INIT CLAIM
-server.patch('/api/claims/:userId', async (req, res) => {
+router.patch('/claims/:userId', async (req, res) => {
   try {
     const { claimId, claimNewStatus } = req.body;
     const { userId } = req.params;
@@ -144,7 +159,7 @@ server.patch('/api/claims/:userId', async (req, res) => {
       }
     }
 
-    // const [claim1] = await connection.query(
+    //  const [claim1] = await connection.query(
     //   'SELECT * FROM reclamos WHERE idReclamo = ?',
     //   claimId
     // );
@@ -163,23 +178,4 @@ server.patch('/api/claims/:userId', async (req, res) => {
     return res.status(500).json({ ok: false, message: 'Error de servidor' });
   }
 });*/
-//CHECK CONNECTION
-const checkConnection = async (_, res) => {
-  try {
-    const connection = await pool.getConnection();
-    console.log('conectado a DB');
-    connection.release();
-  } catch (error) {
-    return console.log('error conectandose con DB');
-  }
-};
-checkConnection();
-//CHECK CONNECTION
-//CANCEL INIT CLAIM
-server.get('/*', (req, res) => {
-  return res.status(404).json({ message: 'no existe ruta' });
-});
-server.listen(PORT, () => {
-  console.log(`running on ${PORT}`);
-});
-//POST  CLAIM
+module.exports = router;
