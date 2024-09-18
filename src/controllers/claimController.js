@@ -97,7 +97,9 @@ exports.patchClaims = async (req, res) => {
     let claim = [];
     if (idTipoUsuario === 1) {
       const [getReclamosAdmin] = await connection.query(
-        'SELECT * from reclamos WHERE idReclamo=? ',
+        'UPDATE reclamos r SET r.idReclamoEstado=?   WHERE r.idReclamo =?  ',
+        claimNewStatus,
+
         claimId
       );
       claim = getReclamosAdmin;
@@ -133,8 +135,8 @@ exports.patchClaims = async (req, res) => {
     }
     if (idTipoUsuario === 3) {
       [claim] = await connection.query(
-        'SELECT * FROM reclamos WHERE idReclamo = ?',
-        claimId
+        'UPDATE reclamos r SET r.idReclamoEstado=? , r.idUsuarioFinalizador=?  WHERE r.idReclamo=? ',
+        [claimNewStatus, userId, claimId]
       );
     }
 
