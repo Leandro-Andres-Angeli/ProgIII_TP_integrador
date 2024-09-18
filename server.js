@@ -3,11 +3,15 @@ const express = require('express');
 const dotenv = require('dotenv');
 
 dotenv.config();
-const pool = require('./src/config/dbConfig');
+
+const router = require('./src/routes/claimRoutes');
 const PORT = process.env.SERVER_PORT || 3001;
 
 const server = express();
 server.use(express.json());
+
+server.use('/api/', router);
+/*
 //POST  CLAIM
 server.post('/api/claim', async (req, res) => {
   try {
@@ -137,10 +141,10 @@ server.patch('/api/claims/:userId', async (req, res) => {
       }
     }
 
-    /*  const [claim1] = await connection.query(
-      'SELECT * FROM reclamos WHERE idReclamo = ?',
-      claimId
-    ); */
+    // const [claim1] = await connection.query(
+    //   'SELECT * FROM reclamos WHERE idReclamo = ?',
+    //   claimId
+    // ); 
     if (claim.length === 0) {
       return res
         .status(404)
@@ -156,7 +160,7 @@ server.patch('/api/claims/:userId', async (req, res) => {
     return res.status(500).json({ ok: false, message: 'Error de servidor' });
   }
 });
-
+*/
 //CANCEL INIT CLAIM
 server.get('/*', (req, res) => {
   return res.status(404).json({ message: 'no existe ruta' });

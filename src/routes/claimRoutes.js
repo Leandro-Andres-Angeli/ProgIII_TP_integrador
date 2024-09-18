@@ -1,10 +1,10 @@
-const express = require('express');
-
 const dotenv = require('dotenv');
+const express = require('express');
+const router = express.Router();
 
 const claimController = require('../controllers/claimController');
-const { pool } = require('../config/dbConfig');
-const router = express.Router();
+const pool = require('../config/dbConfig');
+
 dotenv.config();
 
 const PORT = process.env.SERVER_PORT || 3001;
@@ -42,25 +42,28 @@ const PORT = process.env.SERVER_PORT || 3001;
 // });
 
 //POST  CLAIM
+
 router.post('/claim', async (req, res) => {
   try {
     const { asunto, descripcion, idReclamoTipo } = req.body;
-    const connection = pool.getConnection();
-    // const [newClaimQuery] = await connection.query(
-    //   'INSERT INTO reclamos (asunto , descripcion , fechaCreado,idReclamoTipo , idReclamoEstado , idUsuarioCreador) VALUES (?,?,?,?,1,1)',
-    //   [asunto, descripcion, new Date(), idReclamoTipo]
-    // );
+    const connection = await pool.getConnection();
+    const [newClaimQuery] = await connection.query(
+      'INSERT INTO reclamos (asunto , descripcion , fechaCreado,idReclamoTipo , idReclamoEstado , idUsuarioCreador) VALUES (?,?,?,?,1,1)',
+      [asunto, descripcion, new Date(), idReclamoTipo]
+    );
 
-    //   if (newClaimQuery.affectedRows === 0) {
-    //     return res
-    //       .status(500)
-    //       .json({ ok: false, message: 'Error creando nuevo Reclamo' });
-    //   }
+    if (newClaimQuery.affectedRows === 0) {
+      return res
+        .status(500)
+        .json({ ok: false, message: 'Error creando nuevo Reclamo' });
+    }
     connection.release();
     return res
       .status(200)
       .json({ ok: true, message: 'Reclamo creado con exito' });
   } catch (error) {
+    console.log(error);
+
     return res.status(500).json({ ok: false, message: 'Error de servidor' });
   }
 });
