@@ -6,13 +6,17 @@ dotenv.config();
 
 const router = require('./src/routes/claimRoutes');
 const PORT = process.env.SERVER_PORT || 3001;
+const bodyParser = require('body-parser');
 
 const server = express();
+server.use(bodyParser.json());
+
 server.use(express.json());
 
 server.use('/api/', router);
 /*
 //POST  CLAIM
+/*
 server.post('/api/claim', async (req, res) => {
   try {
     const { asunto, descripcion, idReclamoTipo } = req.body;
