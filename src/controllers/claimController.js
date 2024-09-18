@@ -137,10 +137,7 @@ exports.patchClaims = async (req, res) => {
         claimId
       );
     }
-    // const [claim1] = await connection.query(
-    //   'SELECT * FROM reclamos WHERE idReclamo = ?',
-    //   claimId
-    // );
+
     if (claim.length === 0) {
       return res
         .status(404)
