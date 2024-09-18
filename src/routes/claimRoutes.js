@@ -1,13 +1,8 @@
-const dotenv = require('dotenv');
 const express = require('express');
 const router = express.Router();
 
 const claimController = require('../controllers/claimController');
 const pool = require('../config/dbConfig');
-
-dotenv.config();
-
-const PORT = process.env.SERVER_PORT || 3001;
 
 // const Claim = {
 //   getClaims: async (id) => {
@@ -42,8 +37,13 @@ const PORT = process.env.SERVER_PORT || 3001;
 // });
 
 //POST  CLAIM
+//BEFORE REFACTOR INTO CONTROLLER
+router.post('/claim', claimController.postClaim);
 
-router.post('/claim', async (req, res) => {
+router.get('/claims/:userId', claimController.getClaims);
+router.patch('/claims/:userId', claimController.patchClaims);
+
+/* router.post('/claim', async (req, res) => {
   try {
     const { asunto, descripcion, idReclamoTipo } = req.body;
     const connection = await pool.getConnection();
@@ -66,10 +66,12 @@ router.post('/claim', async (req, res) => {
 
     return res.status(500).json({ ok: false, message: 'Error de servidor' });
   }
-});
+}); */
+//BEFORE REFACTOR INTO CONTROLLER
 
 //GET  USER CLAIMS
-const getClaimsByClientId = async (req, res) => {
+//BEFORE REFACTOR INTO CONTROLLER
+/* const getClaimsByClientId = async (req, res) => {
   const userId = Number(req.params.userId);
 
   const connection = await pool.getConnection();
@@ -119,12 +121,13 @@ router.get('/claims/:userId', async (req, res) => {
       .json({ ok: true, message: 'No hay reclamos para este usuario' });
   }
   return res.status(200).json({ ok: true, claims: queryResult });
-});
-
+}); */
+//BEFORE REFACTOR INTO CONTROLLER
 //GET  USER CLAIMS
 
 //CANCEL INIT CLAIM
-router.patch('/claims/:userId', async (req, res) => {
+//BEFORE REFACTOR INTO CONTROLLER
+/* router.patch('/claims/:userId', async (req, res) => {
   try {
     const { claimId, claimNewStatus } = req.body;
     const { userId } = req.params;
@@ -191,5 +194,6 @@ router.patch('/claims/:userId', async (req, res) => {
 
     return res.status(500).json({ ok: false, message: 'Error de servidor' });
   }
-});
+}); */
+//BEFORE REFACTOR INTO CONTROLLER
 module.exports = router;

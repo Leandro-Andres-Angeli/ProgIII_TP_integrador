@@ -7,6 +7,7 @@ dotenv.config();
 const router = require('./src/routes/claimRoutes');
 const PORT = process.env.SERVER_PORT || 3001;
 const bodyParser = require('body-parser');
+const pool = require('./src/config/dbConfig');
 
 const server = express();
 server.use(bodyParser.json());
@@ -165,6 +166,15 @@ server.patch('/api/claims/:userId', async (req, res) => {
   }
 });
 */
+const checkConnection = async () => {
+  try {
+    await pool.getConnection();
+    pool.releaseConnection();
+  } catch (error) {
+    console.log('Error conectandose a DB');
+  }
+};
+checkConnection();
 //CANCEL INIT CLAIM
 server.get('/*', (req, res) => {
   return res.status(404).json({ message: 'no existe ruta' });
