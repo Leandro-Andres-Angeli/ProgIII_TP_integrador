@@ -39,7 +39,6 @@ const pool = require('../config/dbConfig');
 //POST  CLAIM
 //BEFORE REFACTOR INTO CONTROLLER
 router.post('/claim', claimController.postClaim);
-
 router.get('/claims/:userId', claimController.getClaims);
 router.patch('/claims/:userId', claimController.patchClaims);
 
