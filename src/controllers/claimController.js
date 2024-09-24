@@ -1,14 +1,18 @@
 const pool = require('../config/dbConfig');
+const ClaimsService = require('../services/claimService');
 
 class ClaimController {
-  constructor() {}
+  constructor() {
+    this.service = new ClaimsService();
+  }
   postClaim = async (req, res) => {
     try {
       const { asunto, descripcion, idReclamoTipo } = req.body;
-      const connection = await pool.getConnection();
-      const [newClaimQuery] = await connection.query(
-        'INSERT INTO reclamos (asunto , descripcion , fechaCreado,idReclamoTipo , idReclamoEstado , idUsuarioCreador) VALUES (?,?,?,?,1,1)',
-        [asunto, descripcion, new Date(), idReclamoTipo]
+
+      const newClaimQuery = await this.service.postClaim(
+        asunto,
+        descripcion,
+        idReclamoTipo
       );
 
       if (newClaimQuery.affectedRows === 0) {
@@ -16,7 +20,7 @@ class ClaimController {
           .status(500)
           .json({ ok: false, message: 'Error creando nuevo Reclamo' });
       }
-      connection.release();
+
       return res
         .status(200)
         .json({ ok: true, message: 'Reclamo creado con exito' });
