@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 /* const claimController = require('../controllers/claimController'); */
-const pool = require('../config/dbConfig');
+
 const ClaimController = require('../controllers/claimController');
 
 const claimController = new ClaimController();
