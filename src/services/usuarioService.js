@@ -19,6 +19,14 @@ const usuarioService = {
     return usuario;
   },
 
+  getUsuarioAuth: async (correoElectronico, contrasenia) => {
+    const usuario = await Usuario.getUsuarioAuth(
+      correoElectronico,
+      contrasenia
+    );
+    return usuario;
+  },
+
   updateUsuario: async (id, data) => {
     await Usuario.updateUsuario(id, data);
   },

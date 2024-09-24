@@ -32,8 +32,20 @@ const Usuario = {
   },
 
   getUsuarioById: async (id) => {
-    const query = `SELECT * FROM usuarios WHERE idUsuario = ?`;
+    const query = `SELECT * FROM usuarios u 
+    JOIN usuariostipo ut
+    ON u.idTipoUsuario = ut.idUsuarioTipo
+    WHERE idUsuario = ?`;
     const [result] = await pool.execute(query, [id]);
+    return result[0];
+  },
+
+  getUsuarioAuth: async (correoElectronico, contrasenia) => {
+    const query = `SELECT * FROM usuarios WHERE correoElectronico = ? AND contrasenia = SHA2(?, 256) AND activo = 1`;
+    const [result] = await pool.execute(query, [
+      correoElectronico,
+      contrasenia,
+    ]);
     return result[0];
   },
 
