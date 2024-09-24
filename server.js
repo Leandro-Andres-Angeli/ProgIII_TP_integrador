@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const router = require('./src/routes/claimRoutes');
+const router = require('./src/routes/claimsRoutes');
 const PORT = process.env.SERVER_PORT || 3001;
 const bodyParser = require('body-parser');
 const pool = require('./src/config/dbConfig');

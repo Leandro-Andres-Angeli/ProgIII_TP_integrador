@@ -1,0 +1,3 @@
+class ClaimsService {
+  constructor() {}
+}
