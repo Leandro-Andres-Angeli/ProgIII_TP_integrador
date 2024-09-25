@@ -6,7 +6,7 @@ class ClaimsService {
     this.claims = new Claims();
   }
 
-  postClaim = async (asunto, descripcion, idReclamoTipo) => {
+  postClaim = async (asunto, descripcion, idReclamoTipo, idUsuario) => {
     /*   const connection = await pool.getConnection();
     const [newClaimQuery] = await connection.query(
       'INSERT INTO reclamos (asunto , descripcion , fechaCreado,idReclamoTipo , idReclamoEstado , idUsuarioCreador) VALUES (?,?,?,?,1,1)',
@@ -17,7 +17,8 @@ class ClaimsService {
     const newClaimQuery = await this.claims.postClaim(
       asunto,
       descripcion,
-      idReclamoTipo
+      idReclamoTipo,
+      idUsuario
     );
     return newClaimQuery;
   };

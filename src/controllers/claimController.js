@@ -8,11 +8,13 @@ class ClaimController {
   postClaim = async (req, res) => {
     try {
       const { asunto, descripcion, idReclamoTipo } = req.body;
+      const { idUsuario } = req.body.user;
 
       const newClaimQuery = await this.service.postClaim(
         asunto,
         descripcion,
-        idReclamoTipo
+        idReclamoTipo,
+        idUsuario
       );
 
       if (newClaimQuery.affectedRows === 0) {
@@ -165,6 +167,7 @@ class ClaimController {
 exports.postClaim = async (req, res) => {
   try {
     const { asunto, descripcion, idReclamoTipo } = req.body;
+
     const connection = await pool.getConnection();
     const [newClaimQuery] = await connection.query(
       'INSERT INTO reclamos (asunto , descripcion , fechaCreado,idReclamoTipo , idReclamoEstado , idUsuarioCreador) VALUES (?,?,?,?,1,1)',

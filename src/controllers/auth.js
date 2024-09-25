@@ -88,7 +88,7 @@ const passportJWTStrategy = new JWTStrategy(
 );
 
 function handleTokenValidity(req, res, next) {
-  passport.authorize('jwt', { session: false }, function (err, user, error) {
+  passport.authorize('jwt', { session: false }, function (_, user, error) {
     if (!user) {
       return res.status(401).json({
         ok: false,

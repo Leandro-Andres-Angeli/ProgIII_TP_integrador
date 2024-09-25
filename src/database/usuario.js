@@ -18,7 +18,7 @@ const Usuario = {
     } = data;
     const query = `
       INSERT INTO usuarios (nombre, apellido, correoElectronico, contrasenia, idTipoUsuario, activo) 
-      VALUES (?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?,sha2( ?,256), ?, ?)
     `;
     const [result] = await pool.execute(query, [
       nombre,

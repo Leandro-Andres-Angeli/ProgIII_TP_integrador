@@ -4,24 +4,39 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const router = require('./src/routes/claimsRoutes');
+const claimRoutes = require('./src/routes/claimsRoutes');
 const PORT = process.env.SERVER_PORT || 3001;
 const bodyParser = require('body-parser');
 const pool = require('./src/config/dbConfig');
+const passport = require('passport');
 
+const {
+  handleTokenValidity,
+  passportJWTStrategy,
+  passportLocalStrategy,
+  generateToken,
+  handleLogin,
+} = require('./src/controllers/auth');
+const usuarioRoutes = require('./src/routes/usuarioRoutes');
+passport.use(passportJWTStrategy);
+passport.use(passportLocalStrategy);
 const server = express();
 server.use(bodyParser.json());
 
 server.use(express.json());
+
+server.post('/api/login', handleLogin, generateToken);
+
 server.use(function (req, res, next) {
-  console.log(req.url);
-  console.log(req.method);
-
-  console.log('main middleware');
-
-  next();
+  if (req.url === '/api/usuarios' && req.method === 'POST') {
+    return next();
+  } else {
+    return handleTokenValidity(req, res, next);
+  }
 });
-server.use('/api/', router);
+
+server.use('/api/', claimRoutes);
+server.use('/api', usuarioRoutes);
 /*
 //POST  CLAIM
 /*
