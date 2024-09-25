@@ -35,7 +35,7 @@ server.use(function (req, res, next) {
   }
 });
 
-server.use('/api/', claimRoutes);
+server.use('/api', claimRoutes);
 server.use('/api', usuarioRoutes);
 /*
 //POST  CLAIM

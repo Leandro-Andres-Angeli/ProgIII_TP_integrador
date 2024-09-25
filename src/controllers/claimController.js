@@ -45,19 +45,18 @@ class ClaimController {
   };
 
   getClaims = async (req, res) => {
-    const { userId } = req.params;
+    const { user } = req.body;
+    console.log(user);
+
     const connection = await pool.getConnection();
-    const [getUserType] = await connection.query(
-      'SELECT  idTipoUsuario  from usuarios  WHERE idUsuario = ?',
-      [userId]
-    );
-    if (getUserType.length === 0) {
+    /*  const [getUserType] = await connection.query(
+      'SELECT  idTipoUsuario  from usuarios  WHERE idUsuario= ?',
+      [idUsuario]
+    );    if (getUserType.length === 0) {
       return res.status(404).json({ ok: true, message: 'No existe usuario' });
-    }
-
-    const idTipoUsuario = Number(getUserType[0].idTipoUsuario);
+    }   const idTipoUsuario = Number(getUserType[0].idTipoUsuario); */
     let queryResult;
-
+    const { idTipoUsuario } = user;
     if (idTipoUsuario === 1) {
       const [getReclamosAdmin] = await connection.query(
         'SELECT r.* from reclamos r'
@@ -68,7 +67,7 @@ class ClaimController {
     if (idTipoUsuario === 2) {
       const [getReclamosByOffice] = await connection.query(
         'SELECT r.* from reclamos r  WHERE idReclamoTipo=( SELECT of.idOficina  FROM usuarios_oficinas  of WHERE idUsuario=?);',
-        [userId]
+        [user.idUsuario]
       );
       queryResult = getReclamosByOffice;
     }

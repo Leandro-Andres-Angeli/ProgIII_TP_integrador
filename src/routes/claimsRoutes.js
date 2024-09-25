@@ -8,7 +8,7 @@ const ClaimController = require('../controllers/claimController');
 const claimController = new ClaimController();
 
 router.post('/claim', claimController.postClaim);
-router.get('/claims/:userId', claimController.getClaims);
+router.get('/claims', claimController.getClaims);
 router.patch('/claims/:userId', claimController.patchClaims);
 
 module.exports = router;
