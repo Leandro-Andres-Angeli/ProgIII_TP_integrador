@@ -13,7 +13,14 @@ const server = express();
 server.use(bodyParser.json());
 
 server.use(express.json());
+server.use(function (req, res, next) {
+  console.log(req.url);
+  console.log(req.method);
 
+  console.log('main middleware');
+
+  next();
+});
 server.use('/api/', router);
 /*
 //POST  CLAIM
