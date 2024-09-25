@@ -1,11 +1,18 @@
 const pool = require('../config/dbConfig');
+const { get } = require('../routes/claimsRoutes');
+const { getClaimsQueryAccordingUserType } = require('../utils/claimsQueries');
 
 class Claims {
   constructor() {}
   getClaims = async (idTipoUsuario, idUsuario) => {
-    let queryResult;
     const connection = await pool.getConnection();
-    if (idTipoUsuario === 1) {
+    const { query, args } = getClaimsQueryAccordingUserType[idTipoUsuario](
+      idTipoUsuario === 1 ? null : idUsuario
+    );
+
+    const [queryResult] = await connection.query(query, args);
+
+    /* if (idTipoUsuario === 1) {
       const [getReclamosAdmin] = await connection.query(
         'SELECT r.* from reclamos r'
       );
@@ -25,7 +32,7 @@ class Claims {
         [idUsuario]
       );
       queryResult = getReclamosByUserId;
-    }
+    } */
     connection.release();
     return queryResult;
   };
