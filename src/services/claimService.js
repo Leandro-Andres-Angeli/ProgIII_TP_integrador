@@ -23,9 +23,8 @@ class ClaimsService {
     return newClaimQuery;
   };
   getClaims = async ({ idTipoUsuario, idUsuario }) => {
-    const connection = await pool.getConnection();
-    let queryResult;
-    if (idTipoUsuario === 1) {
+    return await this.claims.getClaims(idTipoUsuario, idUsuario);
+    /*     if (idTipoUsuario === 1) {
       const [getReclamosAdmin] = await connection.query(
         'SELECT r.* from reclamos r'
       );
@@ -47,7 +46,7 @@ class ClaimsService {
       queryResult = getReclamosByUserId;
     }
     connection.release();
-    return queryResult;
+    return queryResult; */
   };
   patchClaims = async (idTipoUsuario) => {};
 }
