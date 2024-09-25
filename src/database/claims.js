@@ -45,5 +45,6 @@ class Claims {
     connection.release();
     return newClaimQuery;
   };
+  patchClaim = async () => {};
 }
 module.exports = Claims;

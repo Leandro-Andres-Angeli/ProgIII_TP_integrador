@@ -83,6 +83,8 @@ class ClaimController {
       const { claimId } = req.body;
       const claimNewStatus = Number(req.body.claimNewStatus);
       const { userId } = req.params;
+      const user = req.body.user;
+      console.log('logged user', user);
 
       const connection = await pool.getConnection();
       const [userType] = await connection.query(
