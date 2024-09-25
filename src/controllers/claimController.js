@@ -23,9 +23,10 @@ class ClaimController {
           .json({ ok: false, message: 'Error creando nuevo Reclamo' });
       }
 
-      return res
-        .status(200)
-        .json({ ok: true, message: 'Reclamo creado con exito' });
+      return res.status(200).json({
+        ok: true,
+        message: `Reclamo creado con exito por usuario numero ${idUsuario}`,
+      });
     } catch (error) {
       return res.status(500).json({ ok: false, message: 'Error de servidor' });
     }
