@@ -46,18 +46,8 @@ class ClaimController {
 
   getClaims = async (req, res) => {
     const { user } = req.body;
-    console.log(user);
 
-    const connection = await pool.getConnection();
-    /*  const [getUserType] = await connection.query(
-      'SELECT  idTipoUsuario  from usuarios  WHERE idUsuario= ?',
-      [idUsuario]
-    );    if (getUserType.length === 0) {
-      return res.status(404).json({ ok: true, message: 'No existe usuario' });
-    }   const idTipoUsuario = Number(getUserType[0].idTipoUsuario); */
-    let queryResult;
-    const { idTipoUsuario } = user;
-    if (idTipoUsuario === 1) {
+    /*   if (idTipoUsuario === 1) {
       const [getReclamosAdmin] = await connection.query(
         'SELECT r.* from reclamos r'
       );
@@ -69,12 +59,17 @@ class ClaimController {
         'SELECT r.* from reclamos r  WHERE idReclamoTipo=( SELECT of.idOficina  FROM usuarios_oficinas  of WHERE idUsuario=?);',
         [user.idUsuario]
       );
-      queryResult = getReclamosByOffice;
+      return getReclamosByOffice;
     }
     if (idTipoUsuario === 3) {
-      queryResult = await getClaimsByClientId(req, res);
+      const [getReclamosByUserId] = await connection.query(
+        'SELECT r.* from reclamos r  WHERE idUsuarioCreador = ?',
+        [user.idUsuario]
+      );
+      return getReclamosByUserId;
     }
-
+ */
+    const queryResult = await this.service.getClaims(user);
     if (queryResult.length === 0) {
       return res
         .status(404)
@@ -163,7 +158,7 @@ class ClaimController {
   };
 }
 //POST  CLAIM
-exports.postClaim = async (req, res) => {
+/* exports.postClaim = async (req, res) => {
   try {
     const { asunto, descripcion, idReclamoTipo } = req.body;
 
@@ -185,11 +180,11 @@ exports.postClaim = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ ok: false, message: 'Error de servidor' });
   }
-};
+}; */
 //POST  CLAIM
 
 //GET  CLAIM BY USER ID
-const getClaimsByClientId = async (req, res) => {
+/* const getClaimsByClientId = async (req, res) => {
   const userId = Number(req.params.userId);
 
   const connection = await pool.getConnection();
@@ -200,8 +195,9 @@ const getClaimsByClientId = async (req, res) => {
 
   connection.release();
   return getClaimsByClientId;
-};
-exports.getClaims = async (req, res) => {
+}; */
+
+/* exports.getClaims = async (req, res) => {
   const { userId } = req.params;
   const connection = await pool.getConnection();
   const [getUserType] = await connection.query(
@@ -239,9 +235,10 @@ exports.getClaims = async (req, res) => {
       .json({ ok: true, message: 'No hay reclamos para este usuario' });
   }
   return res.status(200).json({ ok: true, claims: queryResult });
-};
+}; */
 //GET  CLAIM BY USER ID
-exports.patchClaims = async (req, res) => {
+
+/* exports.patchClaims = async (req, res) => {
   try {
     const { claimId } = req.body;
     const claimNewStatus = Number(req.body.claimNewStatus);
@@ -319,5 +316,5 @@ exports.patchClaims = async (req, res) => {
 
     return res.status(500).json({ ok: false, message: 'Error de servidor' });
   }
-};
+}; */
 module.exports = ClaimController;
