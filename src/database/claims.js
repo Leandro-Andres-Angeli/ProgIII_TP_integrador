@@ -46,9 +46,6 @@ class Claims {
     return newClaimQuery;
   };
   patchClaim = async (claimId, claimNewStatus) => {
-    console.log(claimId);
-    console.log(claimNewStatus);
-
     const connection = await pool.getConnection();
     const [patchClaimQuery] = await connection.query(
       'UPDATE reclamos r SET r.idReclamoEstado=?   WHERE r.idReclamo =? ;',

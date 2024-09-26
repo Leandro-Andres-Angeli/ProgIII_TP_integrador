@@ -150,21 +150,35 @@ class ClaimController {
       }
    
       connection.release(); */
+      const { user } = req.body;
+
       const { claimId } = req.body;
       const claimNewStatus = Number(req.body.claimNewStatus);
+      const [claim] = await pool.execute(
+        'SELECT *  from reclamos WHERE idUsuarioCreador=? AND idReclamo=?;',
+        [user.idUsuario, claimId]
+      );
+      if (!claim.length) {
+        return res
+          .status(404)
+          .json({ ok: true, message: 'No se encontro reclamo' });
+      }
+
       const patchResult = await this.service.patchClaims(
         claimId,
         claimNewStatus
       );
-      console.log(patchResult);
+      if (patchResult?.affectedRows !== 1) {
+        throw Error('Error actualizando reclamo');
+      }
 
       return res
         .status(200)
         .json({ ok: true, message: 'Reclamo modificado con exito' });
     } catch (error) {
-      console.log(error.message);
-
-      return res.status(500).json({ ok: false, message: 'Error de servidor' });
+      return res
+        .status(500)
+        .json({ ok: false, message: error.message || 'Error de servidor' });
     }
   };
 }
