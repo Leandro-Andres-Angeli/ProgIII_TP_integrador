@@ -80,11 +80,11 @@ class ClaimController {
   };
   patchClaims = async (req, res) => {
     try {
-      const { claimId } = req.body;
+      /*   const { claimId } = req.body;
       const claimNewStatus = Number(req.body.claimNewStatus);
       const { userId } = req.params;
       const user = req.body.user;
-      console.log('logged user', user);
+    
 
       const connection = await pool.getConnection();
       const [userType] = await connection.query(
@@ -148,8 +148,16 @@ class ClaimController {
           .status(404)
           .json({ ok: false, message: 'No se encontro reclamo' });
       }
+   
+      connection.release(); */
+      const { claimId } = req.body;
+      const claimNewStatus = Number(req.body.claimNewStatus);
+      const patchResult = await this.service.patchClaims(
+        claimId,
+        claimNewStatus
+      );
+      console.log(patchResult);
 
-      connection.release();
       return res
         .status(200)
         .json({ ok: true, message: 'Reclamo modificado con exito' });

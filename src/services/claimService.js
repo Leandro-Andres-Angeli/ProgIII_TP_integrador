@@ -24,30 +24,9 @@ class ClaimsService {
   };
   getClaims = async ({ idTipoUsuario, idUsuario }) => {
     return await this.claims.getClaims(idTipoUsuario, idUsuario);
-    /*     if (idTipoUsuario === 1) {
-      const [getReclamosAdmin] = await connection.query(
-        'SELECT r.* from reclamos r'
-      );
-
-      queryResult = getReclamosAdmin;
-    }
-    if (idTipoUsuario === 2) {
-      const [getReclamosByOffice] = await connection.query(
-        'SELECT r.* from reclamos r  WHERE idReclamoTipo=( SELECT of.idOficina  FROM usuarios_oficinas  of WHERE idUsuario=?);',
-        [idUsuario]
-      );
-      queryResult = getReclamosByOffice;
-    }
-    if (idTipoUsuario === 3) {
-      const [getReclamosByUserId] = await connection.query(
-        'SELECT r.* from reclamos r  WHERE idUsuarioCreador = ?',
-        [idUsuario]
-      );
-      queryResult = getReclamosByUserId;
-    }
-    connection.release();
-    return queryResult; */
   };
-  patchClaims = async (idTipoUsuario) => {};
+  patchClaims = async (idUsuario, claimNewStatus) => {
+    return await this.claims.patchClaim(idUsuario, claimNewStatus);
+  };
 }
 module.exports = ClaimsService;

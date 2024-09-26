@@ -12,10 +12,6 @@ const claimController = new ClaimController();
 
 router.post('/claim', claimController.postClaim);
 router.get('/claims', claimController.getClaims);
-router.patch(
-  '/claims/:userId',
-  patchClaimsValidActions,
-  claimController.patchClaims
-);
+router.patch('/claims', patchClaimsValidActions, claimController.patchClaims);
 
 module.exports = router;

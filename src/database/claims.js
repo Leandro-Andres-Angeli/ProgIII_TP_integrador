@@ -45,6 +45,16 @@ class Claims {
     connection.release();
     return newClaimQuery;
   };
-  patchClaim = async () => {};
+  patchClaim = async (claimId, claimNewStatus) => {
+    console.log(claimId);
+    console.log(claimNewStatus);
+
+    const connection = await pool.getConnection();
+    const [patchClaimQuery] = await connection.query(
+      'UPDATE reclamos r SET r.idReclamoEstado=?   WHERE r.idReclamo =? ;',
+      [claimNewStatus, claimId]
+    );
+    return patchClaimQuery;
+  };
 }
 module.exports = Claims;
