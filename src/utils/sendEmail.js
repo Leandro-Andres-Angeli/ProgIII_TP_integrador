@@ -34,7 +34,7 @@ exports.sendEmail = (userData) => {
       console.log('error', error.message);
     } else {
       console.log('mail enviado', info.response);
-      return 'El mail ha sido enviado', info.response;
     }
+    return;
   });
 };
