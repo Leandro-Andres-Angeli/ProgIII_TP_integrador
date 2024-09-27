@@ -115,12 +115,11 @@ class ClaimController {
         'SELECT descripcion FROM `reclamos_estado` rt WHERE rt.idReclamosEstado = ?',
         [claimNewStatus]
       );
-      console.log(claimStatusDesc);
 
-      sendEmail({
+      const sendEmailFuncResponse = sendEmail({
         name: nombre + ' ' + apellido,
         correoElectronico,
-        status: 'finalizado',
+        status: claimStatusDesc[0].descripcion,
       });
       return res
         .status(200)

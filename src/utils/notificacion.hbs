@@ -2,13 +2,21 @@
   <head>
     <title>Cambio de Estado del Reclamo</title>
   </head>
-  <body>
-    <h1>Cambio de Estado</h1>
-    <p>Estimado {{name}},</p>
-    <p>Nos comunicamos para notificarle el cambio de estado de su reclamo.</p>
-    <p>Estado actual: {{status}}</p>
-    <p>Si tiene alguna pregunta, no dude en contactarnos.</p>
-    <p>Saludos,</p>
-    <p>El equipo de atención al cliente.</p>
+  <body style=' margin:0 ; padding:0'>
+    <section style='padding:0 ;border:1px solid blue ;'>
+      <h1
+        style='background-color:blue ; color:white ; padding:15px ; margin-top:0 '
+      >Cambio de Estado</h1>
+      <p style='padding:5px'>Estimado
+        <strong> {{name}}</strong>
+        <br />
+        Nos comunicamos para notificarle el cambio de estado de su reclamo.
+        Estado actual:
+        <strong> {{status}}</strong>
+        <br />
+        Si tiene alguna pregunta, no dude en contactarnos.
+        <br />
+        Saludos, El equipo de atención al cliente.</p>
+    </section>
   </body>
 </html>
