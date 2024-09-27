@@ -45,11 +45,11 @@ class Claims {
     connection.release();
     return newClaimQuery;
   };
-  patchClaim = async (claimId, claimNewStatus) => {
+  patchClaim = async (claimId, claimNewStatus, userId) => {
     const connection = await pool.getConnection();
     const [patchClaimQuery] = await connection.query(
-      'UPDATE reclamos r SET r.idReclamoEstado=?   WHERE r.idReclamo =? ;',
-      [claimNewStatus, claimId]
+      'UPDATE reclamos r SET r.idReclamoEstado=? , fechaFinalizado=NOW() , idUsuarioFinalizador=? WHERE r.idReclamo =? ;',
+      [claimNewStatus, userId, claimId]
     );
     return patchClaimQuery;
   };
