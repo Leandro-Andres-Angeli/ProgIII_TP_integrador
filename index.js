@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 app.use('/api', authRoutes);
 app.use(
-  '/api',
+  '/api/usuarios',
   [passport.authenticate('jwt', { session: false }), isAdmin],
   usuarioRoutes
 );
