@@ -22,8 +22,8 @@ class ClaimsService {
     return await this.claims.getClaimsByClientId(idUsuario);
   };
 
-  patchClaims = async (idUsuario, claimNewStatus, idUser) => {
-    return await this.claims.patchClaim(idUsuario, claimNewStatus, idUser);
+  patchClaims = async (body, idUser) => {
+    return await this.claims.patchClaim(body, idUser);
   };
 }
 module.exports = ClaimsService;

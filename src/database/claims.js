@@ -1,6 +1,9 @@
 const pool = require('../config/dbConfig');
-const { get } = require('../routes/claimsRoutes');
-const { getClaimsQueryAccordingUserType } = require('../utils/claimsQueries');
+
+const {
+  getClaimsQueryAccordingUserType,
+  patchClaimsQueryAccordingUserType,
+} = require('../utils/claimsQueries');
 
 class Claims {
   constructor() {}
@@ -24,12 +27,20 @@ class Claims {
     connection.release();
     return newClaimQuery;
   };
-  patchClaim = async (claimId, claimNewStatus, userId) => {
+  patchClaim = async (body, userId) => {
+    const { claimId, claimNewStatus } = body;
+    const { idTipoUsuario } = body.user;
+
     const connection = await pool.getConnection();
-    const [patchClaimQuery] = await connection.query(
-      'UPDATE reclamos r SET r.idReclamoEstado=? , fechaFinalizado=NOW() , idUsuarioFinalizador=? WHERE r.idReclamo =? ;',
+    const { query, args } =
+      patchClaimsQueryAccordingUserType[idTipoUsuario](body);
+
+    const [patchClaimQuery] = await connection.query(query, args);
+    /*     const [patchClaimQuery] = await connection.query(
+      'UPDATE reclamos r SET r.idReclamoEstado=? , fechaCancelado=NOW() , idUsuarioFinalizador=? WHERE r.idReclamo =? ;',
       [claimNewStatus, userId, claimId]
-    );
+    ); */
+    connection.release();
     return patchClaimQuery;
   };
   getClaimsByClientId = async (userId) => {

@@ -79,8 +79,7 @@ class ClaimController {
       const claimNewStatus = Number(req.body.claimNewStatus);
 
       const patchResult = await this.service.patchClaims(
-        claimId,
-        claimNewStatus,
+        req.body,
         user.idUsuario
       );
       if (patchResult?.affectedRows !== 1) {
