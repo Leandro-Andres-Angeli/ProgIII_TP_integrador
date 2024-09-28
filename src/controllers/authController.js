@@ -6,7 +6,7 @@ const login = async (req, res) => {
   passport.authenticate('local', { session: false }, (err, user, info) => {
     if (err || !user) {
       return res.status(400).json({
-        message: 'Solicitud incorrecta',
+        message: info ? info.message : 'Solicitud incorrecta',
         error: err,
       });
     }
