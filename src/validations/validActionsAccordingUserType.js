@@ -1,9 +1,7 @@
 const pool = require('../config/dbConfig');
 
 const validateSetNewClaimStatus = Object.freeze({
-  1: function (req, res, next, claimNewStatus) {
-    console.log('next in progress');
-
+  1: function (_, _, next, _) {
     next();
   },
   2: async function (req, res, next, claimNewStatus) {
