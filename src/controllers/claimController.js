@@ -73,7 +73,6 @@ class ClaimController {
   patchClaims = async (req, res) => {
     try {
       const { user } = req.body;
-      const { nombre, apellido, correoElectronico } = user;
 
       const { claimId } = req.body;
       const claimNewStatus = Number(req.body.claimNewStatus);
@@ -89,6 +88,11 @@ class ClaimController {
         'SELECT descripcion FROM `reclamos_estado` rt WHERE rt.idReclamosEstado = ?',
         [claimNewStatus]
       );
+      const [correoElectronicoQuery] = await pool.execute(
+        `SELECT u.* FROM  reclamos r join usuarios u on  r.idUsuarioCreador  = u.idUsuario where r.idReclamo = ?;`,
+        [claimId]
+      );
+      const { correoElectronico, nombre, apellido } = correoElectronicoQuery[0];
 
       sendEmail({
         name: nombre + ' ' + apellido,
