@@ -30,8 +30,6 @@ const patchClaimsQueriesAdminHelper = function (claimNewStatus, userId) {
 };
 exports.patchClaimsQueryAccordingUserType = Object.freeze({
   1: function (bodyData) {
-    console.log('in admin put');
-
     const { claimId, user } = bodyData;
     const claimNewStatus = Number(bodyData.claimNewStatus);
     const userId = Number(user.idUsuario);
