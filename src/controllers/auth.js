@@ -37,7 +37,10 @@ const passportLocalStrategy = new Strategy(
       );
 
       if (!Boolean(user.length)) {
-        return cb(new Error('Error de autenticacion'), false);
+        return cb(
+          new Error('Correo electrónico y/o contraseña incorrectos.'),
+          false
+        );
       }
       connection.release();
       return cb(null, user[0]);
@@ -66,7 +69,7 @@ const passportJWTStrategy = new JWTStrategy(
   async function (JWTPayload, cb) {
     try {
       if (!JWTPayload) {
-        return cb(new Error('No autorizado'), false);
+        return cb(new Error('Error de autenticacion'), false);
       }
 
       const connection = await pool.getConnection();
@@ -76,7 +79,7 @@ const passportJWTStrategy = new JWTStrategy(
         `SELECT * FROM usuarios WHERE correoElectronico='${correoElectronico}' AND contrasenia='${contrasenia}'`
       );
       if (user.length === 0) {
-        return cb(new Error('No autorizado'), false);
+        return cb(new Error('Error de autenticacion'), false);
       }
 
       connection.release();

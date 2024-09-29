@@ -1,14 +1,14 @@
 const Usuario = require('../database/usuario');
 
 const usuarioService = {
-  getUsuarios: async () => {
-    const usuarios = await Usuario.getUsuarios();
-    return usuarios;
-  },
-
   createUsuario: async (data) => {
     const id = await Usuario.createUsuario(data);
     return id;
+  },
+
+  getUsuarios: async (idTipo) => {
+    const usuarios = await Usuario.getUsuarios(idTipo);
+    return usuarios;
   },
 
   getUsuarioById: async (id) => {
@@ -19,12 +19,28 @@ const usuarioService = {
     return usuario;
   },
 
-  updateUsuario: async (id, data) => {
-    await Usuario.updateUsuario(id, data);
+  getUsuarioById: async (id, idTipo) => {
+    const usuario = await Usuario.getUsuarioById(id, idTipo);
+    if (!usuario) {
+      throw new Error('Usuario no encontrado.');
+    }
+    return usuario;
   },
 
-  deleteUsuario: async (id) => {
-    await Usuario.deleteUsuario(id);
+  updateUsuario: async (id, data, idTipo) => {
+    const usuario = await Usuario.existeUsuario(id, idTipo);
+    if (!usuario) {
+      throw new Error('Usuario no encontrado.');
+    }
+    await Usuario.updateUsuario(id, data, idTipo);
+  },
+
+  deleteUsuario: async (id, idTipo) => {
+    const usuario = await Usuario.existeUsuario(id, idTipo);
+    if (!usuario) {
+      throw new Error('Usuario no encontrado.');
+    }
+    await Usuario.deleteUsuario(id, idTipo);
   },
 };
 
