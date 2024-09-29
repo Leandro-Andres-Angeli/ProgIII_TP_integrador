@@ -29,7 +29,7 @@ const Usuario = {
     let query = `SELECT u.idUsuario, u.nombre, u.apellido, u.correoElectronico, 
     u.idTipoUsuario, u.imagen, u.activo, ut.descripcion
     FROM usuarios u 
-    JOIN usuariostipo ut
+    JOIN usuarios_tipo ut
     ON u.idTipoUsuario = ut.idUsuarioTipo
     WHERE u.idUsuario = ?`;
     if (idTipo) {
