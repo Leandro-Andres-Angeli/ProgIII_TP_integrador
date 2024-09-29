@@ -15,7 +15,10 @@ class ClaimsService {
     );
     return newClaimQuery;
   };
-  getClaims = async ({ idTipoUsuario, idUsuario }) => {
+  getClaims = async (user) => {
+    console.log(user);
+
+    const { idTipoUsuario, idUsuario } = user;
     return await this.claims.getClaims(idTipoUsuario, idUsuario);
   };
   getClaimsByClientId = async ({ idUsuario }) => {
