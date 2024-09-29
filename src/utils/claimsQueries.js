@@ -18,7 +18,23 @@ exports.getClaimsQueryAccordingUserType = Object.freeze({
 });
 exports.patchClaimsQueryAccordingUserType = Object.freeze({
   1: function (bodyData) {
-    return { query: 'SELECT * FROM reclamos', args };
+    console.log('in admin put');
+
+    const { claimNewStatus, claimId } = bodyData;
+    return {
+      query: `UPDATE reclamos r SET r.idReclamoEstado=?  ${
+        (claimNewStatus === 3 &&
+          ',fechaCancelado=NOW() , fechaFinalizado=null') ||
+        ''
+      } ${
+        (claimNewStatus === 4 &&
+          ',fechaFinalizado=NOW() , fechaCancelado=null') ||
+        ''
+      } 
+      
+      , descripcion = IFNULL(?,descripcion) , asunto = IFNULL(?,asunto) WHERE r.idReclamo=? ;`,
+      args: [claimNewStatus, bodyData?.descripcion, bodyData?.asunto, claimId],
+    };
   },
   2: function (bodyData) {
     console.log('in patch claims');
