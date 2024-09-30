@@ -61,7 +61,8 @@ const Usuario = {
     const query = `SELECT 1
     FROM usuarios
     WHERE idUsuario = ?
-    AND idTipoUsuario = ?`;
+    AND idTipoUsuario = ?
+    AND activo = 1`;
     const [result] = await pool.execute(query, [id, idTipo]);
     return result.length > 0;
   },
