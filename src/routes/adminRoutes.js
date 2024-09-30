@@ -5,6 +5,7 @@ const oficinaController = require('../controllers/oficinaController');
 const estadisticasController = require('../controllers/estadisticasController');
 
 router.get('/clientes', usuarioController.getClientes);
+router.get('/clientes/:id', usuarioController.getClienteById);
 
 router.get('/empleados', usuarioController.getEmpleados);
 router.get('/empleados/:id', usuarioController.getEmpleadoById);

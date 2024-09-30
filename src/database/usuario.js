@@ -26,11 +26,9 @@ const Usuario = {
 
   getUsuarioById: async (id, idTipo) => {
     const params = [id];
-    let query = `SELECT u.idUsuario, u.nombre, u.apellido, u.correoElectronico, 
-    u.idTipoUsuario, u.imagen, u.activo, ut.descripcion
+    let query = `SELECT u.idUsuario, u.nombre, u.apellido, 
+    u.correoElectronico, u.idTipoUsuario, u.imagen, u.activo
     FROM usuarios u 
-    JOIN usuarios_tipo ut
-    ON u.idTipoUsuario = ut.idUsuarioTipo
     WHERE u.idUsuario = ?`;
     if (idTipo) {
       query += ' AND u.idTipoUsuario = ?';

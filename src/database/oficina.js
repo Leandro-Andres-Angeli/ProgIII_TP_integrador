@@ -44,7 +44,7 @@ const Oficina = {
 
   asignarEmpleado: async (idOficina, idEmpleado) => {
     const query = `
-      INSERT INTO usuarios_oficinas (idUsuario, idOficina, activo) 
+      INSERT INTO usuarios_oficinas (idOficina, idUsuario, activo) 
       VALUES (?, ?, 1)
     `;
     const [result] = await pool.execute(query, [idOficina, idEmpleado]);
