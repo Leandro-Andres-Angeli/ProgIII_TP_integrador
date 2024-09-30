@@ -1,5 +1,12 @@
 const Usuario = require('../database/usuario');
 
+const checkExisteUsuario = async (id, idTipo) => {
+  const usuario = await Usuario.existeUsuario(id, idTipo);
+  if (!usuario) {
+    throw new Error('Usuario no encontrado.');
+  }
+};
+
 const usuarioService = {
   createUsuario: async (data) => {
     const id = await Usuario.createUsuario(data);
@@ -11,14 +18,6 @@ const usuarioService = {
     return usuarios;
   },
 
-  getUsuarioById: async (id) => {
-    const usuario = await Usuario.getUsuarioById(id);
-    if (!usuario) {
-      throw new Error('Usuario no encontrado.');
-    }
-    return usuario;
-  },
-
   getUsuarioById: async (id, idTipo) => {
     const usuario = await Usuario.getUsuarioById(id, idTipo);
     if (!usuario) {
@@ -28,20 +27,15 @@ const usuarioService = {
   },
 
   updateUsuario: async (id, data, idTipo) => {
-    const usuario = await Usuario.existeUsuario(id, idTipo);
-    if (!usuario) {
-      throw new Error('Usuario no encontrado.');
-    }
+    await checkExisteUsuario(id, idTipo);
     await Usuario.updateUsuario(id, data, idTipo);
   },
 
   deleteUsuario: async (id, idTipo) => {
-    const usuario = await Usuario.existeUsuario(id, idTipo);
-    if (!usuario) {
-      throw new Error('Usuario no encontrado.');
-    }
+    await checkExisteUsuario(id, idTipo);
     await Usuario.deleteUsuario(id, idTipo);
   },
+  checkExisteUsuario,
 };
 
 module.exports = usuarioService;
