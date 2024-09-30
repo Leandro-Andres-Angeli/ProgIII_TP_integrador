@@ -22,11 +22,17 @@ exports.getClientes = async (req, res) => {
   }
 };
 
+exports.getPerfilCliente = async (req, res) => {
+  try {
+    const usuario = await usuarioService.getUsuarioById(req.user.idUsuario, 3);
+    res.status(200).json({ ok: true, data: usuario });
+  } catch (error) {
+    return res.status(500).json({ ok: false, message: error.message });
+  }
+};
+
 exports.getClienteById = async (req, res) => {
   try {
-    if (req.params.id != req.user) {
-      return res.status(403).json({ ok: false, error: 'No está autorizado.' });
-    }
     const usuario = await usuarioService.getUsuarioById(req.params.id, 3);
     res.status(200).json({ ok: true, data: usuario });
   } catch (error) {
@@ -36,10 +42,7 @@ exports.getClienteById = async (req, res) => {
 
 exports.updateCliente = async (req, res) => {
   try {
-    if (req.params.id != req.user) {
-      return res.status(403).json({ ok: false, error: 'No está autorizado.' });
-    }
-    await usuarioService.updateUsuario(req.params.id, req.body, 3);
+    await usuarioService.updateUsuario(req.user.idUsuario, req.body, 3);
     res
       .status(200)
       .json({ ok: true, message: 'Perfil actualizado con éxito.' });
