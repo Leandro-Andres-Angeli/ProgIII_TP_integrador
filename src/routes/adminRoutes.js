@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const usuarioController = require('../controllers/usuarioController');
 const oficinaController = require('../controllers/oficinaController');
+const estadisticasController = require('../controllers/estadisticasController');
 
 router.get('/clientes', usuarioController.getClientes);
 
@@ -22,5 +23,10 @@ router.post(
   oficinaController.asignarEmpleado
 );
 router.get('/oficinas/:id/empleados', oficinaController.getEmpleados);
+
+router.get(
+  '/estadisticas/totalesReclamosEstados',
+  estadisticasController.getTotalesReclamosEstados
+);
 
 module.exports = router;
