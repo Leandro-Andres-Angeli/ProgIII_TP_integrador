@@ -12,6 +12,7 @@ const usuarioController = require('./src/controllers/usuarioController');
 const claimRoutes = require('./src/routes/claimsRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
 const clienteRoutes = require('./src/routes/clienteRoutes');
+const pdfRoutes = require('./src/routes/pdfRoutes');
 const { isAdmin, isClient } = require('./src/middleware/authorization');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -32,6 +33,8 @@ server.post('/api/registro', usuarioController.createCliente);
 server.use('/api', handleTokenValidity, claimRoutes);
 server.use('/api/clientes', [handleTokenValidity, isClient], clienteRoutes);
 server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
+
+server.use('/api/pdf', pdfRoutes);
 
 const checkConnection = async () => {
   try {
