@@ -12,4 +12,4 @@ function buildPDF(dataCallback, endCallback) {
   doc.end();
 }
 
-module.exports = { buildPDF }; // Usa module.exports en lugar de export
+module.exports = { buildPDF }; 
