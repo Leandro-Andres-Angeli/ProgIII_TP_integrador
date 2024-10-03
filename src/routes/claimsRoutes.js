@@ -7,11 +7,17 @@ const ClaimController = require('../controllers/claimController');
 const {
   patchClaimsValidActions,
 } = require('../validations/validActionsAccordingUserType');
+const { handleTokenValidity } = require('../controllers/auth');
 
 const claimController = new ClaimController();
 
-router.post('/claim', claimController.postClaim);
-router.get('/claims', claimController.getClaims);
-router.patch('/claims', patchClaimsValidActions, claimController.patchClaims);
+router.post('/reclamo', handleTokenValidity, claimController.postClaim);
+router.get('/reclamos', handleTokenValidity, claimController.getClaims);
+router.patch(
+  '/reclamos',
+  handleTokenValidity,
+  patchClaimsValidActions,
+  claimController.patchClaims
+);
 
 module.exports = router;
