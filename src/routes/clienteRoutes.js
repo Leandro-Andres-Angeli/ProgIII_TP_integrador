@@ -1,6 +1,6 @@
 const express = require('express');
 const { validateCliente} = require ('../validations/usuarioValidator');
-const { validarCampos } = require ('../middleware/validarcampos.js');
+const  validarCampos  = require ('../middleware/validarcampos.js');
 const router = express.Router();
 const usuarioController = require('../controllers/usuarioController');
 
