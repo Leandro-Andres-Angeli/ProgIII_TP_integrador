@@ -1,10 +1,19 @@
-const {check} = require ('express-validator');
+const { check } = require('express-validator');
 
-exports.validateUsuario = [
-    check ('email')
-        .isEmail().withMessage('debe proporcionar un email valido')
-        .matches(/@gmail\.com$/).withMessage('El email debe ser un correo de Gmail'),
-    check ('password')
-        .isLength({min : 6}).withMessage('la contraseña debe tener minimo 6 caracteres')
-        .notEmpty().withMessage('la contraseña es obligatoria'),
+const validateUsuario = [
+  check('email')
+    .notEmpty()
+    .withMessage('El campo de email no puede estar vacío.')
+
+    .isEmail()
+    .withMessage('Debe ser un email válido con formato correcto.'),
+  
+  check('password')
+    .notEmpty()
+    .withMessage('La contraseña es requerida.')
+    
+    .isLength({ min: 6 })
+    .withMessage('La contraseña debe tener mínimo 6 caracteres.')
 ];
+
+module.exports = { validateUsuario };
