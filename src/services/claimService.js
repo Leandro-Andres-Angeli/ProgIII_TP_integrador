@@ -7,13 +7,6 @@ class ClaimsService {
   }
 
   postClaim = async (asunto, descripcion, idReclamoTipo, idUsuario) => {
-    /*   const connection = await pool.getConnection();
-    const [newClaimQuery] = await connection.query(
-      'INSERT INTO reclamos (asunto , descripcion , fechaCreado,idReclamoTipo , idReclamoEstado , idUsuarioCreador) VALUES (?,?,?,?,1,1)',
-      [asunto, descripcion, new Date(), idReclamoTipo]
-    );
-    connection.release(); */
-
     const newClaimQuery = await this.claims.postClaim(
       asunto,
       descripcion,
@@ -22,11 +15,18 @@ class ClaimsService {
     );
     return newClaimQuery;
   };
-  getClaims = async ({ idTipoUsuario, idUsuario }) => {
+  getClaims = async (user) => {
+    console.log(user);
+
+    const { idTipoUsuario, idUsuario } = user;
     return await this.claims.getClaims(idTipoUsuario, idUsuario);
   };
-  patchClaims = async (idUsuario, claimNewStatus, idUser) => {
-    return await this.claims.patchClaim(idUsuario, claimNewStatus, idUser);
+  getClaimsByClientId = async ({ idUsuario }) => {
+    return await this.claims.getClaimsByClientId(idUsuario);
+  };
+
+  patchClaims = async (body, idUser) => {
+    return await this.claims.patchClaim(body, idUser);
   };
 }
 module.exports = ClaimsService;

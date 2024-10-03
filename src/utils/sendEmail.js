@@ -4,6 +4,7 @@ const handlebars = require('handlebars');
 const nodemailer = require('nodemailer');
 exports.sendEmail = (userData) => {
   const correoEnviado = userData.correoElectronico;
+  console.log(correoEnviado);
 
   const mensaje = fs.readFileSync(
     path.join(__dirname, '/', 'notificacion.hbs'),
@@ -20,6 +21,7 @@ exports.sendEmail = (userData) => {
       user: 'Deborainfinit69@gmail.com',
       pass: 'mcdgcbmzgkvzievw',
     },
+    sendEmail: true,
   });
 
   const mail = {
@@ -34,7 +36,7 @@ exports.sendEmail = (userData) => {
       console.log('error', error.message);
     } else {
       console.log('mail enviado', info.response);
-      return 'El mail ha sido enviado', info.response;
     }
+    return;
   });
 };

@@ -35,15 +35,6 @@ class ClaimController {
 
   getClaimsByClientId = async (req, res) => {
     const userId = Number(req.params.userId);
-
-    const connection = await pool.getConnection();
-    const [getClaimsByClientId] = await connection.query(
-      'SELECT * FROM `reclamos` r  where r.idUsuarioCreador=? ',
-      [userId]
-    );
-
-    connection.release();
-    return getClaimsByClientId;
   };
 
   getClaims = async (req, res) => {
@@ -82,30 +73,12 @@ class ClaimController {
   patchClaims = async (req, res) => {
     try {
       const { user } = req.body;
-      const { nombre, apellido, correoElectronico } = user;
 
       const { claimId } = req.body;
       const claimNewStatus = Number(req.body.claimNewStatus);
-      const [claim] = await pool.execute(
-        'SELECT *  from reclamos WHERE idUsuarioCreador=? AND idReclamo=?;',
-        [user.idUsuario, claimId]
-      );
-
-      if (claim[0].idReclamoEstado === claimNewStatus) {
-        return res.status(400).json({
-          ok: true,
-          message: `el reclamo ya tiene  estado ${claimNewStatus}`,
-        });
-      }
-      if (!claim.length) {
-        return res
-          .status(404)
-          .json({ ok: true, message: 'No se encontro reclamo' });
-      }
 
       const patchResult = await this.service.patchClaims(
-        claimId,
-        claimNewStatus,
+        req.body,
         user.idUsuario
       );
       if (patchResult?.affectedRows !== 1) {
@@ -115,8 +88,13 @@ class ClaimController {
         'SELECT descripcion FROM `reclamos_estado` rt WHERE rt.idReclamosEstado = ?',
         [claimNewStatus]
       );
+      const [correoElectronicoQuery] = await pool.execute(
+        `SELECT u.* FROM  reclamos r join usuarios u on  r.idUsuarioCreador  = u.idUsuario where r.idReclamo = ?;`,
+        [claimId]
+      );
+      const { correoElectronico, nombre, apellido } = correoElectronicoQuery[0];
 
-      const sendEmailFuncResponse = sendEmail({
+      sendEmail({
         name: nombre + ' ' + apellido,
         correoElectronico,
         status: claimStatusDesc[0].descripcion,

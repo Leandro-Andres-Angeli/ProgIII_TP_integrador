@@ -1,15 +1,6 @@
 const express = require('express');
-
-const dotenv = require('dotenv');
-
-dotenv.config();
-
-const claimRoutes = require('./src/routes/claimsRoutes');
-const PORT = process.env.SERVER_PORT || 3001;
-const bodyParser = require('body-parser');
 const pool = require('./src/config/dbConfig');
 const passport = require('passport');
-
 const {
   handleTokenValidity,
   passportJWTStrategy,
@@ -17,26 +8,30 @@ const {
   generateToken,
   handleLogin,
 } = require('./src/controllers/auth');
-const usuarioRoutes = require('./src/routes/usuarioRoutes');
+const usuarioController = require('./src/controllers/usuarioController');
+const claimRoutes = require('./src/routes/claimsRoutes');
+const adminRoutes = require('./src/routes/adminRoutes');
+const clienteRoutes = require('./src/routes/clienteRoutes');
+const { isAdmin, isClient } = require('./src/middleware/authorization');
+const dotenv = require('dotenv');
+dotenv.config();
+const PORT = process.env.SERVER_PORT || 3001;
+
 passport.use(passportJWTStrategy);
 passport.use(passportLocalStrategy);
+
 const server = express();
-server.use(bodyParser.json());
 
 server.use(express.json());
 
+// Login de usuario existente
 server.post('/api/login', handleLogin, generateToken);
+// Registro de nuevo cliente
+server.post('/api/registro', usuarioController.createCliente);
 
-server.use(function (req, res, next) {
-  if (req.url === '/api/usuarios' && req.method === 'POST') {
-    return next();
-  } else {
-    return handleTokenValidity(req, res, next);
-  }
-});
-
-server.use('/api', claimRoutes);
-server.use('/api', usuarioRoutes);
+server.use('/api', handleTokenValidity, claimRoutes);
+server.use('/api/clientes', [handleTokenValidity, isClient], clienteRoutes);
+server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
 
 const checkConnection = async () => {
   try {
