@@ -1,6 +1,6 @@
 const { check } = require('express-validator');
 
-const validateUsuario = [
+const validateCliente = [
   check('email')
     .notEmpty()
     .withMessage('El campo de email no puede estar vacío.')
@@ -16,4 +16,4 @@ const validateUsuario = [
     .withMessage('La contraseña debe tener mínimo 6 caracteres.')
 ];
 
-module.exports = { validateUsuario };
+module.exports = { validateCliente };
