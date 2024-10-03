@@ -1,4 +1,4 @@
-const {check} = require ('express-validator1');
+const {check} = require ('express-validator');
 
 exports.validateUsuario = [
     check ('email')
