@@ -1,6 +1,6 @@
 const express = require('express');
 const { validateCliente} = require ('../validations/usuarioValidator');
-const { validarCampos } = require ('../middlewares/validarCampos.js');
+const { validarCampos } = require ('../middleware/validarcampos.js');
 const router = express.Router();
 const usuarioController = require('../controllers/usuarioController');
 
@@ -8,7 +8,7 @@ router.get('/perfil', usuarioController.getPerfilCliente);
 
 router.put('/perfil', usuarioController.updateCliente);
 
-router.post('/clientes',[
+router.post('/perfil',[
     validateCliente,
     validarCampos
 ], usuarioController.createCliente);
