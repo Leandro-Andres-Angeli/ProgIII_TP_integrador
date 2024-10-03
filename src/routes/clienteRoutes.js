@@ -1,6 +1,6 @@
 const express = require('express');
-const { validateUsuario} = require ('../validations/usuarioValidator');
-const { validarCampos } = require ('../middlewares/validarCampos.js');
+const { validateCliente} = require ('../validations/usuarioValidator');
+const { validarCampos } = require ('../middlewares/validarcampos.js');
 const router = express.Router();
 const usuarioController = require('../controllers/usuarioController');
 
@@ -9,11 +9,11 @@ router.get('/perfil', usuarioController.getPerfilCliente);
 router.put('/perfil', usuarioController.updateCliente);
 
 router.post('/perfil',[
-    validateUsuario,
+    validateCliente,
     validarCampos
-], usuarioController.createUsuario);
+], usuarioController.createCliente);
 
-router.put('/perfil' , usuarioController.updateUsuario);
+router.put('/perfil' , usuarioController.updateCliente);
 
 router.delete('/perfil', usuarioController.deleteUsuario);
 
