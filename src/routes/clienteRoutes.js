@@ -1,6 +1,6 @@
 const express = require('express');
 const { validateCliente} = require ('../validations/usuarioValidator');
-const  validarCampos  = require ('../middleware/validarcampos.js');
+const  {validarCampos}  = require ('../middleware/validarcampos');
 const router = express.Router();
 const usuarioController = require('../controllers/usuarioController');
 
@@ -14,8 +14,5 @@ router.post('/perfil',[
 ], usuarioController.createCliente);
 
 router.put('/perfil' , usuarioController.updateCliente);
-
-router.delete('/perfil', usuarioController.deleteUsuario);
-
 
 module.exports = router;
