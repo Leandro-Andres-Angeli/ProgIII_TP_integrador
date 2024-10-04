@@ -1,6 +1,6 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
-const PORT = process.env.DB_PORT || 3306;
+const PORT = process.env.DB_PORT || 3307;
 
 // Create the connection pool. The pool-specific settings are the defaults
 
