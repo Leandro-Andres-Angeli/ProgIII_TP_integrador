@@ -35,8 +35,9 @@ server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
 
 const checkConnection = async () => {
   try {
-    await pool.getConnection();
-
+    const conn = await pool.getConnection();
+    console.log(conn);
+    
     pool.releaseConnection();
   } catch (error) {
     console.log('Error conectandose a DB');
