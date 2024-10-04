@@ -1,4 +1,4 @@
-
+require('dotenv').config();
 const express = require('express');
 const pool = require('./src/config/dbConfig');
 const passport = require('passport');
