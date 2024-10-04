@@ -1,3 +1,4 @@
+
 const express = require('express');
 const pool = require('./src/config/dbConfig');
 const passport = require('passport');
@@ -37,7 +38,7 @@ const checkConnection = async () => {
   try {
     const conn = await pool.getConnection();
     console.log(conn);
-    
+
     pool.releaseConnection();
   } catch (error) {
     console.log('Error conectandose a DB');
