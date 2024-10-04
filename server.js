@@ -29,13 +29,14 @@ server.post('/api/login', handleLogin, generateToken);
 // Registro de nuevo cliente
 server.post('/api/registro', usuarioController.createCliente);
 
-server.use('/api', handleTokenValidity, claimRoutes);
+server.use('/api', claimRoutes);
 server.use('/api/clientes', [handleTokenValidity, isClient], clienteRoutes);
 server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
 
 const checkConnection = async () => {
   try {
     await pool.getConnection();
+
     pool.releaseConnection();
   } catch (error) {
     console.log('Error conectandose a DB');
