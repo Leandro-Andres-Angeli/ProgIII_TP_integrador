@@ -3,7 +3,9 @@ const { validateCliente } = require('../validations/usuarioValidator');
 
 // CRUD Clientes
 
-exports.createCliente = async (req, res) => {
+exports.createCliente = [
+  validateCliente,
+  async(req,res)=>{
   try {
     let usuario = req.body;
     usuario.idTipoUsuario = 3; // cliente
@@ -12,7 +14,8 @@ exports.createCliente = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ ok: false, message: error.message });
   }
-};
+}
+];
 
 exports.getClientes = async (req, res) => {
   try {
