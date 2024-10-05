@@ -1,4 +1,5 @@
 const usuarioService = require('../services/usuarioService');
+const { validateCliente } = require('../validations/usuarioValidator');
 
 // CRUD Clientes
 
