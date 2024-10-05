@@ -5,21 +5,21 @@ const validateCliente = [
     .notEmpty()
     .withMessage('El campo de email no puede estar vacío.')
     .isEmail()
-    .withMessage('Debe ser un email válido con formato correcto.'),
+    .withMessage('Debe ser un email válido con formato correcto (@.com).'),
   
   check('contrasenia')
     .notEmpty()
-    .withMessage('La contraseña es requerida.')
+    .withMessage('Se requiere una contraseña.')
     .isLength({ min: 6 })
     .withMessage('La contraseña debe tener mínimo 6 caracteres.'),
   
   check('nombre')
     .notEmpty()
-    .withMessage('El nombre es requerido.'),
+    .withMessage('Debe ingresar un nombre.'),
 
   check('apellido')
     .notEmpty()
-    .withMessage('El campo de apellido no puede estar vacío.'),
+    .withMessage('Debe ingresar un apellido.'),
 
   check('idTipoUsuario')
     .notEmpty()
