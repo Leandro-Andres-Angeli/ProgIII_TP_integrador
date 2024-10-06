@@ -50,5 +50,5 @@ const validateSetNewClaimStatus = Object.freeze({
 exports.patchClaimsValidActions = (req, res, next) => {
   const user = req.user;
   const claimNewStatus = Number(req.body.claimNewStatus);
-  validateSetNewClaimStatus[user.idTipoUsuario](req, res, next, claimNewStatus);
+  validateSetNewClaimStatus[user.idUsuarioTipo](req, res, next, claimNewStatus);
 };

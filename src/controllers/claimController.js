@@ -40,21 +40,21 @@ class ClaimController {
   getClaims = async (req, res) => {
     const user = req.user;
 
-    /*   if (idTipoUsuario === 1) {
+    /*   if (idUsuarioTipo === 1) {
       const [getReclamosAdmin] = await connection.query(
         'SELECT r.* from reclamos r'
       );
 
       queryResult = getReclamosAdmin;
     }
-    if (idTipoUsuario === 2) {
+    if (idUsuarioTipo === 2) {
       const [getReclamosByOffice] = await connection.query(
         'SELECT r.* from reclamos r  WHERE idReclamoTipo=( SELECT of.idOficina  FROM usuarios_oficinas  of WHERE idUsuario=?);',
         [user.idUsuario]
       );
       return getReclamosByOffice;
     }
-    if (idTipoUsuario === 3) {
+    if (idUsuarioTipo === 3) {
       const [getReclamosByUserId] = await connection.query(
         'SELECT r.* from reclamos r  WHERE idUsuarioCreador = ?',
         [user.idUsuario]
@@ -85,7 +85,7 @@ class ClaimController {
         throw Error('Error actualizando reclamo');
       }
       const [claimStatusDesc] = await pool.execute(
-        'SELECT descripcion FROM `reclamos_estado` rt WHERE rt.idReclamosEstado = ?',
+        'SELECT descripcion FROM `reclamos_estado` rt WHERE rt.idReclamoEstado = ?',
         [claimNewStatus]
       );
       const [correoElectronicoQuery] = await pool.execute(

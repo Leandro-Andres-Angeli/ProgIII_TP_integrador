@@ -2,7 +2,7 @@ const service = require('../services/usuarioService');
 
 const isAdmin = async (req, res, next) => {
   const usuario = req.user;
-  if (usuario.idTipoUsuario !== 1) {
+  if (usuario.idUsuarioTipo !== 1) {
     return res.status(403).send({
       ok: false,
       error: 'No está autorizado.',
@@ -14,7 +14,7 @@ const isAdmin = async (req, res, next) => {
 
 const isClient = async (req, res, next) => {
   const usuario = req.user;
-  if (usuario.idTipoUsuario !== 3) {
+  if (usuario.idUsuarioTipo !== 3) {
     return res.status(403).send({
       ok: false,
       error: 'No está autorizado.',
@@ -26,7 +26,7 @@ const isClient = async (req, res, next) => {
 
 const isEmpleado = async (req, res, next) => {
   const usuario = req.user;
-  if (usuario.idTipoUsuario !== 2) {
+  if (usuario.idUsuarioTipo !== 2) {
     return res.status(403).send({
       ok: false,
       error: 'No está autorizado.',
