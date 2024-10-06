@@ -30,7 +30,7 @@ server.post('/api/login', handleLogin, generateToken);
 // Registro de nuevo cliente
 server.post('/api/registro', usuarioController.createCliente);
 
-server.use('/api', claimRoutes);
+server.use('/api/reclamos', claimRoutes);
 server.use('/api/clientes', [handleTokenValidity, isClient], clienteRoutes);
 server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
 
@@ -46,7 +46,7 @@ const checkConnection = async () => {
 };
 checkConnection();
 
-server.get('/*', (req, res) => {
+server.use('/*', (req, res) => {
   return res.status(404).json({ message: 'no existe ruta' });
 });
 server.listen(PORT, () => {
