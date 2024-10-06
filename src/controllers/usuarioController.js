@@ -45,7 +45,7 @@ exports.getClienteById = async (req, res) => {
 };
 
 exports.updateCliente = async (req, res) => {
-  const { nombre, apellido, correoElectronico, contrasenia, idTipoUsuario } = req.body;
+  const { nombre, apellido, correoElectronico, contrasenia, idUsuarioTipo } = req.body;
   const clienteID = req.user.id;
 
   try {
@@ -55,7 +55,7 @@ exports.updateCliente = async (req, res) => {
       return res.status(404).json({ message: 'No se encuentra al cliente solicitado.' });
     }
 
-    await usuarioService.updateUsuario(clienteID, req.body, idTipoUsuario);
+    await usuarioService.updateUsuario(clienteID, req.body, idUsuarioTipo);
 
     res.status(200).json({ ok: true, message: 'Perfil actualizado con éxito.' });
   } catch (error) {

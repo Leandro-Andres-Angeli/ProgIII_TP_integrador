@@ -21,11 +21,11 @@ const validateCliente = [
     .notEmpty()
     .withMessage('Debe ingresar un apellido.'),
 
-  check('idTipoUsuario')
+  check('idUsuarioTipo')
     .notEmpty()
-    .withMessage('El campo idTipoUsuario no puede estar vacío.')
+    .withMessage('El campo idUsuarioTipo no puede estar vacío.')
     .isInt()
-    .withMessage('El campo idTipoUsuario debe ser un número entero.'),
+    .withMessage('El campo idUsuarioTipo debe ser un número entero.'),
   
   (req, res, next) => {
     const errors = validationResult(req);
