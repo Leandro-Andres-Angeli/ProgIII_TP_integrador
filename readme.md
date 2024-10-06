@@ -34,8 +34,8 @@ INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `correoElectronico`, 
 
 | Parameter | Type     | Description             |
 | :-------- | :------- | :---------------------- |
-| `email    | `string` | **Requerido**. email    |
-| `password | `string` | **Requerido**. password |
+| email     | `string` | **Requerido**. email    |
+| password  | `string` | **Requerido**. password |
 
 ##### Ejemplo Body de la peticion
 
@@ -49,12 +49,12 @@ INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `correoElectronico`, 
 /api/registro
 ```
 
-| Parameter          | Type     | Description                      |
-| :----------------- | :------- | :------------------------------- |
-| `nombre            | `string` | **Requerido**. nombre            |
-| `apellido          | `string` | **Requerido**. apellido          |
-| `correoElectronico | `email`  | **Requerido**. correoElectronico |
-| `contrasenia       | `string` | **Requerido**. contrasenia       |
+| Parameter         | Type     | Description                      |
+| :---------------- | :------- | :------------------------------- |
+| nombre            | `string` | **Requerido**. nombre            |
+| apellido          | `string` | **Requerido**. apellido          |
+| correoElectronico | `email`  | **Requerido**. correoElectronico |
+| contrasenia       | `string` | **Requerido**. contrasenia       |
 
 ##### Ejemplo Body de la peticion
 
