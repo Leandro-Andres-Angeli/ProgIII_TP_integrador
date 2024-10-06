@@ -6,13 +6,14 @@ const usuarioController = require('../controllers/usuarioController');
 
 router.get('/perfil', usuarioController.getPerfilCliente);
 
-router.put('/perfil', usuarioController.updateCliente);
+router.put('/perfil/',[
+    validateCliente,
+    validarCampos
+], usuarioController.updateCliente);
 
 router.post('/perfil',[
     validateCliente,
     validarCampos
 ], usuarioController.createCliente);
-
-router.put('/perfil' , usuarioController.updateCliente);
 
 module.exports = router;

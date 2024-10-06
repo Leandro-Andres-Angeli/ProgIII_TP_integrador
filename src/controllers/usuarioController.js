@@ -45,11 +45,19 @@ exports.getClienteById = async (req, res) => {
 };
 
 exports.updateCliente = async (req, res) => {
+  const { nombre, apellido, correoElectronico, contrasenia, idTipoUsuario } = req.body;
+  const clienteID = req.user.id;
+
   try {
-    await usuarioService.updateUsuario(req.user.idUsuario, req.body, 3);
-    res
-      .status(200)
-      .json({ ok: true, message: 'Perfil actualizado con éxito.' });
+    const [rows] = await pool.query('SELECT * FROM usuarios WHERE id = ?', [clienteID]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'No se encuentra al cliente solicitado.' });
+    }
+
+    await usuarioService.updateUsuario(clienteID, req.body, idTipoUsuario);
+
+    res.status(200).json({ ok: true, message: 'Perfil actualizado con éxito.' });
   } catch (error) {
     return res.status(500).json({ ok: false, message: error.message });
   }
