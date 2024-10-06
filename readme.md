@@ -61,3 +61,28 @@ INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `correoElectronico`, 
 ```
 { "nombre":"otro", "apellido":"admin", "correoElectronico":"admin1@gmail.com", "contrasenia":123 }
 ```
+
+### Reclamos
+
+#### Crear reclamos
+
+```
+/api/reclamos/
+```
+
+| Parameter     | Type           | Description                  |
+| :------------ | :------------- | :--------------------------- |
+| token         | `bearer token` | **Requerido**. token         |
+| asunto        | `string`       | **Requerido**. asunto        |
+| descripcion   | `email`        | **Requerido**. descripcion   |
+| idReclamoTipo | `string`       | **Requerido**. idReclamoTipo |
+
+##### Ejemplo Body de la peticion
+
+```
+
+{"asunto":"test",
+        "descripcion":"reclamo de admin@gmail.com@gmail.com",
+        "idReclamoTipo":14
+        }
+```
