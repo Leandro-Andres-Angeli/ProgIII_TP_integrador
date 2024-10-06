@@ -45,7 +45,7 @@ INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `correoElectronico`, 
 
 #### Crear clientes mediante API
 
-```
+```http
 POST api/registro
 ```
 
@@ -66,7 +66,7 @@ POST api/registro
 
 #### Crear reclamos
 
-```
+```http
 POST api/reclamos/
 ```
 
