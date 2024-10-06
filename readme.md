@@ -62,6 +62,26 @@ POST api/registro
 { "nombre":"otro", "apellido":"admin", "correoElectronico":"admin1@gmail.com", "contrasenia":123 }
 ```
 
+#### Crear empleados mediante API
+
+```http
+POST api/admin/empleados
+```
+
+| Parameter         | Type           | Description                      |
+| :---------------- | :------------- | :------------------------------- |
+| nombre            | `string`       | **Requerido**. nombre            |
+| apellido          | `string`       | **Requerido**. apellido          |
+| correoElectronico | `email`        | **Requerido**. correoElectronico |
+| contrasenia       | `string`       | **Requerido**. contrasenia       |
+| token             | `bearer token` | **Requerido**. token             |
+
+##### Ejemplo Body de la peticion
+
+```
+{ "nombre":"empleado", "apellido":"api", "correoElectronico":"empleado@gmail.com", "contrasenia":123}
+```
+
 ### Reclamos
 
 #### Crear reclamos
