@@ -10,10 +10,8 @@ const pool = require('../config/dbConfig');
 const { ExtractJwt } = require('passport-jwt');
 
 const generateToken = (req, res) => {
-  const {
-    req: { user },
-    logIn,
-  } = req;
+  const { logIn } = req;
+  const user = req.user;
   logIn(user, { session: false }, async (err) => {
     if (err) return err;
 
