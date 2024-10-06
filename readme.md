@@ -26,8 +26,6 @@ Setear las variables de ambiente del proyecto en un archivo .env , ejemplo :
 INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `correoElectronico`, `contrasenia`, `idUsuarioTipo`, `imagen`, `activo`) VALUES (NULL, 'admin', 'admin', 'admin@gmail.com', sha2('123',256), '1', NULL, '1');
 ```
 
-#### Crear clientes mediante API
-
 #### Login
 
 ```http
@@ -39,8 +37,27 @@ INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `correoElectronico`, 
 | `email    | `string` | **Requerido**. email    |
 | `password | `string` | **Requerido**. password |
 
-#### Ejemplo Body de la peticion
+##### Ejemplo Body de la peticion
 
 ```
-{  "email":"admin@gmail.com", "password":123, "idTipoUsuario":3 }
+{  "email":"admin@gmail.com", "password":123 }
+```
+
+#### Crear clientes mediante API
+
+```
+/api/registro
+```
+
+| Parameter          | Type     | Description                      |
+| :----------------- | :------- | :------------------------------- |
+| `nombre            | `string` | **Requerido**. nombre            |
+| `apellido          | `string` | **Requerido**. apellido          |
+| `correoElectronico | `email`  | **Requerido**. correoElectronico |
+| `contrasenia       | `string` | **Requerido**. contrasenia       |
+
+##### Ejemplo Body de la peticion
+
+```
+{ "nombre":"otro", "apellido":"admin", "correoElectronico":"admin1@gmail.com", "contrasenia":123 }
 ```
