@@ -10,12 +10,12 @@ const {
 const { handleTokenValidity } = require('../controllers/auth');
 
 const claimController = new ClaimController();
-
-router.post('/reclamo', handleTokenValidity, claimController.postClaim);
-router.get('/reclamos', handleTokenValidity, claimController.getClaims);
+router.use(handleTokenValidity);
+router.post('/', claimController.postClaim);
+router.get('/', claimController.getClaims);
 router.patch(
-  '/reclamos',
-  handleTokenValidity,
+  '/',
+
   patchClaimsValidActions,
   claimController.patchClaims
 );
