@@ -62,8 +62,6 @@ exports.patchClaimsQueryAccordingUserType = Object.freeze({
     }; */
   },
   2: function (bodyData) {
-    console.log('in patch claims');
-
     const { claimNewStatus, claimId } = bodyData;
 
     return {
