@@ -11,7 +11,7 @@ const { ExtractJwt } = require('passport-jwt');
 
 const generateToken = (req, res) => {
   const {
-    body: { user },
+    req: { user },
     logIn,
   } = req;
   logIn(user, { session: false }, async (err) => {
@@ -56,7 +56,7 @@ function handleLogin(req, res, next) {
     if (!user) {
       return res.status(401).json({ ok: false, message: err.message });
     }
-    req.body.user = user;
+    req.user = user;
     next();
   })(req, res, next);
 }
@@ -99,7 +99,7 @@ function handleTokenValidity(req, res, next) {
       });
     }
 
-    req.body.user = user[0];
+    req.user = user[0];
 
     next();
   })(req, res, next);
