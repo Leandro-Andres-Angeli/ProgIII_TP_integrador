@@ -5,7 +5,8 @@ const validateSetNewClaimStatus = Object.freeze({
     next();
   },
   2: async function (req, res, next, claimNewStatus) {
-    const { user, claimId } = req.body;
+    const { claimId } = req.body;
+    const user = req.user;
     const { idUsuario } = user;
     const [checkRightClaim] = await pool.execute(
       'SELECT * FROM reclamos r where r.idReclamoTipo =  (SELECT uo.idOficina FROM `usuarios` u  JOIN usuarios_oficinas uo ON u.idUsuario = uo.idUsuario WHERE u.idUsuario=?)  AND r.idReclamo = ? ;',
@@ -22,8 +23,8 @@ const validateSetNewClaimStatus = Object.freeze({
     next();
   },
   3: async function (req, res, next, claimNewStatus) {
-    const { claimId, user } = req.body;
-
+    const { claimId } = req.body;
+    const user = req.user;
     if (claimNewStatus !== 3) {
       return res.status(401).json({ ok: false, message: 'no autorizado' });
     }
@@ -47,7 +48,7 @@ const validateSetNewClaimStatus = Object.freeze({
 });
 
 exports.patchClaimsValidActions = (req, res, next) => {
-  const { user } = req.body;
+  const user = req.user;
   const claimNewStatus = Number(req.body.claimNewStatus);
-  validateSetNewClaimStatus[user.idTipoUsuario](req, res, next, claimNewStatus);
+  validateSetNewClaimStatus[user.idUsuarioTipo](req, res, next, claimNewStatus);
 };

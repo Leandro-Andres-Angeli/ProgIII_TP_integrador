@@ -7,10 +7,10 @@ const {
 
 class Claims {
   constructor() {}
-  getClaims = async (idTipoUsuario, idUsuario) => {
+  getClaims = async (idUsuarioTipo, idUsuario) => {
     const connection = await pool.getConnection();
-    const { query, args } = getClaimsQueryAccordingUserType[idTipoUsuario](
-      idTipoUsuario === 1 ? null : idUsuario
+    const { query, args } = getClaimsQueryAccordingUserType[idUsuarioTipo](
+      idUsuarioTipo === 1 ? null : idUsuario
     );
 
     const [queryResult] = await connection.query(query, args);
@@ -29,11 +29,11 @@ class Claims {
   };
   patchClaim = async (body, userId) => {
     const { claimId, claimNewStatus } = body;
-    const { idTipoUsuario } = body.user;
+    const { idUsuarioTipo } = body.user;
 
     const connection = await pool.getConnection();
     const { query, args } =
-      patchClaimsQueryAccordingUserType[idTipoUsuario](body);
+      patchClaimsQueryAccordingUserType[idUsuarioTipo](body);
 
     const [patchClaimQuery] = await connection.query(query, args);
     /*     const [patchClaimQuery] = await connection.query(

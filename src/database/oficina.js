@@ -53,7 +53,7 @@ const Oficina = {
 
   getEmpleados: async (id) => {
     const query = `SELECT u.idUsuario, u.nombre, u.apellido, 
-    u.correoElectronico, u.idTipoUsuario, u.imagen, u.activo
+    u.correoElectronico, u.idUsuarioTipo, u.imagen, u.activo
     FROM oficinas AS o
     JOIN usuarios_oficinas AS uo
     ON uo.idOficina = o.idOficina

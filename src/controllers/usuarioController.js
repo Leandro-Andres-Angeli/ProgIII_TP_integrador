@@ -8,7 +8,7 @@ exports.createCliente = [
   async(req,res)=>{
   try {
     let usuario = req.body;
-    usuario.idTipoUsuario = 3; // cliente
+    usuario.idUsuarioTipo = 3; // cliente
     const id = await usuarioService.createUsuario(usuario);
     res.status(200).json({ ok: true, message: `Usuario creado con éxito.` });
   } catch (error) {
@@ -68,7 +68,7 @@ exports.updateCliente = async (req, res) => {
 exports.createEmpleado = async (req, res) => {
   try {
     let usuario = req.body;
-    usuario.idTipoUsuario = 2; // empleado
+    usuario.idUsuarioTipo = 2; // empleado
     const id = await usuarioService.createUsuario(usuario);
     res.status(200).json({ ok: true, message: `Empleado creado con éxito.` });
   } catch (error) {
