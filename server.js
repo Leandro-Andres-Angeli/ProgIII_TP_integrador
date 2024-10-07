@@ -36,12 +36,9 @@ server.use('/api/clientes', [handleTokenValidity, isClient], clienteRoutes);
 server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
 server.use('/api/pdf', pdfRoutes);
 
-
-
 const checkConnection = async () => {
   try {
-    const conn = await pool.getConnection();
-    console.log(conn);
+    await pool.getConnection();
 
     pool.releaseConnection();
   } catch (error) {
