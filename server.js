@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const pool = require('./src/config/dbConfig');
 const passport = require('passport');
@@ -39,7 +40,8 @@ server.use('/api/pdf', pdfRoutes);
 
 const checkConnection = async () => {
   try {
-    await pool.getConnection();
+    const conn = await pool.getConnection();
+    console.log(conn);
 
     pool.releaseConnection();
   } catch (error) {

@@ -1,8 +1,11 @@
 const usuarioService = require('../services/usuarioService');
+const { validateCliente } = require('../validations/usuarioValidator');
 
 // CRUD Clientes
 
-exports.createCliente = async (req, res) => {
+exports.createCliente = [
+  validateCliente,
+  async(req,res)=>{
   try {
     let usuario = req.body;
     usuario.idUsuarioTipo = 3; // cliente
@@ -11,7 +14,8 @@ exports.createCliente = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ ok: false, message: error.message });
   }
-};
+}
+];
 
 exports.getClientes = async (req, res) => {
   try {
@@ -41,11 +45,19 @@ exports.getClienteById = async (req, res) => {
 };
 
 exports.updateCliente = async (req, res) => {
+  const { nombre, apellido, correoElectronico, contrasenia, idUsuarioTipo } = req.body;
+  const clienteID = req.user.id;
+
   try {
-    await usuarioService.updateUsuario(req.user.idUsuario, req.body, 3);
-    res
-      .status(200)
-      .json({ ok: true, message: 'Perfil actualizado con éxito.' });
+    const [rows] = await pool.query('SELECT * FROM usuarios WHERE id = ?', [clienteID]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'No se encuentra al cliente solicitado.' });
+    }
+
+    await usuarioService.updateUsuario(clienteID, req.body, idUsuarioTipo);
+
+    res.status(200).json({ ok: true, message: 'Perfil actualizado con éxito.' });
   } catch (error) {
     return res.status(500).json({ ok: false, message: error.message });
   }
