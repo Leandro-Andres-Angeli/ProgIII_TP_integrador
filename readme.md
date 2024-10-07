@@ -193,7 +193,7 @@ a la oficina de dicho empleado .Si el usuario es administrador devolvera todos l
 
 ##### Ejemplo Body de la respuestad
 
-{
+```{
 "ok": true,
 "claims": [
 {
@@ -233,8 +233,5 @@ a la oficina de dicho empleado .Si el usuario es administrador devolvera todos l
 "idUsuarioFinalizador": 7
 }
 ]
-}```
-
-```
-
+}
 ```
