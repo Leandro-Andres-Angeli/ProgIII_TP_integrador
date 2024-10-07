@@ -119,7 +119,6 @@ POST api/reclamos/
 ```
 
 {"asunto":"test",
-        "descripcion":"reclamo de admin@gmail.com@gmail.com",
-        "idReclamoTipo":14
-        }
+"descripcion":"reclamo de admin@gmail.com@gmail.com",
+"idReclamoTipo":14}
 ```
