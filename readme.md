@@ -173,8 +173,68 @@ POST api/reclamos/
 ```
 
 {"asunto":"test",
-"descripcion":"reclamo de admin@gmail.com@gmail.com",
+"descripcion":"reclamo de admin@gmail.com",
 "idReclamoTipo":14}
 ```
 
 ---
+
+### Get reclamos
+
+`GET api/reclamos`
+
+Si el usuario logueado es un cliente devolvera todos los reclamos asociados a
+ese cliente , si el usuario logueado es un empleado devolvera los reclamos asociados
+a la oficina de dicho empleado .Si el usuario es administrador devolvera todos los reclamos en la DB
+
+| Parameter | Type           | Description          |
+| :-------- | :------------- | :------------------- |
+| token     | `bearer token` | **Requerido**. token |
+
+##### Ejemplo Body de la respuestad
+
+{
+"ok": true,
+"claims": [
+{
+"idReclamo": 5,
+"asunto": "nodif ",
+"descripcion": "modif from admin",
+"fechaCreado": "2024-09-29T13:51:23.000Z",
+"fechaFinalizado": null,
+"fechaCancelado": null,
+"idReclamoEstado": 4,
+"idReclamoTipo": 1,
+"idUsuarioCreador": 9,
+"idUsuarioFinalizador": null
+},
+{
+"idReclamo": 6,
+"asunto": "rotura de motor ",
+"descripcion": null,
+"fechaCreado": "2024-08-19T10:00:00.000Z",
+"fechaFinalizado": null,
+"fechaCancelado": null,
+"idReclamoEstado": 2,
+"idReclamoTipo": 1,
+"idUsuarioCreador": 9,
+"idUsuarioFinalizador": null
+},
+{
+"idReclamo": 7,
+"asunto": "no frena",
+"descripcion": null,
+"fechaCreado": "2024-08-15T10:15:00.000Z",
+"fechaFinalizado": null,
+"fechaCancelado": null,
+"idReclamoEstado": 1,
+"idReclamoTipo": 2,
+"idUsuarioCreador": 9,
+"idUsuarioFinalizador": 7
+}
+]
+}```
+
+```
+
+```
