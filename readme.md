@@ -26,6 +26,8 @@ Setear las variables de ambiente del proyecto en un archivo .env , ejemplo :
 INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `correoElectronico`, `contrasenia`, `idUsuarioTipo`, `imagen`, `activo`) VALUES (NULL, 'admin', 'admin', 'admin@gmail.com', sha2('123',256), '1', NULL, '1');
 ```
 
+## Usuarios
+
 #### Login
 
 ```http
@@ -60,6 +62,21 @@ POST api/registro
 
 ```
 { "nombre":"otro", "apellido":"admin", "correoElectronico":"admin1@gmail.com", "contrasenia":123 }
+```
+
+#### Crear clientes mediante API
+
+`POST api/clientes/perfil`
+
+| Parameter         | Type     | Description                      |
+| :---------------- | :------- | :------------------------------- |
+| nombre            | `string` | **Requerido**. nombre            |
+| apellido          | `string` | **Requerido**. apellido          |
+| correoElectronico | `email`  | **Requerido**. correoElectronico |
+| contrasenia       | `string` | **Requerido**. contrasenia       |
+
+```
+{ "nombre":"cliente", "apellido":"gutierrez", "correoElectronico":"cliente@gmail.com", "contrasenia":123456 }
 ```
 
 #### Crear empleados mediante API
