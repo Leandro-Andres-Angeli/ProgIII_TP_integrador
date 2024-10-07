@@ -33,6 +33,7 @@ server.post('/api/registro', usuarioController.createCliente);
 server.use('/api/reclamos', claimRoutes);
 server.use('/api/clientes', [handleTokenValidity, isClient], clienteRoutes);
 server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
+server.use('/api/pdf', pdfRoutes);
 
 server.use('/api/pdf', pdfRoutes);
 
