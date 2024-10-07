@@ -20,11 +20,6 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
-<<<<<<< HEAD
-    "pdfkit": "^0.15.0",
-    "table": "^6.8.2"
-=======
     "pdfkit-table": "^0.1.99"
->>>>>>> rama-pdf
   }
 }
