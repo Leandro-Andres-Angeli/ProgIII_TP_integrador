@@ -47,6 +47,7 @@ const Usuario = {
       WHERE idUsuario = ?
       AND idUsuarioTipo = ?
     `;
+
     await pool.execute(query, [nombre, apellido, id, idTipo]);
   },
 

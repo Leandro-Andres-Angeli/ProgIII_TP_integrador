@@ -16,7 +16,7 @@ router.use(handleTokenValidity, isClient);
 router.get('/perfil', usuarioController.getPerfilCliente);
 
 router.put(
-  '/perfil/',
+  '/perfil',
   [validateCliente, validarCampos],
   usuarioController.updateCliente
 );

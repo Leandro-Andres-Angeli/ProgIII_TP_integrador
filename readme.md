@@ -95,6 +95,25 @@ POST api/registro
 
 ---
 
+#### Actualizar clientes mediante API
+
+`PUT api/clientes/perfil`
+
+| Parameter     | Type           | Description             |
+| :------------ | :------------- | :---------------------- |
+| nombre        | `string`       | **Requerido**. nombre   |
+| apellido      | `string`       | **Requerido**. apellido |
+| idUsuarioTipo | `number        | string`                 |
+| token         | `bearer token` | **Requerido**. token    |
+
+##### Ejemplo Body de la peticion
+
+```
+{ "nombre":"cliente updated 279" , "apellido":"updated 11"  , "idUsuarioTipo":3 }
+```
+
+---
+
 #### Crear clientes mediante API
 
 `POST api/clientes/perfil`
