@@ -191,7 +191,7 @@ a la oficina de dicho empleado .Si el usuario es administrador devolvera todos l
 | :-------- | :------------- | :------------------- |
 | token     | `bearer token` | **Requerido**. token |
 
-##### Ejemplo Body de la respuestad
+##### Ejemplo Body de la respuesta
 
 ```{
 "ok": true,
