@@ -100,10 +100,10 @@ POST api/registro
 `PUT api/clientes/perfil`
 
 | Parameter     | Type           | Description             |
-| :------------ | :------------- | :---------------------- |
+| :------------ | :------------- | :---------------------- | -------- | ---------------------------- |
 | nombre        | `string`       | **Requerido**. nombre   |
 | apellido      | `string`       | **Requerido**. apellido |
-| idUsuarioTipo | `number        | string`                 |
+| idUsuarioTipo | `number`       |                         | `string` | **Requerido**. idUsuarioTipo |
 | token         | `bearer token` | **Requerido**. token    |
 
 ##### Ejemplo Body de la peticion
