@@ -45,6 +45,8 @@ INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `correoElectronico`, 
 {  "email":"admin@gmail.com", "password":123 }
 ```
 
+---
+
 ### Get Usuario Logueado
 
 `http GET api/clientes/perfil`
@@ -69,6 +71,8 @@ INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `correoElectronico`, 
     }
 }
 ```
+
+---
 
 #### Crear clientes mediante API
 
