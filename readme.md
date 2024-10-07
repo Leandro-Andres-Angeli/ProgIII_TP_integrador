@@ -93,6 +93,8 @@ POST api/registro
 { "nombre":"otro", "apellido":"admin", "correoElectronico":"admin1@gmail.com", "contrasenia":123 }
 ```
 
+---
+
 #### Crear clientes mediante API
 
 `POST api/clientes/perfil`
@@ -107,6 +109,8 @@ POST api/registro
 ```
 { "nombre":"cliente", "apellido":"gutierrez", "correoElectronico":"cliente@gmail.com", "contrasenia":123456 }
 ```
+
+---
 
 #### Crear empleados mediante API
 
@@ -127,6 +131,8 @@ POST api/admin/empleados
 ```
 { "nombre":"empleado", "apellido":"api", "correoElectronico":"empleado@gmail.com", "contrasenia":123}
 ```
+
+---
 
 ### Reclamos
 
@@ -151,3 +157,5 @@ POST api/reclamos/
 "descripcion":"reclamo de admin@gmail.com@gmail.com",
 "idReclamoTipo":14}
 ```
+
+---
