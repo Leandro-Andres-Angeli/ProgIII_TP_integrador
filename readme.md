@@ -45,6 +45,31 @@ INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `correoElectronico`, 
 {  "email":"admin@gmail.com", "password":123 }
 ```
 
+### Get Usuario Logueado
+
+`http GET api/clientes/perfil`
+
+| Parameter | Type           | Description          |
+| :-------- | :------------- | :------------------- |
+| token     | `bearer token` | **Requerido**. token |
+
+##### Ejemplo Respuesta de la peticion
+
+```
+{
+    "ok": true,
+    "data": {
+        "idUsuario": 51,
+        "nombre": "otro",
+        "apellido": "admin",
+        "correoElectronico": "admin1@gmail.com",
+        "idUsuarioTipo": 3,
+        "imagen": null,
+        "activo": 1
+    }
+}
+```
+
 #### Crear clientes mediante API
 
 ```http
