@@ -99,12 +99,12 @@ POST api/registro
 
 `PUT api/clientes/perfil`
 
-| Parameter     | Type           | Description             |
-| :------------ | :------------- | :---------------------- | -------- | ---------------------------- |
-| nombre        | `string`       | **Requerido**. nombre   |
-| apellido      | `string`       | **Requerido**. apellido |
-| idUsuarioTipo | `number`       |                         | `string` | **Requerido**. idUsuarioTipo |
-| token         | `bearer token` | **Requerido**. token    |
+| Parameter     | Type                 | Description                  |
+| :------------ | :------------------- | :--------------------------- |
+| nombre        | `string`             | **Requerido**. nombre        |
+| apellido      | `string`             | **Requerido**. apellido      |
+| idUsuarioTipo | `number` OR `string` | **Requerido**. idUsuarioTipo |
+| token         | `bearer token`       | **Requerido**. token         |
 
 ##### Ejemplo Body de la peticion
 
