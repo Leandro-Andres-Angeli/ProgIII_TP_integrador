@@ -27,13 +27,16 @@ class Claims {
     connection.release();
     return newClaimQuery;
   };
-  patchClaim = async (body, userId) => {
+  patchClaim = async (body, user) => {
     const { claimId, claimNewStatus } = body;
-    const { idUsuarioTipo } = body.user;
+    const { idUsuarioTipo } = body;
 
     const connection = await pool.getConnection();
-    const { query, args } =
-      patchClaimsQueryAccordingUserType[idUsuarioTipo](body);
+    const { query, args } = patchClaimsQueryAccordingUserType[idUsuarioTipo]({
+      claimId,
+      claimNewStatus,
+      user,
+    });
 
     const [patchClaimQuery] = await connection.query(query, args);
     /*     const [patchClaimQuery] = await connection.query(

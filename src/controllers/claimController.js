@@ -40,28 +40,6 @@ class ClaimController {
   getClaims = async (req, res) => {
     const user = req.user;
 
-    /*   if (idUsuarioTipo === 1) {
-      const [getReclamosAdmin] = await connection.query(
-        'SELECT r.* from reclamos r'
-      );
-
-      queryResult = getReclamosAdmin;
-    }
-    if (idUsuarioTipo === 2) {
-      const [getReclamosByOffice] = await connection.query(
-        'SELECT r.* from reclamos r  WHERE idReclamoTipo=( SELECT of.idOficina  FROM usuarios_oficinas  of WHERE idUsuario=?);',
-        [user.idUsuario]
-      );
-      return getReclamosByOffice;
-    }
-    if (idUsuarioTipo === 3) {
-      const [getReclamosByUserId] = await connection.query(
-        'SELECT r.* from reclamos r  WHERE idUsuarioCreador = ?',
-        [user.idUsuario]
-      );
-      return getReclamosByUserId;
-    }
- */
     const queryResult = await this.service.getClaims(user);
     if (queryResult.length === 0) {
       return res
@@ -77,10 +55,7 @@ class ClaimController {
       const { claimId } = req.body;
       const claimNewStatus = Number(req.body.claimNewStatus);
 
-      const patchResult = await this.service.patchClaims(
-        req.body,
-        user.idUsuario
-      );
+      const patchResult = await this.service.patchClaims(req.body, user);
       if (patchResult?.affectedRows !== 1) {
         throw Error('Error actualizando reclamo');
       }

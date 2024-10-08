@@ -32,6 +32,7 @@ exports.patchClaimsQueryAccordingUserType = Object.freeze({
   1: function (bodyData) {
     const { claimId, user } = bodyData;
     const claimNewStatus = Number(bodyData.claimNewStatus);
+
     const userId = Number(user.idUsuario);
     return {
       query: patchClaimsQueriesAdminHelper(claimNewStatus, userId),
