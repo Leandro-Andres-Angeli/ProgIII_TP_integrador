@@ -1,13 +1,13 @@
 const { check, validationResult } = require('express-validator');
 
 const validateCliente = [
-  check('email')
+  check('correoElectronico')
     .notEmpty()
     .withMessage('El campo de email no puede estar vacío.')
     .isEmail()
     .withMessage('Debe ser un email válido con formato correcto (@.com).'),
   
-  check('password')
+  check('contrasenia')
     .notEmpty()
     .withMessage('Se requiere una contraseña.')
     .isLength({ min: 6 })
@@ -21,12 +21,6 @@ const validateCliente = [
     .notEmpty()
     .withMessage('Debe ingresar un apellido.'),
 
-  check('idUsuarioTipo')
-    .notEmpty()
-    .withMessage('El campo idUsuarioTipo no puede estar vacío.')
-    .isInt()
-    .withMessage('El campo idUsuarioTipo debe ser un número entero.'),
-  
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

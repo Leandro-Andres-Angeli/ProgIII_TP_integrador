@@ -1,13 +1,13 @@
 const { check, validationResult } = require('express-validator');
 
 const validLogin = [
-  check('email')
+  check('correoElectronico')
     .notEmpty()
     .withMessage('El campo de email no puede estar vacío.')
     .isEmail()
     .withMessage('Debe ser un email válido con formato correcto (@.com).'),
 
-  check('password')
+  check('conntrasenia')
     .notEmpty()
     .withMessage('Se requiere una contraseña.')
     .isLength({ min: 6 })
