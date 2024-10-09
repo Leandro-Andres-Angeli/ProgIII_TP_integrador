@@ -12,4 +12,4 @@ const doc = {
 const outputFile = './swagger-output.json';
 const endpointsFiles = ['./server.js'];
 
-swaggerAutogen(outputFile, endpointsFiles);
+swaggerAutogen(outputFile, endpointsFiles, doc);
