@@ -1,47 +1,55 @@
+require('dotenv').config();
 const express = require('express');
 const pool = require('./src/config/dbConfig');
-require('dotenv').config();
+const passport = require('passport');
+const {
+  handleTokenValidity,
+  passportJWTStrategy,
+  passportLocalStrategy,
+  generateToken,
+  handleLogin,
+} = require('./src/controllers/auth');
+const usuarioController = require('./src/controllers/usuarioController');
+const claimRoutes = require('./src/routes/claimsRoutes');
+const adminRoutes = require('./src/routes/adminRoutes');
+const clienteRoutes = require('./src/routes/clienteRoutes');
+const pdfRoutes = require('./src/routes/pdfRoutes');
+const { isAdmin, isClient } = require('./src/middleware/authorization');
+const dotenv = require('dotenv');
+dotenv.config();
 const PORT = process.env.SERVER_PORT || 3001;
 
+passport.use(passportJWTStrategy);
+passport.use(passportLocalStrategy);
+
 const server = express();
+
 server.use(express.json());
-/* USERS */
-server.get('/api/users', async (req, res) => {
+
+// Login de usuario existente
+server.post('/api/login', handleLogin, generateToken);
+// Registro de nuevo cliente
+server.post('/api/registro', usuarioController.createCliente);
+
+server.use('/api/reclamos', claimRoutes);
+server.use('/api/clientes', clienteRoutes);
+server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
+server.use('/api/pdf', pdfRoutes);
+
+const checkConnection = async () => {
   try {
-    const connection = await pool.getConnection();
-    const [users] = await connection.query('SELECT * FROM usuarios');
+    await pool.getConnection();
 
-    connection.release();
-    return res.status(200).json({ ok: true, users });
+    pool.releaseConnection();
   } catch (error) {
-    return res.status(500).json({ ok: false, message: error.message });
+    console.log('Error conectandose a DB');
   }
+};
+checkConnection();
+
+server.use('/*', (req, res) => {
+  return res.status(404).json({ message: 'no existe ruta' });
 });
-/* USERS */
-
-/* CLAIMS */
-server.get('/api/claims/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const connection = await pool.getConnection();
-    const [userClaims] = await connection.query(
-      `SELECT * FROM reclamos WHERE  idUsuarioCreador=${id}`
-    );
-    if (!Boolean(userClaims.length)) {
-      return res.status(404).json({
-        ok: false,
-        message: 'no hay reclamos hechos por este usuario',
-      });
-    }
-    connection.release();
-    return res.status(200).json({ ok: true, claims: userClaims });
-  } catch (error) {
-    return res.status(500).json({ ok: false, message: error.message });
-  }
-});
-
-/* CLAIMS */
-
 server.listen(PORT, () => {
   console.log(`running on ${PORT}`);
 });

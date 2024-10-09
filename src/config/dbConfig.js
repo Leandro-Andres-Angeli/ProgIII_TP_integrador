@@ -1,14 +1,16 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
-const PORT = process.env.DB_PORT || 3306;
+const PORT = process.env.DB_PORT || 3307;
 
 // Create the connection pool. The pool-specific settings are the defaults
-const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
 
-  database: 'reclamos',
+const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
   port: PORT,
+
   waitForConnections: true,
   connectionLimit: 10,
   maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
@@ -17,4 +19,5 @@ const pool = mysql.createPool({
   enableKeepAlive: true,
   keepAliveInitialDelay: 0,
 });
+
 module.exports = pool;
