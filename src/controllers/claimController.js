@@ -75,7 +75,12 @@ class ClaimController {
 
       const { claimId } = req.body;
       const claimNewStatus = Number(req.body.claimNewStatus);
-
+      if (claimNewStatus < 3 && user.idUsuarioTipo === 2) {
+        return res.status(401).json({
+          ok: false,
+          message: 'los empleados solo pueden cancelar o finalizar reclamos',
+        });
+      }
       const patchResult = await this.service.patchClaims(req.body, user);
       if (patchResult?.affectedRows !== 1) {
         throw Error('Error actualizando reclamo');
