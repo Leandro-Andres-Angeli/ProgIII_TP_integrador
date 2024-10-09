@@ -242,9 +242,9 @@ a la oficina de dicho empleado .Si el usuario es administrador devolvera todos l
 
 `PATCH api/reclamos/`
 
-Si el usuario logueado es un cliente podra cancelar su reclamos unicamente
+Si el usuario logueado es un cliente podra cancelar su reclamos unicamente.
 Si el usuario logueado es empleado podra unicamente cancelar o finalizar reclamos
-que pertenezcan solamente a su ofician
+que pertenezcan solamente a su oficina
 El administrador puede realizar todo tipo de cambios
 
 | Parameter      | Type           | Description               |
