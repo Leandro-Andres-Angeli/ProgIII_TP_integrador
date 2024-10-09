@@ -48,6 +48,27 @@ class ClaimController {
     }
     return res.status(200).json({ ok: true, claims: queryResult });
   };
+  /*  patchClaims = async (req, res) => {
+    try {
+      const user = req.user;
+      const { nombre, apellido, correoElectronico } = user;
+      const { claimId } = req.body;
+      const claimNewStatus = Number(req.body.claimNewStatus);
+
+      // sendEmail({
+      //   name: nombre + ' ' + apellido,
+      //   correoElectronico,
+      //   status: 'claimStatusDesc[0].descripcion',
+      // });
+      return res
+        .status(200)
+        .json({ ok: true, message: 'Reclamo modificado con exito' });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ ok: false, message: error.message || 'Error de servidor' });
+    }
+  }; */
   patchClaims = async (req, res) => {
     try {
       const user = req.user;

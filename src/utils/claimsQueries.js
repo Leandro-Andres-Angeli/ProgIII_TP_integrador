@@ -26,6 +26,7 @@ const patchClaimsQueriesAdminHelper = function (claimNewStatus, userId) {
 
     4: ` UPDATE reclamos SET fechaFinalizado=NOW() , fechaCancelado=NULL , idUsuarioFinalizador=IFNULL(${userId},NULL) ,descripcion =  IFNULL(?,descripcion) , asunto  = IFNULL(?,asunto) , idReclamoEstado =? WHERE idReclamo = ?`,
   };
+
   return queries[claimNewStatus];
 };
 exports.patchClaimsQueryAccordingUserType = Object.freeze({

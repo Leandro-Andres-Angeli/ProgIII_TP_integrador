@@ -29,16 +29,21 @@ class Claims {
   };
   patchClaim = async (body, user) => {
     const { claimId, claimNewStatus } = body;
-    const { idUsuarioTipo } = body;
+    const descripcion = body?.descripcion ?? null;
+    const asunto = body?.asunto ?? null;
+    const { idUsuarioTipo } = user;
 
     const connection = await pool.getConnection();
     const { query, args } = patchClaimsQueryAccordingUserType[idUsuarioTipo]({
       claimId,
       claimNewStatus,
+      descripcion,
+      asunto,
       user,
     });
 
     const [patchClaimQuery] = await connection.query(query, args);
+
     /*     const [patchClaimQuery] = await connection.query(
       'UPDATE reclamos r SET r.idReclamoEstado=? , fechaCancelado=NOW() , idUsuarioFinalizador=? WHERE r.idReclamo =? ;',
       [claimNewStatus, userId, claimId]
