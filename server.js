@@ -23,12 +23,17 @@ const dotenv = require('dotenv');
 dotenv.config();
 const PORT = process.env.SERVER_PORT || 3001;
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
+
 passport.use(passportJWTStrategy);
 passport.use(passportLocalStrategy);
 
 const server = express();
 
 server.use(express.json());
+
+server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // Login de usuario existente
 server.post('/api/login', [validLogin, handleLogin], generateToken);

@@ -1,0 +1,405 @@
+{
+  "swagger": "2.0",
+  "info": { "contact": {}, "title": "Reclamos", "version": "1.0.0" },
+  "host": "localhost:3001",
+  "basePath": "/",
+  "schemes": ["http"],
+  "paths": {
+    "/api/admin/clientes": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Clientes"],
+        "description": "Obtener todos los clientes",
+        "operationId": "obtenerTodosLosClientes",
+        "summary": "Obtener todos los clientes"
+      }
+    },
+    "/api/admin/clientes/19": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Clientes"],
+        "description": "Obtiene un cliente por id",
+        "operationId": "obtieneUnClientePorId",
+        "summary": "Obtiene un cliente por id"
+      }
+    },
+    "/api/admin/empleados": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados"],
+        "description": "Obtiene todos los empleados",
+        "operationId": "obtieneTodosLosEmpleados",
+        "summary": "Obtiene todos los empleados"
+      },
+      "post": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "apellido": { "example": "Apellido", "type": "string" },
+                "contrasenia": { "example": "123456", "type": "string" },
+                "correoElectronico": {
+                  "example": "correo_3@empleado.com",
+                  "type": "string"
+                },
+                "nombre": { "example": "Nombre", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados"],
+        "description": "Crea un nuevo empleado",
+        "operationId": "creaUnNuevoEmpleado",
+        "summary": "Crea un nuevo empleado"
+      }
+    },
+    "/api/admin/empleados/22": {
+      "get": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "apellido": { "example": "1", "type": "string" },
+                "contrasenia": { "example": "123", "type": "string" },
+                "correoElectronico": { "example": "ABC_E_1", "type": "string" },
+                "nombre": { "example": "Empleado", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados"],
+        "description": "Obtiene un empleado por id",
+        "operationId": "obtieneUnEmpleadoPorId",
+        "summary": "Obtiene un empleado por id"
+      },
+      "put": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "apellido": { "example": "Otro Apellido", "type": "string" },
+                "nombre": { "example": "Otro Nombre", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados"],
+        "description": "Actualiza un empleado",
+        "operationId": "actualizaUnEmpleado",
+        "summary": "Actualiza un empleado"
+      }
+    },
+    "/api/admin/empleados/23": {
+      "delete": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados"],
+        "description": "Elimina un empleado",
+        "operationId": "eliminaUnEmpleado",
+        "summary": "Elimina un empleado"
+      }
+    },
+    "/api/admin/estadisticas/totalesReclamosEstados": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Estadísticas"],
+        "description": "Totales de reclamos por estados",
+        "operationId": "totalesDeReclamosPorEstados",
+        "summary": "Totales de reclamos por estados"
+      }
+    },
+    "/api/admin/oficinas": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas"],
+        "description": "Obtiene todas las oficinas",
+        "operationId": "obtieneTodasLasOficinas",
+        "summary": "Obtiene todas las oficinas"
+      },
+      "post": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "idReclamoTipo": { "example": 2, "type": "number" },
+                "nombre": { "example": "Nombre Oficina", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas"],
+        "description": "Crea una nueva oficina",
+        "operationId": "creaUnaNuevaOficina",
+        "summary": "Crea una nueva oficina"
+      }
+    },
+    "/api/admin/oficinas/1/empleados/23": {
+      "post": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas-Empleados"],
+        "description": "Asocia un empleado a una oficina",
+        "operationId": "asociaUnEmpleadoAUnaOficina",
+        "summary": "Asocia un empleado a una oficina"
+      }
+    },
+    "/api/admin/oficinas/5/empleados": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas-Empleados"],
+        "description": "Obtiene los empleados de una oficina",
+        "operationId": "obtieneLosEmpleadosDeUnaOficina",
+        "summary": "Obtiene los empleados de una oficina"
+      }
+    },
+    "/api/admin/oficinas/6": {
+      "delete": {
+        "consumes": ["text/plain"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": { "format": "binary", "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas"],
+        "description": "Elimina una oficina",
+        "operationId": "eliminaUnaOficina",
+        "summary": "Elimina una oficina"
+      },
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas"],
+        "description": "Obtiene una oficina por id",
+        "operationId": "obtieneUnaOficinaPorId",
+        "summary": "Obtiene una oficina por id"
+      },
+      "put": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "idReclamoTipo": { "example": 2, "type": "number" },
+                "nombre": {
+                  "example": "Nuevo Nombre Oficina",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas"],
+        "description": "Actualiza una oficina",
+        "operationId": "actualizaUnaOficina",
+        "summary": "Actualiza una oficina"
+      }
+    },
+    "/api/clientes/perfil": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Clientes"],
+        "description": "Obtiene perfil de cliente",
+        "operationId": "obtienePerfilDeCliente",
+        "summary": "Obtiene perfil de cliente"
+      },
+      "put": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "apellido": { "example": "Otro Apellido 2", "type": "string" },
+                "nombre": { "example": "Otro Nombre 2", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Clientes"],
+        "description": "Actualiza perfil de cliente",
+        "operationId": "actualizaPerfilDeCliente",
+        "summary": "Actualiza perfil de cliente"
+      }
+    },
+    "/api/login": {
+      "post": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "contrasenia": { "example": "123456", "type": "string" },
+                "correoElectronico": {
+                  "example": "admin@admin.com",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Auth"],
+        "description": "Loguearse",
+        "operationId": "loguearse",
+        "summary": "Loguearse"
+      }
+    },
+    "/api/pdf/reclamo/1/pdf": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Estadísticas"],
+        "description": "Genera pdf de reclamos",
+        "operationId": "generaPdfDeReclamos",
+        "summary": "Genera pdf de reclamos"
+      }
+    },
+    "/api/reclamos": {
+      "get": {
+        "consumes": ["text/plain"],
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Obtiene reclamos",
+        "operationId": "obtieneReclamos",
+        "summary": "Obtiene reclamos"
+      },
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "asunto": { "example": "Asunto 2", "type": "string" },
+                "claimId": { "example": 19, "type": "number" },
+                "claimNewStatus": { "example": 3, "type": "number" },
+                "descripcion": { "example": "Descripción 2", "type": "string" },
+                "idReclamoTipo": { "example": 1, "type": "number" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Actualiza un reclamo",
+        "operationId": "actualizaUnReclamo",
+        "summary": "Actualiza un reclamo"
+      },
+      "post": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "asunto": { "example": "Asunto", "type": "string" },
+                "descripcion": { "example": "Descripción", "type": "string" },
+                "idReclamoTipo": { "example": 6, "type": "number" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Crea un nuevo reclamo",
+        "operationId": "creaUnNuevoReclamo",
+        "summary": "Crea un nuevo reclamo"
+      }
+    },
+    "/api/registro": {
+      "post": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "apellido": { "example": "Apellido", "type": "string" },
+                "contrasenia": { "example": "123456", "type": "string" },
+                "correoElectronico": {
+                  "example": "correo_2@cliente.com",
+                  "type": "string"
+                },
+                "nombre": { "example": "Nombre", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Clientes"],
+        "description": "Crear un nuevo cliente",
+        "operationId": "crearUnNuevoCliente",
+        "summary": "Crear un nuevo cliente"
+      }
+    }
+  },
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Ingresar 'Bearer' seguido del token. Ejemplo: 'Bearer abcde12345'"
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    { "name": "Auth" },
+    { "name": "Clientes" },
+    { "name": "Empleados" },
+    { "name": "Oficinas" },
+    { "name": "Oficinas-Empleados" },
+    { "name": "Reclamos" },
+    { "name": "Estadísticas" }
+  ]
+}
