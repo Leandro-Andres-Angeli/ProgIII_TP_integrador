@@ -1,602 +1,379 @@
 {
   "swagger": "2.0",
-  "info": {
-    "title": "Reclamos",
-    "description": "Documentación",
-    "version": "1.0.0"
-  },
-  "host": "localhost:3001",
+  "info": { "contact": {}, "title": "Reclamos", "version": "1.0.0" },
+  "host": "localhost",
   "basePath": "/",
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
   "paths": {
-    "/api/login": {
-      "post": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/api/registro": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "idUsuarioTipo": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/reclamos/": {
-      "post": {
-        "description": "",
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "get": {
-        "description": "",
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "patch": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "claimNewStatus": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/api/clientes/perfil": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "idUsuarioTipo": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nombre": {
-                  "example": "any"
-                },
-                "apellido": {
-                  "example": "any"
-                },
-                "correoElectronico": {
-                  "example": "any"
-                },
-                "contrasenia": {
-                  "example": "any"
-                },
-                "idUsuarioTipo": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/clientes/login": {
-      "post": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        }
-      }
-    },
     "/api/admin/clientes": {
       "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Cliente"],
+        "description": "clientes",
+        "operationId": "clientes1",
+        "summary": "clientes"
       }
     },
-    "/api/admin/clientes/{id}": {
+    "/api/admin/clientes/15": {
       "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Cliente"],
+        "description": "clientes id",
+        "operationId": "clientesId",
+        "summary": "clientes id"
       }
     },
     "/api/admin/empleados": {
       "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados"],
+        "description": "empleados",
+        "operationId": "empleados",
+        "summary": "empleados"
       },
       "post": {
-        "description": "",
+        "consumes": ["application/json"],
         "parameters": [
           {
-            "name": "body",
             "in": "body",
+            "name": "body",
             "schema": {
-              "type": "object",
               "properties": {
-                "idUsuarioTipo": {
-                  "example": "any"
-                }
-              }
+                "apellido": { "example": "Apellido", "type": "string" },
+                "contrasenia": { "example": "123", "type": "string" },
+                "correoElectronico": {
+                  "example": "correo_1@empleado.com",
+                  "type": "string"
+                },
+                "nombre": { "example": "Nombre", "type": "string" }
+              },
+              "type": "object"
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados"],
+        "description": "empleados",
+        "operationId": "empleados3",
+        "summary": "empleados"
       }
     },
-    "/api/admin/empleados/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
+    "/api/admin/empleados/16": {
       "delete": {
-        "description": "",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados"],
+        "description": "empleados",
+        "operationId": "empleados1",
+        "summary": "empleados"
+      },
+      "get": {
+        "consumes": ["application/json"],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "apellido": { "example": "1", "type": "string" },
+                "contrasenia": { "example": "123", "type": "string" },
+                "correoElectronico": { "example": "ABC_E_1", "type": "string" },
+                "nombre": { "example": "Empleado", "type": "string" }
+              },
+              "type": "object"
+            }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados"],
+        "description": "empleados id",
+        "operationId": "empleadosId",
+        "summary": "empleados id"
       },
       "put": {
-        "description": "",
+        "consumes": ["application/json"],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "apellido": { "example": "Otro Apellido", "type": "string" },
+                "nombre": { "example": "Otro Nombre", "type": "string" }
+              },
+              "type": "object"
+            }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/admin/oficinas": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/admin/oficinas/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/admin/oficinas/{idOficina}/empleados/{idEmpleado}": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "idOficina",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "idEmpleado",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/admin/oficinas/{id}/empleados": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados"],
+        "description": "empleados",
+        "operationId": "empleados2",
+        "summary": "empleados"
       }
     },
     "/api/admin/estadisticas/totalesReclamosEstados": {
       "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Estadísticas"],
+        "description": "totalesReclamosEstados",
+        "operationId": "totalesreclamosestados",
+        "summary": "totalesReclamosEstados"
       }
     },
-    "/api/pdf/reclamo/{id}/pdf": {
+    "/api/admin/oficinas": {
       "get": {
-        "description": "",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas"],
+        "description": "oficinas",
+        "operationId": "oficinas2",
+        "summary": "oficinas"
+      },
+      "post": {
+        "consumes": ["application/json"],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "idReclamoTipo": { "example": 2, "type": "number" },
+                "nombre": { "example": "Nombre Oficina", "type": "string" }
+              },
+              "type": "object"
+            }
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas"],
+        "description": "oficinas",
+        "operationId": "oficinas3",
+        "summary": "oficinas"
+      }
+    },
+    "/api/admin/oficinas/3/empleados": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas-Empleados"],
+        "description": "oficinas empleados id",
+        "operationId": "oficinasEmpleadosId",
+        "summary": "oficinas empleados id"
+      }
+    },
+    "/api/admin/oficinas/3/empleados/13": {
+      "post": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas-Empleados"],
+        "description": "oficinas empleados",
+        "operationId": "oficinasEmpleados",
+        "summary": "oficinas empleados"
+      }
+    },
+    "/api/admin/oficinas/5": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas"],
+        "description": "oficinas id",
+        "operationId": "oficinasId",
+        "summary": "oficinas id"
+      },
+      "put": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "idReclamoTipo": { "example": 2, "type": "number" },
+                "nombre": {
+                  "example": "Nuevo Nombre Oficina",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
           }
-        }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas"],
+        "description": "oficinas",
+        "operationId": "oficinas1",
+        "summary": "oficinas"
+      }
+    },
+    "/api/admin/oficinas/6": {
+      "delete": {
+        "consumes": ["text/plain"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": { "format": "binary", "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas"],
+        "description": "oficinas",
+        "operationId": "oficinas",
+        "summary": "oficinas"
+      }
+    },
+    "/api/claim": {
+      "post": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "asunto": { "example": "Asunto", "type": "string" },
+                "descripcion": { "example": "Descripcion", "type": "string" },
+                "idReclamoTipo": { "example": 1, "type": "number" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "claims",
+        "operationId": "claims",
+        "summary": "claims"
+      }
+    },
+    "/api/claims": {
+      "get": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "asunto": { "example": "qweqwe", "type": "string" },
+                "claimId": { "example": 10, "type": "number" },
+                "claimNewStatus": { "example": 2, "type": "number" },
+                "descripcion": { "example": "asd", "type": "string" },
+                "idReclamoTipo": { "example": 1, "type": "number" },
+                "user": {
+                  "properties": {
+                    "apellido": { "example": "qwe", "type": "string" },
+                    "correoElectronico": { "example": "zxc", "type": "string" },
+                    "idTipoUsuario": { "example": 3, "type": "number" },
+                    "nombre": { "example": "asd", "type": "string" }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "claims",
+        "operationId": "claims1",
+        "summary": "claims"
+      }
+    },
+    "/api/clientes/perfil": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Cliente"],
+        "description": "perfil cliente",
+        "operationId": "perfilCliente",
+        "summary": "perfil cliente"
+      },
+      "put": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "apellido": { "example": "Otro Apellido", "type": "string" },
+                "nombre": { "example": "Otro Nombre", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Cliente"],
+        "description": "perfil cliente",
+        "operationId": "perfilCliente1",
+        "summary": "perfil cliente"
+      }
+    },
+    "/api/login": {
+      "post": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "email": { "example": "correo_1@test.com", "type": "string" },
+                "password": { "example": "123", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "description": "login",
+        "operationId": "login",
+        "summary": "login"
+      }
+    },
+    "/api/registro": {
+      "post": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "apellido": { "example": "Apellido", "type": "string" },
+                "contrasenia": { "example": "123", "type": "string" },
+                "correoElectronico": {
+                  "example": "correo_1@cliente.com",
+                  "type": "string"
+                },
+                "nombre": { "example": "Nombre", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Cliente"],
+        "description": "clientes",
+        "operationId": "clientes",
+        "summary": "clientes"
       }
     }
-  }
+  },
+  "tags": [
+    { "name": "Cliente" },
+    { "name": "Empleados" },
+    { "name": "Oficinas" },
+    { "name": "Oficinas-Empleados" },
+    { "name": "Estadísticas" },
+    { "name": "Reclamos" }
+  ]
 }

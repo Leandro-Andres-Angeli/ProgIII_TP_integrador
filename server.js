@@ -20,7 +20,7 @@ dotenv.config();
 const PORT = process.env.SERVER_PORT || 3001;
 
 const swaggerUi = require('swagger-ui-express');
-const swaggerFile = require('./swagger-output.json'); // Archivo generado
+const swaggerFile = require('./swagger-output.json');
 
 passport.use(passportJWTStrategy);
 passport.use(passportLocalStrategy);
