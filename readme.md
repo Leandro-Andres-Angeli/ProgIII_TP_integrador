@@ -26,6 +26,14 @@ Setear las variables de ambiente del proyecto en un archivo .env , ejemplo :
 INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `correoElectronico`, `contrasenia`, `idUsuarioTipo`, `imagen`, `activo`) VALUES (NULL, 'admin', 'admin', 'admin@gmail.com', sha2('123',256), '1', NULL, '1');
 ```
 
+## Documentación
+http://localhost:3001/api-docs
+
+
+Loguearse en /api/login y copiar el token, luego presionar en el botón 'Authorize' e ingresar 'Bearer' seguido del token. Ejemplo: 'Bearer abcde12345'
+
+
+
 ## Usuarios
 
 #### Login
