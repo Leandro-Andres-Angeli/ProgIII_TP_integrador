@@ -4,8 +4,12 @@ exports.getClaimsQueryAccordingUserType = Object.freeze({
   },
   2: function (...args) {
     return {
-      query:
-        'SELECT r.* from reclamos r  WHERE idReclamoTipo=( SELECT of.idOficina  FROM usuarios_oficinas  of WHERE idUsuario=?);',
+      query: `SELECT r.* FROM reclamos r
+        JOIN oficinas o
+        ON r.idReclamoTipo = o.idReclamoTipo
+        JOIN usuarios_oficinas uo
+        ON o.idOficina = uo.idOficina
+        WHERE uo.idUsuario = ?;`,
       args,
     };
   },
