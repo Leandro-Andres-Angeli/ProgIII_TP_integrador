@@ -7,7 +7,7 @@ const validLogin = [
     .isEmail()
     .withMessage('Debe ser un email válido con formato correcto (@.com).'),
 
-  check('conntrasenia')
+  check('contrasenia')
     .notEmpty()
     .withMessage('Se requiere una contraseña.')
     .isLength({ min: 6 })
@@ -16,10 +16,10 @@ const validLogin = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ ok: false, errors: errors.array() });
     }
     next();
-  }
+  },
 ];
 
 module.exports = { validLogin };

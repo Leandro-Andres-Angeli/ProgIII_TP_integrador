@@ -14,10 +14,17 @@ const claimRoutes = require('./src/routes/claimsRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
 const clienteRoutes = require('./src/routes/clienteRoutes');
 const pdfRoutes = require('./src/routes/pdfRoutes');
+
+const { validLogin } = require('./src/validations/validLogin');
+const { validateCreateUsuario } = require('./src/validations/usuarioValidator');
+
 const { isAdmin, isClient } = require('./src/middleware/authorization');
 const dotenv = require('dotenv');
 dotenv.config();
 const PORT = process.env.SERVER_PORT || 3001;
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
 
 passport.use(passportJWTStrategy);
 passport.use(passportLocalStrategy);
@@ -26,13 +33,19 @@ const server = express();
 
 server.use(express.json());
 
+server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
 // Login de usuario existente
-server.post('/api/login', handleLogin, generateToken);
+server.post('/api/login', [validLogin, handleLogin], generateToken);
 // Registro de nuevo cliente
-server.post('/api/registro', usuarioController.createCliente);
+server.post(
+  '/api/registro',
+  [validateCreateUsuario],
+  usuarioController.createCliente
+);
 
 server.use('/api/reclamos', claimRoutes);
-server.use('/api/clientes', clienteRoutes);
+server.use('/api/clientes', [handleTokenValidity, isClient], clienteRoutes);
 server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
 server.use('/api/pdf', pdfRoutes);
 

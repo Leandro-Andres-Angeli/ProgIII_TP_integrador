@@ -1,22 +1,18 @@
 const pool = require('../config/dbConfig');
 const usuarioService = require('../services/usuarioService');
-const { validateCliente } = require('../validations/usuarioValidator');
 
 // CRUD Clientes
 
-exports.createCliente = [
-  validateCliente,
-  async (req, res) => {
-    try {
-      let usuario = req.body;
-      usuario.idUsuarioTipo = 3; // cliente
-      const id = await usuarioService.createUsuario(usuario);
-      res.status(200).json({ ok: true, message: `Usuario creado con éxito.` });
-    } catch (error) {
-      return res.status(500).json({ ok: false, message: error.message });
-    }
-  },
-];
+exports.createCliente = async (req, res) => {
+  try {
+    let usuario = req.body;
+    usuario.idUsuarioTipo = 3; // cliente
+    const id = await usuarioService.createUsuario(usuario);
+    res.status(200).json({ ok: true, message: `Usuario creado con éxito.` });
+  } catch (error) {
+    return res.status(500).json({ ok: false, message: error.message });
+  }
+};
 
 exports.getClientes = async (req, res) => {
   try {
@@ -46,8 +42,6 @@ exports.getClienteById = async (req, res) => {
 };
 
 exports.updateCliente = async (req, res) => {
-  const { nombre, apellido, correoElectronico, contrasenia, idUsuarioTipo } =
-    req.body;
   const clienteID = req.user.idUsuario;
 
   try {
@@ -62,7 +56,7 @@ exports.updateCliente = async (req, res) => {
         .json({ message: 'No se encuentra al cliente solicitado.' });
     }
 
-    await usuarioService.updateUsuario(clienteID, req.body, idUsuarioTipo);
+    await usuarioService.updateUsuario(clienteID, req.body, 3);
 
     res
       .status(200)
