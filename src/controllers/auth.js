@@ -25,7 +25,7 @@ const generateToken = (req, res) => {
 };
 //PASSPORT STRATEGIES
 const passportLocalStrategy = new Strategy(
-  { usernameField: 'email' },
+  { usernameField: 'correoElectronico', passwordField: 'contrasenia' },
   async (username, password, cb) => {
     try {
       const connection = await pool.getConnection();
