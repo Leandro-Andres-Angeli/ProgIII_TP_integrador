@@ -30,11 +30,27 @@ const oficinaService = {
     await Oficina.deleteOficina(id);
   },
 
+  deleteOficina_v2: async (id) => {
+    await checkExisteOficina(id);
+    await Oficina.deleteOficina_v2(id);
+  },
+
   asignarEmpleado: async (idOficina, idEmpleado) => {
     await checkExisteOficina(idOficina);
     await checkExisteUsuario(idEmpleado, 2);
     await checkNoExisteOficinaEmpleado(idOficina, idEmpleado);
     await Oficina.asignarEmpleado(idOficina, idEmpleado);
+  },
+
+  asignarEmpleados: async (idOficina, idsEmpleados) => {
+    await checkExisteOficina(idOficina);
+
+    const promise = idsEmpleados.map(async (idEmpleado) => {
+      await checkExisteUsuario(idEmpleado, 2);
+      await checkNoExisteOficinaEmpleado(idOficina, idEmpleado);
+    });
+    await Promise.all(promise);
+    await Oficina.asignarEmpleados(idOficina, idsEmpleados);
   },
 
   getEmpleados: async (id) => {
@@ -57,7 +73,7 @@ const checkNoExisteOficinaEmpleado = async (idOficina, idEmpleado) => {
     idEmpleado
   );
   if (oficinaEmpleado) {
-    throw new Error('Empleado ya asignado a esa oficina.');
+    throw new Error(`Empleado ya asignado a esa oficina.`);
   }
 };
 
