@@ -42,6 +42,31 @@ const Oficina = {
     await pool.execute(query, [id]);
   },
 
+  deleteOficina_v2: async (id) => {
+    const connection = await pool.getConnection();
+    try {
+      connection.beginTransaction();
+      const queries = [
+        connection.execute(
+          ` UPDATE oficinas SET activo = 0 WHERE idOficina = ? `,
+          [id]
+        ),
+        connection.execute(
+          `DELETE FROM usuarios_oficinas WHERE idOficina = ?`,
+          [id]
+        ),
+      ];
+      await Promise.all(queries);
+      await connection.commit();
+      return true;
+    } catch (error) {
+      await connection.rollback();
+      throw new Error('Ocurrió un error al eliminar la oficina');
+    } finally {
+      connection.release();
+    }
+  },
+
   asignarEmpleado: async (idOficina, idEmpleado) => {
     const query = `
       INSERT INTO usuarios_oficinas (idOficina, idUsuario, activo) 
