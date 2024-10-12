@@ -61,6 +61,21 @@ exports.asignarEmpleado = async (req, res) => {
   }
 };
 
+exports.asignarEmpleados = async (req, res) => {
+  try {
+    await oficinaService.asignarEmpleados(
+      req.body.idOficina,
+      req.body.idsEmpleados
+    );
+    res.status(200).json({
+      ok: true,
+      message: 'Empleados asignados a la oficina con éxito.',
+    });
+  } catch (error) {
+    return res.status(500).json({ ok: false, message: error.message });
+  }
+};
+
 exports.getEmpleados = async (req, res) => {
   try {
     const empleados = await oficinaService.getEmpleados(req.params.id);
