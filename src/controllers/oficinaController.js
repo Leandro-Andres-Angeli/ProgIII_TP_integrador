@@ -47,6 +47,14 @@ exports.deleteOficina = async (req, res) => {
   }
 };
 
+exports.deleteOficina_v2 = async (req, res) => {
+  try {
+    await oficinaService.deleteOficina_v2(req.params.id);
+    res.status(200).json({ ok: true, message: 'Oficina eliminada con éxito.' });
+  } catch (error) {
+    return res.status(500).json({ ok: false, message: error.message });
+  }
+};
 exports.asignarEmpleado = async (req, res) => {
   try {
     await oficinaService.asignarEmpleado(
