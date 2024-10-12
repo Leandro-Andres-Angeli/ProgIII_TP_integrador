@@ -15,7 +15,10 @@
         "summary": "Obtener todos los clientes"
       }
     },
-    "/api/admin/clientes/19": {
+    "/api/admin/clientes/{id}": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
@@ -61,24 +64,21 @@
         "summary": "Crea un nuevo empleado"
       }
     },
-    "/api/admin/empleados/22": {
+    "/api/admin/empleados/{id}": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "delete": {
+        "parameters": [{ "in": "header", "name": "", "type": "string" }],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados"],
+        "description": "Elimina un empleado",
+        "operationId": "eliminaUnEmpleado",
+        "summary": "Elimina un empleado"
+      },
       "get": {
         "consumes": ["application/json"],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "properties": {
-                "apellido": { "example": "1", "type": "string" },
-                "contrasenia": { "example": "123", "type": "string" },
-                "correoElectronico": { "example": "ABC_E_1", "type": "string" },
-                "nombre": { "example": "Empleado", "type": "string" }
-              },
-              "type": "object"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": { "200": { "description": "" } },
         "tags": ["Empleados"],
         "description": "Obtiene un empleado por id",
@@ -105,16 +105,6 @@
         "description": "Actualiza un empleado",
         "operationId": "actualizaUnEmpleado",
         "summary": "Actualiza un empleado"
-      }
-    },
-    "/api/admin/empleados/23": {
-      "delete": {
-        "parameters": [],
-        "responses": { "200": { "description": "" } },
-        "tags": ["Empleados"],
-        "description": "Elimina un empleado",
-        "operationId": "eliminaUnEmpleado",
-        "summary": "Elimina un empleado"
       }
     },
     "/api/admin/estadisticas/totalesReclamosEstados": {
@@ -158,7 +148,21 @@
         "summary": "Crea una nueva oficina"
       }
     },
-    "/api/admin/oficinas/1/empleados/23": {
+    "/api/admin/oficinas/{idOficina}/empleados/{idEmpleado}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "idOficina",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "path",
+          "name": "idEmpleado",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "post": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
@@ -168,17 +172,10 @@
         "summary": "Asocia un empleado a una oficina"
       }
     },
-    "/api/admin/oficinas/5/empleados": {
-      "get": {
-        "parameters": [],
-        "responses": { "200": { "description": "" } },
-        "tags": ["Oficinas-Empleados"],
-        "description": "Obtiene los empleados de una oficina",
-        "operationId": "obtieneLosEmpleadosDeUnaOficina",
-        "summary": "Obtiene los empleados de una oficina"
-      }
-    },
-    "/api/admin/oficinas/6": {
+    "/api/admin/oficinas/{id}": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
       "delete": {
         "consumes": ["text/plain"],
         "parameters": [
@@ -225,6 +222,19 @@
         "description": "Actualiza una oficina",
         "operationId": "actualizaUnaOficina",
         "summary": "Actualiza una oficina"
+      }
+    },
+    "/api/admin/oficinas/{id}/empleados": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas-Empleados"],
+        "description": "Obtiene los empleados de una oficina",
+        "operationId": "obtieneLosEmpleadosDeUnaOficina",
+        "summary": "Obtiene los empleados de una oficina"
       }
     },
     "/api/clientes/perfil": {
@@ -284,7 +294,10 @@
         "summary": "Loguearse"
       }
     },
-    "/api/pdf/reclamo/1/pdf": {
+    "/api/pdf/reclamo/{id}/pdf": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
@@ -296,7 +309,6 @@
     },
     "/api/reclamos": {
       "get": {
-        "consumes": ["text/plain"],
         "parameters": [],
         "responses": { "200": { "description": "" } },
         "tags": ["Reclamos"],
