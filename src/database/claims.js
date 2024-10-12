@@ -1,4 +1,5 @@
 const pool = require('../config/dbConfig');
+const { patchClaimsQueriesAdminHelper } = require('../utils/claimsQueries');
 
 class Claims {
   constructor() {}
@@ -60,6 +61,19 @@ class Claims {
   };
   getClaimsAdmin = async () => {
     return await pool.execute('SELECT * FROM reclamos');
+  };
+  patchClaimAdmin = async (body, reclamoId, idUsuario) => {
+    const query = await patchClaimsQueriesAdminHelper(
+      body.reclamoNuevoStatus,
+      idUsuario
+    );
+
+    return await pool.execute(query, [
+      body.descripcion ?? null,
+      body.asunto ?? null,
+      body.reclamoNuevoStatus,
+      reclamoId,
+    ]);
   };
 }
 module.exports = Claims;

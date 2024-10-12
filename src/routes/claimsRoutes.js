@@ -99,6 +99,16 @@ router.get(
 
   claimController.getClaimsAdmin
 );
+router.patch(
+  '/admin/:reclamoId',
+  [
+    param('reclamoId').isNumeric().withMessage('parametro debe ser un numero'),
+    validarCampos,
+  ],
+  isAdmin,
+
+  claimController.patchClaimsAdmin
+);
 ///ADMIN ROUTES
 
 module.exports = router;

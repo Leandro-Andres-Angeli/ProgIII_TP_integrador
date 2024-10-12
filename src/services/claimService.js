@@ -47,9 +47,13 @@ class ClaimsService {
     );
     return patchClaim;
   };
-
+  //ADMIN SERVICES
   getClaimsAdmin = async () => {
     return await this.claims.getClaimsAdmin();
   };
+  patchClaimAdmin = async (body, reclamoId, idUsuario) => {
+    return await this.claims.patchClaimAdmin(body, reclamoId, idUsuario);
+  };
+  //ADMIN SERVICES
 }
 module.exports = ClaimsService;
