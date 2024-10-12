@@ -51,6 +51,26 @@ const Oficina = {
     return result.insertId;
   },
 
+  asignarEmpleados: async (idOficina, idsEmpleados) => {
+    const connection = await pool.getConnection();
+    try {
+      connection.beginTransaction();
+      const promises = idsEmpleados.map((idEmpleado) => {
+        const query = `INSERT INTO usuarios_oficinas (idOficina, idUsuario, activo) 
+        VALUES (?, ?, 1)`;
+        return connection.query(query, [idOficina, idEmpleado]);
+      });
+      await Promise.all(promises);
+      await connection.commit();
+      return true;
+    } catch (error) {
+      await connection.rollback();
+      throw new Error('Ocurrió un error al asignar empleados');
+    } finally {
+      connection.release();
+    }
+  },
+
   getEmpleados: async (id) => {
     const query = `SELECT u.idUsuario, u.nombre, u.apellido, 
     u.correoElectronico, u.idUsuarioTipo, u.imagen, u.activo
