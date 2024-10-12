@@ -229,6 +229,24 @@ class ClaimController {
     const { reclamoId } = req.params;
     const { idUsuario } = req.user;
     /* const [patchClaim] = await this.service.patchClaimAdmin(body); */
+    const [checkClaimExists] = await pool.execute(
+      `SELECT * FROM reclamos WHERE idReclamo  = ?`,
+      [reclamoId]
+    );
+
+    if (checkClaimExists.length === 0) {
+      return res
+        .status(404)
+        .json({ ok: true, message: 'No se encontro reclamo' });
+    }
+
+    if (
+      checkClaimExists[0].idReclamoEstado === Number(body.reclamoNuevoStatus)
+    ) {
+      return res
+        .status(400)
+        .json({ ok: false, message: 'El reclamo ya tiene ese estado' });
+    }
     const [patchResult] = await this.service.patchClaimAdmin(
       body,
       reclamoId,
@@ -239,6 +257,20 @@ class ClaimController {
         .status(500)
         .json({ ok: false, message: 'Error actualizando reclamo' });
     }
+    const [userClaim] = await pool.execute(
+      'SELECT nombre , apellido, correoElectronico FROM usuarios WHERE idUsuario = ?',
+      [checkClaimExists[0].idUsuarioCreador]
+    );
+    const [newStatus] = await pool.execute(
+      'SELECT descripcion FROM reclamos_estado WHERE idReclamoEstado = ? ',
+      [body.reclamoNuevoStatus]
+    );
+    const { nombre, apellido, correoElectronico } = userClaim[0];
+    sendEmail({
+      name: nombre + ' ' + apellido,
+      correoElectronico,
+      status: newStatus[0].descripcion,
+    });
 
     return res.status(200).json({
       ok: true,
