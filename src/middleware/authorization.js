@@ -2,7 +2,6 @@ const service = require('../services/usuarioService');
 
 const isAdmin = async (req, res, next) => {
   const usuario = req.user;
-  console.log(usuario);
 
   if (usuario.idUsuarioTipo !== 1) {
     return res.status(403).send({

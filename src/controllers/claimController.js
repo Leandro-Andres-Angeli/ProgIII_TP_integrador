@@ -213,44 +213,14 @@ class ClaimController {
       .status(200)
       .json({ ok: true, message: 'reclamo modificado con exito' });
   };
-  patchClaims = async (req, res) => {
+
+  getClaimsAdmin = async (req, res) => {
     try {
-      const user = req.user;
+      const [claims] = await this.service.getClaimsAdmin();
 
-      const { claimId } = req.body;
-      const claimNewStatus = Number(req.body.claimNewStatus);
-      if (claimNewStatus < 3 && user.idUsuarioTipo === 2) {
-        return res.status(401).json({
-          ok: false,
-          message: 'los empleados solo pueden cancelar o finalizar reclamos',
-        });
-      }
-      const patchResult = await this.service.patchClaims(req.body, user);
-      if (patchResult?.affectedRows !== 1) {
-        throw Error('Error actualizando reclamo');
-      }
-      const [claimStatusDesc] = await pool.execute(
-        'SELECT descripcion FROM `reclamos_estado` rt WHERE rt.idReclamoEstado = ?',
-        [claimNewStatus]
-      );
-      const [correoElectronicoQuery] = await pool.execute(
-        `SELECT u.* FROM  reclamos r join usuarios u on  r.idUsuarioCreador  = u.idUsuario where r.idReclamo = ?;`,
-        [claimId]
-      );
-      const { correoElectronico, nombre, apellido } = correoElectronicoQuery[0];
-
-      sendEmail({
-        name: nombre + ' ' + apellido,
-        correoElectronico,
-        status: claimStatusDesc[0].descripcion,
-      });
-      return res
-        .status(200)
-        .json({ ok: true, message: 'Reclamo modificado con exito' });
+      return res.status(200).json({ ok: true, res: claims });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ ok: false, message: error.message || 'Error de servidor' });
+      return res.status(500).json({ ok: false, message: 'Error de servidor' });
     }
   };
 }

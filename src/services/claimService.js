@@ -48,8 +48,8 @@ class ClaimsService {
     return patchClaim;
   };
 
-  patchClaims = async (body, user) => {
-    return await this.claims.patchClaim(body, user);
+  getClaimsAdmin = async () => {
+    return await this.claims.getClaimsAdmin();
   };
 }
 module.exports = ClaimsService;

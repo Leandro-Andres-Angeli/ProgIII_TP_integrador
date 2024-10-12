@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-/* const claimController = require('../controllers/claimController'); */
-
 const ClaimController = require('../controllers/claimController');
-const {
-  patchClaimsValidActions,
-} = require('../validations/validActionsAccordingUserType');
+
 const { handleTokenValidity } = require('../controllers/auth');
-const { isClient, isEmpleado } = require('../middleware/authorization');
+const {
+  isClient,
+  isEmpleado,
+  isAdmin,
+} = require('../middleware/authorization');
 const { check, param } = require('express-validator');
 const { validarCampos } = require('../middleware/validarcampos');
 
@@ -91,15 +91,14 @@ router.patch(
   claimController.patchClaimEmployee
 );
 ///EMPLEADO ROUTES
-/* router.post('/', claimController.postClaim);
-router.get('/', claimController.getClaims);
-router.patch(
-  '/',
 
-  patchClaimsValidActions,
-  claimController.patchClaims
+///ADMIN ROUTES
+router.get(
+  '/admin/',
+  isAdmin,
+
+  claimController.getClaimsAdmin
 );
+///ADMIN ROUTES
 
-
- */
 module.exports = router;
