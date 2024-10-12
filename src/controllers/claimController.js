@@ -229,8 +229,21 @@ class ClaimController {
     const { reclamoId } = req.params;
     const { idUsuario } = req.user;
     /* const [patchClaim] = await this.service.patchClaimAdmin(body); */
-    await this.service.patchClaimAdmin(body, reclamoId, idUsuario);
-    return res.status(200).json({ ok: true });
+    const [patchResult] = await this.service.patchClaimAdmin(
+      body,
+      reclamoId,
+      idUsuario
+    );
+    if (patchResult.affectedRows !== 1) {
+      return res
+        .status(500)
+        .json({ ok: false, message: 'Error actualizando reclamo' });
+    }
+
+    return res.status(200).json({
+      ok: true,
+      message: `Reclamo número ${reclamoId} modificado por admin número ${idUsuario}`,
+    });
   };
 }
 

@@ -103,6 +103,11 @@ router.patch(
   '/admin/:reclamoId',
   [
     param('reclamoId').isNumeric().withMessage('parametro debe ser un numero'),
+    check('reclamoNuevoStatus')
+      .notEmpty()
+      .withMessage('campo reclamoNuevoStatus no puede estar vacio')
+      .isNumeric()
+      .withMessage('campo reclamoNuevoStatus debe ser un numero'),
     validarCampos,
   ],
   isAdmin,
