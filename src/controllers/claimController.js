@@ -116,42 +116,82 @@ class ClaimController {
     const userId = Number(req.params.userId);
   };
 
-  getClaims = async (req, res) => {
+  getUserClaims = async (req, res) => {
     try {
       const user = req.user;
 
-      const queryResult = await this.service.getClaims(user);
+      const { idUsuario } = user;
+      const queryResult = await this.service.getUserClaims(idUsuario);
       if (queryResult.length === 0) {
         return res
           .status(404)
           .json({ ok: true, message: 'No hay reclamos para este usuario' });
       }
+
       return res.status(200).json({ ok: true, claims: queryResult });
     } catch (error) {
       return res.status(500).json({ ok: false, message: 'error de servidor' });
     }
   };
-  /*  patchClaims = async (req, res) => {
-    try {
-      const user = req.user;
-      const { nombre, apellido, correoElectronico } = user;
-      const { claimId } = req.body;
-      const claimNewStatus = Number(req.body.claimNewStatus);
 
-      // sendEmail({
-      //   name: nombre + ' ' + apellido,
-      //   correoElectronico,
-      //   status: 'claimStatusDesc[0].descripcion',
-      // });
+  patchClaimEmployee = async (req, res) => {
+    const { idReclamo } = req.params;
+    const reclamoNuevoStatus = Number(req.body.reclamoNuevoStatus);
+    const { idUsuario } = req.user;
+    const [checkRightClaim] = await pool.execute(
+      'SELECT * FROM reclamos r where r.idReclamoTipo =  (SELECT uo.idOficina FROM `usuarios` u  JOIN usuarios_oficinas uo ON u.idUsuario = uo.idUsuario WHERE u.idUsuario=?)  AND r.idReclamo = ? ;',
+      [idUsuario, idReclamo]
+    );
+
+    if (checkRightClaim.length === 0) {
+      return res.status(403).json({
+        ok: false,
+        message: 'Solo puede modificar reclamos que pertenezcan a su oficina',
+      });
+    }
+
+    if (checkRightClaim[0].idReclamoEstado === reclamoNuevoStatus) {
       return res
-        .status(200)
-        .json({ ok: true, message: 'Reclamo modificado con exito' });
-    } catch (error) {
+        .status(400)
+        .json({ ok: false, message: 'El reclamo ya tiene ese estado' });
+    }
+
+    const [patchClaim] = await this.service.patchClaimEmployee(
+      idReclamo,
+      idUsuario,
+      reclamoNuevoStatus
+    );
+
+    if (!patchClaim.changedRows) {
       return res
         .status(500)
-        .json({ ok: false, message: error.message || 'Error de servidor' });
+        .json({ ok: false, message: 'error actualizando reclamo' });
     }
-  }; */
+    const [getUserType] = await pool.execute(
+      `SELECT idUsuarioTipo FROM usuarios WHERE idUsuario = ?`,
+      [checkRightClaim[0].idUsuarioCreador]
+    );
+
+    const { nombre, apellido, correoElectronico } =
+      await this.usuarioService.getUsuarioById(
+        checkRightClaim[0].idUsuarioCreador,
+        getUserType[0].idUsuarioTipo
+      );
+    const [newStatus] = await pool.execute(
+      'SELECT descripcion FROM reclamos_estado WHERE idReclamoEstado = ? ',
+      [reclamoNuevoStatus]
+    );
+    console.log(newStatus);
+
+    sendEmail({
+      name: nombre + ' ' + apellido,
+      correoElectronico,
+      status: newStatus[0].descripcion,
+    });
+    return res
+      .status(200)
+      .json({ ok: true, message: 'reclamo modificado con exito' });
+  };
   patchClaims = async (req, res) => {
     try {
       const user = req.user;

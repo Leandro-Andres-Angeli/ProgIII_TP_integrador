@@ -7,6 +7,13 @@ const {
 
 class Claims {
   constructor() {}
+  getUserClaims = async (idUser) => {
+    const [claims] = await pool.execute(
+      'SELECT * FROM reclamos WHERE idUsuarioCreador = ?',
+      [idUser]
+    );
+    return claims;
+  };
   getClaims = async (idUsuarioTipo, idUsuario) => {
     const connection = await pool.getConnection();
     const { query, args } = getClaimsQueryAccordingUserType[idUsuarioTipo](
@@ -34,14 +41,7 @@ class Claims {
     connection.release();
     return newClaimQuery;
   };
-  patchClaimClient = async (claimId, userId, claimNewStatus) => {
-    const patchClaim = await pool.execute(
-      'UPDATE reclamos r SET r.idReclamoEstado=? , fechaCancelado=NOW() , idUsuarioFinalizador=? WHERE r.idReclamo =? ;',
-      [claimNewStatus, userId, claimId]
-    );
-    return patchClaim;
-  };
-  /*   patchClaim = async (body, user) => {
+  patchClaim = async (body, user) => {
     const { claimId, claimNewStatus } = body;
     const descripcion = body?.descripcion ?? null;
     const asunto = body?.asunto ?? null;
@@ -58,14 +58,28 @@ class Claims {
 
     const [patchClaimQuery] = await connection.query(query, args);
 
-    //     const [patchClaimQuery] = await connection.query(
-    //   'UPDATE reclamos r SET r.idReclamoEstado=? , fechaCancelado=NOW() , idUsuarioFinalizador=? WHERE r.idReclamo =? ;',
-    //   [claimNewStatus, userId, claimId]
-    // ); 
+    /*     const [patchClaimQuery] = await connection.query(
+      'UPDATE reclamos r SET r.idReclamoEstado=? , fechaCancelado=NOW() , idUsuarioFinalizador=? WHERE r.idReclamo =? ;',
+      [claimNewStatus, userId, claimId]
+    ); */
+
     connection.release();
     return patchClaimQuery;
-  }; */
+  };
 
+  patchClaimEmployee = async (claimId, userId, claimNewStatus) => {
+    const patchClaim = await pool.execute(
+      `UPDATE reclamos r SET r.idReclamoEstado=? ,
+       fechaFinalizado=${claimNewStatus === 4 ? 'NOW()' : 'NULL'}
+      ,fechaCancelado=${
+        claimNewStatus === 3 ? 'NOW()' : 'NULL'
+      } , idUsuarioFinalizador=${
+        claimNewStatus === 3 || claimNewStatus === 4 ? userId : 'NULL'
+      } WHERE r.idReclamo =? ;`,
+      [claimNewStatus, claimId]
+    );
+    return patchClaim;
+  };
   getClaimsByClientId = async (userId) => {
     const connection = await pool.getConnection();
     const [getClaimsByClientId] = await connection.query(

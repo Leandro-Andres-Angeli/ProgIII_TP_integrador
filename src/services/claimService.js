@@ -15,6 +15,9 @@ class ClaimsService {
     );
     return newClaimQuery;
   };
+  getUserClaims = async (idUsuario) => {
+    return await this.claims.getUserClaims(idUsuario);
+  };
   getClaims = async (user) => {
     const { idUsuarioTipo, idUsuario } = user;
     return await this.claims.getClaims(idUsuarioTipo, idUsuario);
@@ -33,6 +36,15 @@ class ClaimsService {
     );
     return patchClaimClient;
   };
+  patchClaimEmployee = async (claimId, userId, claimNewStatus) => {
+    const patchClaim = await this.claims.patchClaimEmployee(
+      claimId,
+      userId,
+      claimNewStatus
+    );
+    return patchClaim;
+  };
+
   patchClaims = async (body, user) => {
     return await this.claims.patchClaim(body, user);
   };

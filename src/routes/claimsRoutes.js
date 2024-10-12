@@ -8,12 +8,19 @@ const {
   patchClaimsValidActions,
 } = require('../validations/validActionsAccordingUserType');
 const { handleTokenValidity } = require('../controllers/auth');
-const { isClient } = require('../middleware/authorization');
+const { isClient, isEmpleado } = require('../middleware/authorization');
 const { check, param } = require('express-validator');
 const { validarCampos } = require('../middleware/validarcampos');
 
 const claimController = new ClaimController();
 router.use(handleTokenValidity);
+///CLIENTE ROUTES
+router.get(
+  '/clientes/',
+  isClient,
+
+  claimController.getUserClaims
+);
 router.get(
   '/clientes/:reclamoId',
   isClient,
@@ -56,6 +63,27 @@ router.patch(
   ],
   claimController.patchClientClaim
 );
+///CLIENTE ROUTES
+
+///EMPLEADO ROUTES
+router.patch(
+  '/empleados/:idReclamo',
+  isEmpleado,
+
+  [
+    check('idReclamo', 'campo idReclamo debe ser un numero').isNumeric(),
+    check('reclamoNuevoStatus')
+      .notEmpty()
+      .withMessage('campo reclamoNuevoStatus no puede estar vacio')
+      .isNumeric()
+      .withMessage('campo reclamoNuevoStatus debe ser un numero'),
+
+    validarCampos,
+  ],
+
+  claimController.patchClaimEmployee
+);
+///EMPLEADO ROUTES
 /* router.post('/', claimController.postClaim);
 router.get('/', claimController.getClaims);
 router.patch(

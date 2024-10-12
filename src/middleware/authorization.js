@@ -38,4 +38,4 @@ const isEmpleado = async (req, res, next) => {
   next();
 };
 
-module.exports = { isAdmin, isClient };
+module.exports = { isAdmin, isClient, isEmpleado };

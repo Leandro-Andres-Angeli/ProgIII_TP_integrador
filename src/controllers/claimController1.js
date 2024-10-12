@@ -37,7 +37,7 @@ class ClaimController {
     const userId = Number(req.params.userId);
   };
 
-  getClaims = async (req, res) => {
+  getUserClaims = async (req, res) => {
     const user = req.user;
 
     const queryResult = await this.service.getClaims(user);
