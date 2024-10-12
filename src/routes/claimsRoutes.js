@@ -66,6 +66,13 @@ router.patch(
 ///CLIENTE ROUTES
 
 ///EMPLEADO ROUTES
+router.get(
+  '/empleados/',
+  isEmpleado,
+
+  claimController.getClaimsEmployee
+);
+
 router.patch(
   '/empleados/:idReclamo',
   isEmpleado,

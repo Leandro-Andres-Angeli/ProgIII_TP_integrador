@@ -26,11 +26,6 @@ class ClaimController {
           .json({ ok: false, message: 'Error creando nuevo Reclamo' });
       }
 
-      /* sendEmail({
-        name: nombre + ' ' + apellido,
-        correoElectronico,
-        status: 'claimStatusDesc[0].descripcion',
-      }); */
       return res.status(200).json({
         ok: true,
         message: `Reclamo creado con exito por usuario numero ${idUsuario}`,
@@ -47,6 +42,17 @@ class ClaimController {
       return res
         .status(404)
         .json({ ok: true, message: 'no se encontro reclamo' });
+    }
+    const [getEmployeeIdOficina] = await pool.execute(
+      'SELECT idOficina FROM usuarios_oficinas WHERE idOficina = ?',
+      [idUsuario]
+    );
+
+    if (
+      getEmployeeIdOficina.length === 0 ||
+      claim[0].idReclamoTipo !== getEmployeeIdOficina[0].idOficina
+    ) {
+      return res.status(403).json({ ok: false, message: 'No está autorizado' });
     }
 
     return res.status(200).json({ ok: true, res: claim });
@@ -107,8 +113,6 @@ class ClaimController {
         message: `reclamo con id ${newClaim.insertId} creado por usuario ${idUsuarioCreador}`,
       });
     } catch (error) {
-      console.log(error);
-
       return res.status(500).json({ ok: false, message: 'error de servidor' });
     }
   };
@@ -133,7 +137,25 @@ class ClaimController {
       return res.status(500).json({ ok: false, message: 'error de servidor' });
     }
   };
+  getClaimsEmployee = async (req, res) => {
+    try {
+      const { idUsuario } = req.user;
+      const [claimsEmployeeOffice] = await this.service.getClaimsEmployee(
+        idUsuario
+      );
+      if (claimsEmployeeOffice.length === 0) {
+        return res.status(404).json({
+          ok: true,
+          message:
+            'No se encontraron reclamos para la oficina de este empleado',
+        });
+      }
 
+      return res.status(200).json({ ok: true, res: claimsEmployeeOffice });
+    } catch (error) {
+      return res.status(500).json({ ok: false, message: 'error de servidor' });
+    }
+  };
   patchClaimEmployee = async (req, res) => {
     const { idReclamo } = req.params;
     const reclamoNuevoStatus = Number(req.body.reclamoNuevoStatus);
@@ -181,7 +203,6 @@ class ClaimController {
       'SELECT descripcion FROM reclamos_estado WHERE idReclamoEstado = ? ',
       [reclamoNuevoStatus]
     );
-    console.log(newStatus);
 
     sendEmail({
       name: nombre + ' ' + apellido,

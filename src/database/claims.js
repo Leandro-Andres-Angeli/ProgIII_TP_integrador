@@ -26,10 +26,13 @@ class Claims {
     return queryResult;
   };
   getClaimById = async (claimId, userId) => {
-    const claim = await pool.execute(
+    const [claim] = await pool.execute(
       'SELECT * FROM `reclamos` r  where r.idReclamo=? AND idUsuarioCreador = ?',
       [claimId, userId]
     );
+
+    // if(claimId.idReclamoTipo !== )
+
     return claim;
   };
   postClaim = async (asunto, descripcion, idReclamoTipo, idUsuario) => {
@@ -66,7 +69,12 @@ class Claims {
     connection.release();
     return patchClaimQuery;
   };
-
+  getClaimsEmployee = async (idUsuario) => {
+    return await pool.execute(
+      'SELECT * FROM reclamos r where r.idReclamoTipo =  (SELECT uo.idOficina FROM `usuarios` u  JOIN usuarios_oficinas uo ON u.idUsuario = uo.idUsuario WHERE u.idUsuario=?)',
+      [idUsuario]
+    );
+  };
   patchClaimEmployee = async (claimId, userId, claimNewStatus) => {
     const patchClaim = await pool.execute(
       `UPDATE reclamos r SET r.idReclamoEstado=? ,
