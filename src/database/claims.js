@@ -34,7 +34,14 @@ class Claims {
     connection.release();
     return newClaimQuery;
   };
-  patchClaim = async (body, user) => {
+  patchClaimClient = async (claimId, userId, claimNewStatus) => {
+    const patchClaim = await pool.execute(
+      'UPDATE reclamos r SET r.idReclamoEstado=? , fechaCancelado=NOW() , idUsuarioFinalizador=? WHERE r.idReclamo =? ;',
+      [claimNewStatus, userId, claimId]
+    );
+    return patchClaim;
+  };
+  /*   patchClaim = async (body, user) => {
     const { claimId, claimNewStatus } = body;
     const descripcion = body?.descripcion ?? null;
     const asunto = body?.asunto ?? null;
@@ -51,13 +58,13 @@ class Claims {
 
     const [patchClaimQuery] = await connection.query(query, args);
 
-    /*     const [patchClaimQuery] = await connection.query(
-      'UPDATE reclamos r SET r.idReclamoEstado=? , fechaCancelado=NOW() , idUsuarioFinalizador=? WHERE r.idReclamo =? ;',
-      [claimNewStatus, userId, claimId]
-    ); */
+    //     const [patchClaimQuery] = await connection.query(
+    //   'UPDATE reclamos r SET r.idReclamoEstado=? , fechaCancelado=NOW() , idUsuarioFinalizador=? WHERE r.idReclamo =? ;',
+    //   [claimNewStatus, userId, claimId]
+    // ); 
     connection.release();
     return patchClaimQuery;
-  };
+  }; */
 
   getClaimsByClientId = async (userId) => {
     const connection = await pool.getConnection();

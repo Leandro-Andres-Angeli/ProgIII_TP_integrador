@@ -1,10 +1,12 @@
 const pool = require('../config/dbConfig');
 const ClaimsService = require('../services/claimService');
+const usuarioService = require('../services/usuarioService');
 const { sendEmail } = require('../utils/sendEmail');
 
 class ClaimController {
   constructor() {
     this.service = new ClaimsService();
+    this.usuarioService = usuarioService;
   }
   postClaim = async (req, res) => {
     try {
@@ -24,6 +26,11 @@ class ClaimController {
           .json({ ok: false, message: 'Error creando nuevo Reclamo' });
       }
 
+      /* sendEmail({
+        name: nombre + ' ' + apellido,
+        correoElectronico,
+        status: 'claimStatusDesc[0].descripcion',
+      }); */
       return res.status(200).json({
         ok: true,
         message: `Reclamo creado con exito por usuario numero ${idUsuario}`,
@@ -44,6 +51,41 @@ class ClaimController {
 
     return res.status(200).json({ ok: true, res: claim });
   };
+  patchClientClaim = async (req, res) => {
+    const { idReclamo } = req.params;
+    const { idUsuario } = req.user;
+    const reclamoNuevoStatus = Number(req.body.reclamoNuevoStatus);
+    if (reclamoNuevoStatus !== 3) {
+      return res.status(403).json({ ok: false, message: 'No está autorizado' });
+    }
+    const [existsClaim] = await this.service.getClaim(idReclamo, idUsuario);
+    if (existsClaim.length === 0) {
+      return res.status(404).json({ ok: true, message: 'No existe reclamo' });
+    }
+    const [patchClaim] = await this.service.patchClaimClient(
+      idReclamo,
+      idUsuario,
+      reclamoNuevoStatus
+    );
+    const { nombre, apellido, correoElectronico } =
+      await this.usuarioService.getUsuarioById(idUsuario, 3);
+
+    sendEmail({
+      name: nombre + ' ' + apellido,
+      correoElectronico,
+      status: 'cancelado',
+    });
+    if (patchClaim.affectedRows !== 1) {
+      return res
+        .status(500)
+        .json({ ok: false, message: 'error actualizando reclamo' });
+    }
+
+    return res
+      .status(200)
+      .json({ ok: true, message: `reclamo ${idReclamo} cancelado` });
+    /* const existsClaim = this.service.getClaim(); */
+  };
   postClientClaim = async (req, res) => {
     try {
       const { asunto, descripcion, idReclamoTipo } = req.body;
@@ -62,7 +104,7 @@ class ClaimController {
 
       return res.status(200).json({
         ok: true,
-        message: `reclamo con id ${newClaim.insertId} creado por usuario${idUsuarioCreador}`,
+        message: `reclamo con id ${newClaim.insertId} creado por usuario ${idUsuarioCreador}`,
       });
     } catch (error) {
       console.log(error);

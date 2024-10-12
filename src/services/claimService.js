@@ -25,7 +25,14 @@ class ClaimsService {
   getClaimsByClientId = async ({ idUsuario }) => {
     return await this.claims.getClaimsByClientId(idUsuario);
   };
-
+  patchClaimClient = async (claimId, userId, claimNewStatus) => {
+    const patchClaimClient = await this.claims.patchClaimClient(
+      claimId,
+      userId,
+      claimNewStatus
+    );
+    return patchClaimClient;
+  };
   patchClaims = async (body, user) => {
     return await this.claims.patchClaim(body, user);
   };
