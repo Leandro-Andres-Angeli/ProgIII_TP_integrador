@@ -32,62 +32,21 @@ class ClaimController {
       return res.status(500).json({ ok: false, message: 'Error de servidor' });
     }
   };
-  getClientClaim = async (req, res) => {
-    const { reclamoId } = req.params;
-    const { idUsuario } = req.user;
-    const [claim] = await this.service.getClaim(reclamoId, idUsuario);
-    if (claim.length === 0) {
-      return res
-        .status(404)
-        .json({ ok: true, message: 'no se encontro reclamo' });
-    }
 
-    return res.status(200).json({ ok: true, res: claim });
-  };
-  postClientClaim = async (req, res) => {
-    try {
-      const { asunto, descripcion, idReclamoTipo } = req.body;
-      const { idUsuario: idUsuarioCreador } = req.user;
-      const newClaim = await this.service.postClaim(
-        asunto,
-        descripcion,
-        idReclamoTipo,
-        idUsuarioCreador
-      );
-      if (newClaim.affectedRows !== 1) {
-        return res
-          .status(500)
-          .json({ ok: false, message: 'error de servidor' });
-      }
-
-      return res.status(200).json({
-        ok: true,
-        message: `reclamo con id ${newClaim.insertId} creado por usuario${idUsuarioCreador}`,
-      });
-    } catch (error) {
-      console.log(error);
-
-      return res.status(500).json({ ok: false, message: 'error de servidor' });
-    }
-  };
   getClaimsByClientId = async (req, res) => {
     const userId = Number(req.params.userId);
   };
 
   getClaims = async (req, res) => {
-    try {
-      const user = req.user;
+    const user = req.user;
 
-      const queryResult = await this.service.getClaims(user);
-      if (queryResult.length === 0) {
-        return res
-          .status(404)
-          .json({ ok: true, message: 'No hay reclamos para este usuario' });
-      }
-      return res.status(200).json({ ok: true, claims: queryResult });
-    } catch (error) {
-      return res.status(500).json({ ok: false, message: 'error de servidor' });
+    const queryResult = await this.service.getClaims(user);
+    if (queryResult.length === 0) {
+      return res
+        .status(404)
+        .json({ ok: true, message: 'No hay reclamos para este usuario' });
     }
+    return res.status(200).json({ ok: true, claims: queryResult });
   };
   /*  patchClaims = async (req, res) => {
     try {

@@ -18,13 +18,6 @@ class Claims {
     connection.release();
     return queryResult;
   };
-  getClaimById = async (claimId, userId) => {
-    const claim = await pool.execute(
-      'SELECT * FROM `reclamos` r  where r.idReclamo=? AND idUsuarioCreador = ?',
-      [claimId, userId]
-    );
-    return claim;
-  };
   postClaim = async (asunto, descripcion, idReclamoTipo, idUsuario) => {
     const connection = await pool.getConnection();
     const [newClaimQuery] = await connection.query(
@@ -58,7 +51,6 @@ class Claims {
     connection.release();
     return patchClaimQuery;
   };
-
   getClaimsByClientId = async (userId) => {
     const connection = await pool.getConnection();
     const [getClaimsByClientId] = await connection.query(
