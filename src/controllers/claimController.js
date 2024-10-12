@@ -228,7 +228,7 @@ class ClaimController {
     const { body } = req;
     const { reclamoId } = req.params;
     const { idUsuario } = req.user;
-    /* const [patchClaim] = await this.service.patchClaimAdmin(body); */
+
     const [checkClaimExists] = await pool.execute(
       `SELECT * FROM reclamos WHERE idReclamo  = ?`,
       [reclamoId]
@@ -276,6 +276,40 @@ class ClaimController {
       ok: true,
       message: `Reclamo número ${reclamoId} modificado por admin número ${idUsuario}`,
     });
+  };
+  postClaimAdmin = async (req, res) => {
+    try {
+      const { body } = req;
+
+      const { idUsuario } = req.params;
+
+      const [dbUser] = await pool.execute(
+        'SELECT * FROM usuarios WHERE idUsuario = ?',
+        [idUsuario]
+      );
+
+      if (dbUser.length === 0) {
+        return res
+          .status(404)
+          .json({ ok: true, message: 'No se encontró usuario con ese id' });
+      }
+      const postClaim = await this.service.postClaimAdmin({
+        ...body,
+        idUsuario,
+      });
+      console.log(postClaim);
+      if (postClaim[0].affectedRows !== 1) {
+        return res
+          .status(500)
+          .json({ ok: 'false', message: 'error agregando reclamo' });
+      }
+      return res.status(200).json({
+        ok: true,
+        message: `Reclamo número  modificado por admin número`,
+      });
+    } catch (error) {
+      return res.status(500).json({ ok: false, message: 'Error de servidor' });
+    }
   };
 }
 

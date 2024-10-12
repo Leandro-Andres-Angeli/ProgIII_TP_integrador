@@ -49,6 +49,9 @@ class ClaimsService {
   patchClaimAdmin = async (body, reclamoId, idUsuario) => {
     return await this.claims.patchClaimAdmin(body, reclamoId, idUsuario);
   };
+  postClaimAdmin = async ({ ...data }) => {
+    return await this.claims.postClaimAdmin(data);
+  };
   //ADMIN SERVICES
 }
 module.exports = ClaimsService;

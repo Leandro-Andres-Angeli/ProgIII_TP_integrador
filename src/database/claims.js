@@ -75,5 +75,20 @@ class Claims {
       reclamoId,
     ]);
   };
+  postClaimAdmin = async (data) => {
+    const { idReclamoEstado, idReclamoTipo, asunto, descripcion, idUsuario } =
+      data;
+    return await pool.execute(
+      'INSERT INTO reclamos  (idReclamoEstado ,idReclamoTipo, asunto , descripcion , idUsuarioCreador , fechaCreado) VALUES (?,?,?,?,?,?)',
+      [
+        idReclamoEstado,
+        idReclamoTipo,
+        asunto,
+        descripcion,
+        idUsuario,
+        new Date(),
+      ]
+    );
+  };
 }
 module.exports = Claims;

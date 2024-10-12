@@ -114,6 +114,25 @@ router.patch(
 
   claimController.patchClaimsAdmin
 );
+router.post(
+  '/admin/:idUsuario/',
+  [
+    param('idUsuario').isNumeric().withMessage('parametro debe ser un numero'),
+    check('idReclamoEstado')
+      .notEmpty()
+      .withMessage('campo idReclamoEstado no puede estar vacio')
+      .isNumeric()
+      .withMessage('campo idReclamoEstado debe ser un numero'),
+    check('asunto').notEmpty().withMessage('asunto no puede estar vacio'),
+    check('descripcion')
+      .notEmpty()
+      .withMessage('descripcion no puede estar vacio'),
+    validarCampos,
+  ],
+  isAdmin,
+
+  claimController.postClaimAdmin
+);
 ///ADMIN ROUTES
 
 module.exports = router;
