@@ -46,16 +46,16 @@ const Usuario = {
   },
 
   updateUsuario: async (id, data, idTipo) => {
-    const { nombre, apellido } = data;
+    const { nombre, apellido, imagen } = data;
 
     const query = `
       UPDATE usuarios 
-      SET nombre = ?, apellido = ?
+      SET nombre = ?, apellido = ?, imagen = ?
       WHERE idUsuario = ?
       AND idUsuarioTipo = ?
     `;
 
-    await pool.execute(query, [nombre, apellido, id, idTipo]);
+    await pool.execute(query, [nombre, apellido, imagen, id, idTipo]);
   },
 
   deleteUsuario: async (id, idTipo) => {
