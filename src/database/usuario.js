@@ -30,6 +30,11 @@ const Usuario = {
     const [result] = await pool.execute(query, [idUsuarioTipo]);
     return result;
   },
+  getUsuarioByIdAndPassword: async (username, password) => {
+    const query = `SELECT * FROM usuarios WHERE correoElectronico = '${username}' AND contrasenia =sha2('${password}',256) AND activo=1`;
+    const [result] = await pool.execute(query, [username, password]);
+    return result;
+  },
 
   getUsuarioById: async (id, idTipo) => {
     const params = [id];

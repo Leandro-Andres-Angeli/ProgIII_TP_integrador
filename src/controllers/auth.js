@@ -8,6 +8,7 @@ dotenv.config();
 
 const pool = require('../config/dbConfig');
 const { ExtractJwt } = require('passport-jwt');
+const Usuario = require('../database/usuario');
 
 const generateToken = (req, res) => {
   const { logIn } = req;
@@ -30,8 +31,13 @@ const passportLocalStrategy = new Strategy(
     try {
       const connection = await pool.getConnection();
 
-      const [user] = await connection.query(
+      /* const [user] = await connection.query(
         `SELECT * FROM usuarios WHERE correoElectronico = '${username}' AND contrasenia =sha2('${password}',256) `
+      ); */
+
+      const [user] = await Usuario.getUsuarioByIdAndPassword(
+        username,
+        password
       );
 
       if (!Boolean(user.length)) {
