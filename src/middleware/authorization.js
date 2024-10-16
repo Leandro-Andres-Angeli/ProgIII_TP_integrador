@@ -15,6 +15,7 @@ const isAdmin = async (req, res, next) => {
 
 const isClient = async (req, res, next) => {
   const usuario = req.user;
+
   if (usuario.idUsuarioTipo !== 3) {
     return res.status(403).send({
       ok: false,

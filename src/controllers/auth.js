@@ -44,8 +44,8 @@ const passportLocalStrategy = new Strategy(
         );
       }
       connection.release();
-      const { contrasenia, ...userWithoutPassword } = user[0];
-      return cb(null, userWithoutPassword);
+
+      return cb(null, user[0]);
     } catch (error) {
       return cb(new Error('Error de servidor'), false);
     }
@@ -77,6 +77,8 @@ const passportJWTStrategy = new JWTStrategy(
       const connection = await pool.getConnection();
 
       const { contrasenia, correoElectronico } = JWTPayload?.user;
+      console.log(JWTPayload.user);
+
       const [user] = await connection.query(
         `SELECT * FROM usuarios WHERE correoElectronico='${correoElectronico}' AND contrasenia='${contrasenia}'`
       );
