@@ -31,14 +31,11 @@ const passportLocalStrategy = new Strategy(
     try {
       const connection = await pool.getConnection();
 
-      /* const [user] = await connection.query(
+      /*       const [user] = await connection.query(
         `SELECT * FROM usuarios WHERE correoElectronico = '${username}' AND contrasenia =sha2('${password}',256) `
       ); */
 
-      const [user] = await Usuario.getUsuarioByIdAndPassword(
-        username,
-        password
-      );
+      const user = await Usuario.getUsuarioByIdAndPassword(username, password);
 
       if (!Boolean(user.length)) {
         return cb(
@@ -47,7 +44,8 @@ const passportLocalStrategy = new Strategy(
         );
       }
       connection.release();
-      return cb(null, user[0]);
+      const { contrasenia, ...userWithoutPassword } = user[0];
+      return cb(null, userWithoutPassword);
     } catch (error) {
       return cb(new Error('Error de servidor'), false);
     }
