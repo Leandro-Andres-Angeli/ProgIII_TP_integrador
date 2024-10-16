@@ -2,17 +2,24 @@ const pool = require('../config/dbConfig');
 
 const Usuario = {
   createUsuario: async (data) => {
-    const { nombre, apellido, correoElectronico, contrasenia, idUsuarioTipo } =
-      data;
+    const {
+      nombre,
+      apellido,
+      correoElectronico,
+      contrasenia,
+      imagen,
+      idUsuarioTipo,
+    } = data;
     const query = `
-      INSERT INTO usuarios (nombre, apellido, correoElectronico, contrasenia, idUsuarioTipo, activo) 
-      VALUES (?, ?, ?,sha2( ?,256), ?, 1)
+      INSERT INTO usuarios (nombre, apellido, correoElectronico, contrasenia,imagen, idUsuarioTipo, activo) 
+      VALUES (?, ?, ?,sha2( ?,256),?, ?, 1)
     `;
     const [result] = await pool.execute(query, [
       nombre,
       apellido,
       correoElectronico,
       contrasenia,
+      imagen,
       idUsuarioTipo,
     ]);
     return result.insertId;
@@ -39,16 +46,16 @@ const Usuario = {
   },
 
   updateUsuario: async (id, data, idTipo) => {
-    const { nombre, apellido } = data;
+    const { nombre, apellido, imagen } = data;
 
     const query = `
       UPDATE usuarios 
-      SET nombre = ?, apellido = ?
+      SET nombre = ?, apellido = ?, imagen = ?
       WHERE idUsuario = ?
       AND idUsuarioTipo = ?
     `;
 
-    await pool.execute(query, [nombre, apellido, id, idTipo]);
+    await pool.execute(query, [nombre, apellido, imagen, id, idTipo]);
   },
 
   deleteUsuario: async (id, idTipo) => {
