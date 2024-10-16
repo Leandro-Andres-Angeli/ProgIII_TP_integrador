@@ -17,10 +17,11 @@ const generateToken = (req, res) => {
     if (err) return err;
 
     const token = jwt.sign({ user }, 'secret', { expiresIn: '90d' });
+    const { contrasenia, ...userWithoutPassword } = user;
     return res.status(200).json({
       ok: true,
       message: 'Autenticacion exitosa',
-      usuario: { ...user, token },
+      usuario: { ...userWithoutPassword, token },
     });
   });
 };
@@ -77,7 +78,6 @@ const passportJWTStrategy = new JWTStrategy(
       const connection = await pool.getConnection();
 
       const { contrasenia, correoElectronico } = JWTPayload?.user;
-      console.log(JWTPayload.user);
 
       const [user] = await connection.query(
         `SELECT * FROM usuarios WHERE correoElectronico='${correoElectronico}' AND contrasenia='${contrasenia}'`
