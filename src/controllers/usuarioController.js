@@ -1,4 +1,3 @@
-const pool = require('../config/dbConfig');
 const usuarioService = require('../services/usuarioService');
 
 // CRUD Clientes
@@ -43,21 +42,8 @@ exports.getClienteById = async (req, res) => {
 
 exports.updateCliente = async (req, res) => {
   const clienteID = req.user.idUsuario;
-
   try {
-    const [rows] = await pool.query(
-      'SELECT * FROM usuarios WHERE idUsuario = ?',
-      [clienteID]
-    );
-
-    if (rows.length === 0) {
-      return res
-        .status(404)
-        .json({ message: 'No se encuentra al cliente solicitado.' });
-    }
-
     await usuarioService.updateUsuario(clienteID, req.body, 3);
-
     res
       .status(200)
       .json({ ok: true, message: 'Perfil actualizado con éxito.' });
