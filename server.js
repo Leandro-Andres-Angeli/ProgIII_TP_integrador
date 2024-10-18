@@ -49,7 +49,7 @@ server.use('/api/reclamos', claimRoutes);
 server.use('/api/clientes', [handleTokenValidity, isClient], clienteRoutes);
 server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
 server.use('/api/v2/admin/', [handleTokenValidity, isAdmin], adminRoutes_v2);
-server.use('/api/pdf', pdfRoutes);
+server.use('/api/pdf', [handleTokenValidity, isAdmin], pdfRoutes);
 
 const checkConnection = async () => {
   try {

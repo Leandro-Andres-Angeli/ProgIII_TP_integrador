@@ -1,5 +1,7 @@
 const pool = require('../config/dbConfig');
 const ClaimsService = require('../services/claimService');
+const ClaimStatusService = require('../services/claimStatusService');
+
 const usuarioService = require('../services/usuarioService');
 const { sendEmail } = require('../utils/sendEmail');
 
@@ -7,6 +9,7 @@ class ClaimController {
   constructor() {
     this.service = new ClaimsService();
     this.usuarioService = usuarioService;
+    this.claimsStatusService = new ClaimStatusService();
   }
   postClaim = async (req, res) => {
     try {
@@ -38,21 +41,11 @@ class ClaimController {
     const { reclamoId } = req.params;
     const { idUsuario } = req.user;
     const [claim] = await this.service.getClaim(reclamoId, idUsuario);
-    if (claim.length === 0) {
+
+    if (!claim) {
       return res
         .status(404)
         .json({ ok: true, message: 'no se encontro reclamo' });
-    }
-    const [getEmployeeIdOficina] = await pool.execute(
-      'SELECT idOficina FROM usuarios_oficinas WHERE idOficina = ?',
-      [idUsuario]
-    );
-
-    if (
-      getEmployeeIdOficina.length === 0 ||
-      claim[0].idReclamoTipo !== getEmployeeIdOficina[0].idOficina
-    ) {
-      return res.status(403).json({ ok: false, message: 'No está autorizado' });
     }
 
     return res.status(200).json({ ok: true, res: claim });
@@ -116,9 +109,6 @@ class ClaimController {
       return res.status(500).json({ ok: false, message: 'error de servidor' });
     }
   };
-  getClaimsByClientId = async (req, res) => {
-    const userId = Number(req.params.userId);
-  };
 
   getUserClaims = async (req, res) => {
     try {
@@ -160,6 +150,7 @@ class ClaimController {
     const { idReclamo } = req.params;
     const reclamoNuevoStatus = Number(req.body.reclamoNuevoStatus);
     const { idUsuario } = req.user;
+
     const [checkRightClaim] = await pool.execute(
       'SELECT * FROM reclamos r where r.idReclamoTipo =  (SELECT uo.idOficina FROM `usuarios` u  JOIN usuarios_oficinas uo ON u.idUsuario = uo.idUsuario WHERE u.idUsuario=?)  AND r.idReclamo = ? ;',
       [idUsuario, idReclamo]
@@ -199,15 +190,20 @@ class ClaimController {
         checkRightClaim[0].idUsuarioCreador,
         getUserType[0].idUsuarioTipo
       );
-    const [newStatus] = await pool.execute(
+    /*   const [newStatus] = await pool.execute(
       'SELECT descripcion FROM reclamos_estado WHERE idReclamoEstado = ? ',
       [reclamoNuevoStatus]
-    );
+    ); */
+    const [claimBynewStatus] =
+      await this.claimsStatusService.getClaimStatusByIdStatus(
+        reclamoNuevoStatus
+      );
 
     sendEmail({
       name: nombre + ' ' + apellido,
       correoElectronico,
-      status: newStatus[0].descripcion,
+
+      status: claimBynewStatus.descripcion,
     });
     return res
       .status(200)
@@ -297,7 +293,7 @@ class ClaimController {
         ...body,
         idUsuario,
       });
-      console.log(postClaim);
+
       if (postClaim[0].affectedRows !== 1) {
         return res
           .status(500)
