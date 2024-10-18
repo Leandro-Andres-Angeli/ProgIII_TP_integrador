@@ -20,6 +20,16 @@ class Claims {
 
     return claim;
   };
+  getClaimByClaimId = async (claimId) => {
+    const [claim] = await pool.execute(
+      'SELECT * FROM `reclamos` r  where r.idReclamo=?',
+      [claimId]
+    );
+
+    // if(claimId.idReclamoTipo !== )
+
+    return claim;
+  };
   postClaim = async (asunto, descripcion, idReclamoTipo, idUsuario) => {
     const connection = await pool.getConnection();
     const [newClaimQuery] = await connection.query(

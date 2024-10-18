@@ -190,10 +190,7 @@ class ClaimController {
         checkRightClaim[0].idUsuarioCreador,
         getUserType[0].idUsuarioTipo
       );
-    /*   const [newStatus] = await pool.execute(
-      'SELECT descripcion FROM reclamos_estado WHERE idReclamoEstado = ? ',
-      [reclamoNuevoStatus]
-    ); */
+
     const [claimBynewStatus] =
       await this.claimsStatusService.getClaimStatusByIdStatus(
         reclamoNuevoStatus
@@ -225,10 +222,7 @@ class ClaimController {
     const { reclamoId } = req.params;
     const { idUsuario } = req.user;
 
-    const [checkClaimExists] = await pool.execute(
-      `SELECT * FROM reclamos WHERE idReclamo  = ?`,
-      [reclamoId]
-    );
+    const checkClaimExists = await this.service.getClaimByClaimId(reclamoId);
 
     if (checkClaimExists.length === 0) {
       return res

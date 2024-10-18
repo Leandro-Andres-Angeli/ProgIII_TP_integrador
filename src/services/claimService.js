@@ -25,6 +25,12 @@ class ClaimsService {
   getClaim = async (claimId, userId) => {
     return await this.claims.getClaimById(claimId, userId);
   };
+  getClaimById = async (claimId) => {
+    return await this.claims.getClaimById(claimId);
+  };
+  getClaimByClaimId = async (claimId) => {
+    return await this.claims.getClaimByClaimId(claimId);
+  };
   getClaimsByClientId = async ({ idUsuario }) => {
     return await this.claims.getClaimsByClientId(idUsuario);
   };
