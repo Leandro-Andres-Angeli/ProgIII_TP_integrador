@@ -307,60 +307,15 @@
         "summary": "Genera pdf de reclamos"
       }
     },
-    "/api/reclamos": {
+
+    "/api/reclamos/clientes/": {
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
         "tags": ["Reclamos"],
-        "description": "Obtiene reclamos",
-        "operationId": "obtieneReclamos",
-        "summary": "Obtiene reclamos"
-      },
-      "patch": {
-        "consumes": ["application/json"],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "properties": {
-                "asunto": { "example": "Asunto 2", "type": "string" },
-                "claimId": { "example": 19, "type": "number" },
-                "claimNewStatus": { "example": 3, "type": "number" },
-                "descripcion": { "example": "Descripción 2", "type": "string" },
-                "idReclamoTipo": { "example": 1, "type": "number" }
-              },
-              "type": "object"
-            }
-          }
-        ],
-        "responses": { "200": { "description": "" } },
-        "tags": ["Reclamos"],
-        "description": "Actualiza un reclamo",
-        "operationId": "actualizaUnReclamo",
-        "summary": "Actualiza un reclamo"
-      },
-      "post": {
-        "consumes": ["application/json"],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "properties": {
-                "asunto": { "example": "Asunto", "type": "string" },
-                "descripcion": { "example": "Descripción", "type": "string" },
-                "idReclamoTipo": { "example": 6, "type": "number" }
-              },
-              "type": "object"
-            }
-          }
-        ],
-        "responses": { "200": { "description": "" } },
-        "tags": ["Reclamos"],
-        "description": "Crea un nuevo reclamo",
-        "operationId": "creaUnNuevoReclamo",
-        "summary": "Crea un nuevo reclamo"
+        "description": "Obtiene reclamos - clientes",
+        "operationId": "obtieneReclamos - clientes",
+        "summary": "Obtiene reclamos - clientes"
       }
     },
     "/api/registro": {
