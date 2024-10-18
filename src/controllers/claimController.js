@@ -251,15 +251,15 @@ class ClaimController {
       'SELECT nombre , apellido, correoElectronico FROM usuarios WHERE idUsuario = ?',
       [checkClaimExists[0].idUsuarioCreador]
     );
-    const [newStatus] = await pool.execute(
-      'SELECT descripcion FROM reclamos_estado WHERE idReclamoEstado = ? ',
-      [body.reclamoNuevoStatus]
+    const [newStatus] = await this.claimsStatusService.getClaimStatusByIdStatus(
+      body.reclamoNuevoStatus
     );
+
     const { nombre, apellido, correoElectronico } = userClaim[0];
     sendEmail({
       name: nombre + ' ' + apellido,
       correoElectronico,
-      status: newStatus[0].descripcion,
+      status: newStatus.descripcion,
     });
 
     return res.status(200).json({
