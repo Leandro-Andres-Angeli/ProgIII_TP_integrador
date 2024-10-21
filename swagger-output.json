@@ -307,7 +307,49 @@
         "summary": "Genera pdf de reclamos"
       }
     },
-
+    "/api/reclamos/admin/": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Obtiene todos los reclamos  - ruta disponible unicamente para administradores",
+        "operationId": "obtieneReclamos - admin",
+        "summary": "Obtiene reclamos - admin"
+      }
+    },
+    "/api/reclamos/admin/{idUsuario}": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "idUsuario",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "idReclamoEstado": { "example": 3, "type": "number" },
+                "asunto": {
+                  "example": "reclamo creado por admin",
+                  "type": "string"
+                },
+                "descripcion": { "example": "descripcion", "type": "string" },
+                "idReclamoTipo": { "example": 4, "type": "number" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Postea un reclamo recibe el id del cliente por parametro ",
+        "operationId": "postReclamos - admin",
+        "summary": "Post reclamos - admin"
+      }
+    },
     "/api/reclamos/clientes/": {
       "get": {
         "parameters": [],
@@ -318,6 +360,7 @@
         "summary": "Obtiene reclamos - clientes"
       }
     },
+
     "/api/registro": {
       "post": {
         "consumes": ["application/json"],
