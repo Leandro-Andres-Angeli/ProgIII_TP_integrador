@@ -20,6 +20,14 @@ class Claims {
 
     return claim;
   };
+  patchClaimClient = async (claimId, idUser) => {
+    const [claimUpdate] = await pool.execute(
+      `UPDATE reclamos r SET r.idReclamoEstado=3 , r.idUsuarioFinalizador = ? ,r.fechaCancelado=NOW()
+      WHERE r.idReclamo =? ;`,
+      [idUser, claimId]
+    );
+    return claimUpdate;
+  };
   getClaimByClaimId = async (claimId) => {
     const [claim] = await pool.execute(
       'SELECT * FROM `reclamos` r  where r.idReclamo=?',

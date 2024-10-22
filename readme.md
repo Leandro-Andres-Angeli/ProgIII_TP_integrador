@@ -245,6 +245,7 @@ Postea un reclamo recibe el id del cliente por parametro debe estar logueado com
 
 #### Reclamos Cliente
 
+`GET /api/reclamos/clientes/`
 Obtiene reclamos asociados a un determinado cliente , debe estar logueado como cliente
 
 ##### Ejemplo respuesta de la peticion
@@ -289,4 +290,36 @@ Obtiene reclamos asociados a un determinado cliente , debe estar logueado como c
 "idUsuarioFinalizador": 64
 }
 ]
+}
+
+`POST /api/reclamos/clientes/`
+Postea nuevo reclamo de cliente
+Se debe estar logueado como cliente
+| Parameter | Type | Description |
+| :---------------- | :------------- | :------------------------------- |
+| asunto | `string` | **Requerido**. asunto |
+| descripcion | `string` | **Requerido**. descripcion |
+| idReclamoTipo | `number` | **Requerido**. idReclamoTipo |
+| token | `bearer token` | **Requerido**. token |
+
+##### Ejemplo respuesta de la peticion
+
+{
+"ok": true,
+"message": "reclamo con id 107 creado por usuario 62"
+}
+
+`PATCH /api/reclamos/clientes/{idReclamo}`
+
+| Parameter          | Type           | Description                       |
+| :----------------- | :------------- | :-------------------------------- |
+| reclamoNuevoStatus | `number`       | **Requerido**. reclamoNuevoStatus |
+| token              | `bearer token` | **Requerido**. token              |
+
+Patch reclamos - clientes debe estar logueado como cliente cambia el estado del reclamo a cancelado , si el reclamo ya esta cancelado no ejecuta acción
+
+Ejemplo respuesta peticion
+{
+"ok": true,
+"message": "reclamo 107 cancelado"
 }

@@ -391,6 +391,64 @@
         "description": "Obtiene reclamos - clientes debe estar logueado como cliente ",
         "operationId": "obtieneReclamos - clientes",
         "summary": "Obtiene reclamos - clientes"
+      },
+      "post": {
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "asunto": {
+                  "example": "reclamo posteado por cliente",
+                  "type": "string"
+                },
+                "descripcion": {
+                  "example": "descripcion reclamo",
+                  "type": "string"
+                },
+
+                "idReclamoTipo": { "example": 4, "type": "number" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Postea reclamos - clientes debe estar logueado como cliente ",
+        "operationId": "posteaReclamos - clientes",
+        "summary": "Postea reclamos - clientes"
+      }
+    },
+    "/api/reclamos/clientes/{idReclamo}": {
+      "patch": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "idReclamo",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "reclamoNuevoStatus": {
+                  "example": 1,
+                  "type": "number"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Patch reclamos - clientes debe estar logueado como cliente cambia el estado del reclamo a cancelado , si el reclamo ya esta cancelado no ejecuta acción ",
+        "operationId": "patchReclamos - clientes",
+        "summary": "Patch reclamos - clientes"
       }
     },
 

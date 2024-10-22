@@ -56,20 +56,28 @@ class ClaimController {
       const { idReclamo } = req.params;
       const { idUsuario } = req.user;
       const reclamoNuevoStatus = Number(req.body.reclamoNuevoStatus);
+
+      const [existsClaim] = await this.service.getClaim(idReclamo, idUsuario);
+
+      if (!existsClaim) {
+        return res.status(404).json({ ok: true, message: 'No existe reclamo' });
+      }
+
       if (reclamoNuevoStatus !== 3) {
         return res
           .status(403)
           .json({ ok: false, message: 'No está autorizado' });
       }
-      const [existsClaim] = await this.service.getClaim(idReclamo, idUsuario);
-      if (existsClaim.length === 0) {
-        return res.status(404).json({ ok: true, message: 'No existe reclamo' });
+      if (existsClaim.idReclamoEstado === reclamoNuevoStatus) {
+        return res
+          .status(400)
+          .json({ ok: false, message: 'El reclamo ya tiene ese estado' });
       }
-      const [patchClaim] = await this.service.patchClaimClient(
+      const patchClaim = await this.service.patchClaimClient(
         idReclamo,
-        idUsuario,
-        reclamoNuevoStatus
+        idUsuario
       );
+
       const { nombre, apellido, correoElectronico } =
         await this.usuarioService.getUsuarioById(idUsuario, 3);
 
@@ -89,6 +97,8 @@ class ClaimController {
         .json({ ok: true, message: `reclamo ${idReclamo} cancelado` });
       /* const existsClaim = this.service.getClaim(); */
     } catch (error) {
+      console.log(error);
+
       res.status(500).json({ ok: false, message: 'Error de servidor' });
     }
   };
