@@ -345,9 +345,42 @@
         ],
         "responses": { "200": { "description": "" } },
         "tags": ["Reclamos"],
-        "description": "Postea un reclamo recibe el id del cliente por parametro ",
+        "description": "Postea un reclamo recibe el id del cliente por parametro debe estar logueado como admin ",
         "operationId": "postReclamos - admin",
         "summary": "Post reclamos - admin"
+      }
+    },
+    "/api/reclamos/admin/{idReclamo}": {
+      "patch": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "idReclamo",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "asunto": {
+                  "example": "reclamo modificado por admin",
+                  "type": "string"
+                },
+                "descripcion": { "example": "descripcion", "type": "string" },
+
+                "reclamoNuevoStatus": { "example": 4, "type": "number" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Actualiza un reclamo recibe el id del cliente por parametro debe estar logueado como admin ",
+        "operationId": "patchReclamos - admin",
+        "summary": "patch reclamos - admin"
       }
     },
     "/api/reclamos/clientes/": {
@@ -355,7 +388,7 @@
         "parameters": [],
         "responses": { "200": { "description": "" } },
         "tags": ["Reclamos"],
-        "description": "Obtiene reclamos - clientes",
+        "description": "Obtiene reclamos - clientes debe estar logueado como cliente ",
         "operationId": "obtieneReclamos - clientes",
         "summary": "Obtiene reclamos - clientes"
       }

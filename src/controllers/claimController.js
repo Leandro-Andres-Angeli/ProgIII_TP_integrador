@@ -1,4 +1,5 @@
 const pool = require('../config/dbConfig');
+
 const ClaimsService = require('../services/claimService');
 const ClaimStatusService = require('../services/claimStatusService');
 
@@ -187,15 +188,10 @@ class ClaimController {
           .status(500)
           .json({ ok: false, message: 'error actualizando reclamo' });
       }
-      const [getUserType] = await pool.execute(
-        `SELECT idUsuarioTipo FROM usuarios WHERE idUsuario = ?`,
-        [checkRightClaim[0].idUsuarioCreador]
-      );
 
       const { nombre, apellido, correoElectronico } =
         await this.usuarioService.getUsuarioById(
-          checkRightClaim[0].idUsuarioCreador,
-          getUserType[0].idUsuarioTipo
+          checkRightClaim[0].idUsuarioCreador
         );
 
       const [claimBynewStatus] =
@@ -213,7 +209,9 @@ class ClaimController {
         .status(200)
         .json({ ok: true, message: 'reclamo modificado con exito' });
     } catch (error) {
-      return res.status(500).json({ message: 'error de servidor' });
+      return res
+        .status(500)
+        .json({ message: error.message || 'error de servidor' });
     }
   };
 
@@ -258,16 +256,16 @@ class ClaimController {
           .status(500)
           .json({ ok: false, message: 'Error actualizando reclamo' });
       }
-      const [userClaim] = await pool.execute(
-        'SELECT nombre , apellido, correoElectronico FROM usuarios WHERE idUsuario = ?',
-        [checkClaimExists[0].idUsuarioCreador]
+      const userClaim = await this.usuarioService.getUsuarioById(
+        checkClaimExists[0].idUsuarioCreador
       );
+
       const [newStatus] =
         await this.claimsStatusService.getClaimStatusByIdStatus(
           body.reclamoNuevoStatus
         );
 
-      const { nombre, apellido, correoElectronico } = userClaim[0];
+      const { nombre, apellido, correoElectronico } = userClaim;
       sendEmail({
         name: nombre + ' ' + apellido,
         correoElectronico,
@@ -279,6 +277,8 @@ class ClaimController {
         message: `Reclamo número ${reclamoId} modificado por admin número ${idUsuario}`,
       });
     } catch (error) {
+      console.log(error);
+
       return res.status(500).json({ message: 'error de servidor' });
     }
   };
@@ -295,10 +295,6 @@ class ClaimController {
         'SELECT * FROM usuarios WHERE idUsuario = ?',
         [idUsuario]
       ); */
-
-      /*
-  MODIFICAR METODO GETUSUARIOBYID
-      const dbUser = this.usuarioService.getUsuarioById(idUsuario, undefined);*/
 
       if (dbUser.length === 0) {
         return res

@@ -27,12 +27,10 @@ INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `correoElectronico`, 
 ```
 
 ## Documentación
+
 http://localhost:3001/api-docs
 
-
 Loguearse en /api/login y copiar el token, luego presionar en el botón 'Authorize' e ingresar 'Bearer' seguido del token. Ejemplo: 'Bearer abcde12345'
-
-
 
 ## Usuarios
 
@@ -163,58 +161,34 @@ POST api/admin/empleados
 
 ### Reclamos
 
-#### Crear reclamos
+#### Reclamos Admin
 
 ```http
-POST api/reclamos/
+GET api/reclamos/admin/
 ```
-
-| Parameter     | Type           | Description                  |
-| :------------ | :------------- | :--------------------------- |
-| token         | `bearer token` | **Requerido**. token         |
-| asunto        | `string`       | **Requerido**. asunto        |
-| descripcion   | `email`        | **Requerido**. descripcion   |
-| idReclamoTipo | `string`       | **Requerido**. idReclamoTipo |
-
-##### Ejemplo Body de la peticion
-
-```
-
-{"asunto":"test",
-"descripcion":"reclamo de admin@gmail.com",
-"idReclamoTipo":14}
-```
-
----
-
-### Get reclamos
-
-`GET api/reclamos`
-
-Si el usuario logueado es un cliente devolvera todos los reclamos asociados a
-ese cliente , si el usuario logueado es un empleado devolvera los reclamos asociados
-a la oficina de dicho empleado .Si el usuario es administrador devolvera todos los reclamos en la DB
 
 | Parameter | Type           | Description          |
 | :-------- | :------------- | :------------------- |
 | token     | `bearer token` | **Requerido**. token |
 
-##### Ejemplo Body de la respuesta
+Devuelve todos los reclamos.Debe estar logueado como administrador
 
-```{
+##### Ejemplo respuesta de la peticion
+
+{
 "ok": true,
-"claims": [
+"res": [
 {
 "idReclamo": 5,
 "asunto": "nodif ",
 "descripcion": "modif from admin",
 "fechaCreado": "2024-09-29T13:51:23.000Z",
 "fechaFinalizado": null,
-"fechaCancelado": null,
-"idReclamoEstado": 4,
+"fechaCancelado": "2024-10-21T23:46:01.000Z",
+"idReclamoEstado": 3,
 "idReclamoTipo": 1,
 "idUsuarioCreador": 9,
-"idUsuarioFinalizador": null
+"idUsuarioFinalizador": 64
 },
 {
 "idReclamo": 6,
@@ -222,49 +196,97 @@ a la oficina de dicho empleado .Si el usuario es administrador devolvera todos l
 "descripcion": null,
 "fechaCreado": "2024-08-19T10:00:00.000Z",
 "fechaFinalizado": null,
-"fechaCancelado": null,
-"idReclamoEstado": 2,
+"fechaCancelado": "2024-10-18T00:01:24.000Z",
+"idReclamoEstado": 3,
 "idReclamoTipo": 1,
-"idUsuarioCreador": 9,
-"idUsuarioFinalizador": null
+"idUsuarioCreador": 8,
+"idUsuarioFinalizador": 64
 },
 {
 "idReclamo": 7,
-"asunto": "no frena",
-"descripcion": null,
+"asunto": "no frena 2",
+"descripcion": "modif from admin",
 "fechaCreado": "2024-08-15T10:15:00.000Z",
+"fechaFinalizado": null,
+"fechaCancelado": "2024-10-12T19:22:42.000Z",
+"idReclamoEstado": 3,
+"idReclamoTipo": 2,
+"idUsuarioCreador": 8,
+"idUsuarioFinalizador": 65
+},
+{
+"idReclamo": 8,
+"asunto": "ruidos extraños",
+"descripcion": null,
+"fechaCreado": "2024-08-15T11:00:00.000Z",
 "fechaFinalizado": null,
 "fechaCancelado": null,
 "idReclamoEstado": 1,
-"idReclamoTipo": 2,
-"idUsuarioCreador": 9,
-"idUsuarioFinalizador": 7
+"idReclamoTipo": 3,
+"idUsuarioCreador": 7,
+"idUsuarioFinalizador": null
+},...]
+}
+
+```http
+POST api/reclamos/admin/{idUsuario}
+```
+
+Postea un reclamo recibe el id del cliente por parametro debe estar logueado como admin
+
+##### Ejemplo respuesta de la peticion
+
+{
+"idReclamoEstado": 3,
+"asunto": "reclamo creado por admin",
+"descripcion": "descripcion",
+"idReclamoTipo": 4
+}
+
+#### Reclamos Cliente
+
+Obtiene reclamos asociados a un determinado cliente , debe estar logueado como cliente
+
+##### Ejemplo respuesta de la peticion
+
+{
+"ok": true,
+"claims": [
+{
+"idReclamo": 90,
+"asunto": "test",
+"descripcion": "reclamo de cliente leandroandresangeli@gmail.com",
+"fechaCreado": "2024-10-12T18:26:54.000Z",
+"fechaFinalizado": null,
+"fechaCancelado": "2024-10-18T00:39:05.000Z",
+"idReclamoEstado": 3,
+"idReclamoTipo": 1,
+"idUsuarioCreador": 62,
+"idUsuarioFinalizador": 49
+},
+{
+"idReclamo": 91,
+"asunto": "test",
+"descripcion": "reclamo de cliente 2 de leandroandresangeli@gmail.com",
+"fechaCreado": "2024-10-12T18:27:05.000Z",
+"fechaFinalizado": null,
+"fechaCancelado": null,
+"idReclamoEstado": 1,
+"idReclamoTipo": 1,
+"idUsuarioCreador": 62,
+"idUsuarioFinalizador": null
+},
+{
+"idReclamo": 92,
+"asunto": "test",
+"descripcion": "reclamo de cliente 3 de leandroandresangeli@gmail.com",
+"fechaCreado": "2024-10-12T18:27:12.000Z",
+"fechaFinalizado": "2024-10-12T18:35:04.000Z",
+"fechaCancelado": null,
+"idReclamoEstado": 4,
+"idReclamoTipo": 1,
+"idUsuarioCreador": 62,
+"idUsuarioFinalizador": 64
 }
 ]
 }
-```
-
----
-
-### Patch reclamos
-
-`PATCH api/reclamos/`
-
-Si el usuario logueado es un cliente podra cancelar su reclamos unicamente.
-Si el usuario logueado es empleado podra unicamente cancelar o finalizar reclamos
-que pertenezcan solamente a su oficina
-El administrador puede realizar todo tipo de cambios
-
-| Parameter      | Type           | Description               |
-| :------------- | :------------- | :------------------------ |
-| claimId        | `number`       | **Requerido**. claimId    |
-| asunto         | `string`       | **Opcional**. asunto      |
-| claimNewStatus | `number`       | **Requerido**. token      |
-| descripcion    | `string`       | **Opcional**. descripcion |
-| token          | `bearer token` | **Requerido**. token      |
-
-##### Ejemplo Body de la peticion
-
-```
-{ "claimId":"78" ,"asunto":"no frena 2",  "claimNewStatus":"2" , "descripcion":"modif from empleado"  }
-```
