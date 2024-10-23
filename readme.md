@@ -334,7 +334,6 @@ Obtiene reclamos debe estar logueado como empleado , devuelve los reclamos asoci
 
 | Parameter | Type | Description |
 | :-------- | :--- | :---------- |
-
 | token | `bearer token` | **Requerido**. token |
 
 ejemplo de respuesta
@@ -342,7 +341,6 @@ ejemplo de respuesta
 
 | Parameter | Type | Description |
 | :-------- | :--- | :---------- |
-
 | token | `bearer token` | **Requerido**. token |
 | idReclamo | `numbre` | **Requerido**. idReclamo |
 
