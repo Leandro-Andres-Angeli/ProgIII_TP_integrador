@@ -451,6 +451,46 @@
         "summary": "Patch reclamos - clientes"
       }
     },
+    "/api/reclamos/empleados/": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Obtiene reclamos - empleados debe estar logueado como empleado devuelve los reclamos asociados a la oficina del empleado",
+        "operationId": "obtieneReclamos - empleados",
+        "summary": "Obtiene reclamos - empleados"
+      }
+    },
+    "/api/reclamos/empleados/{idReclamo}": {
+      "patch": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "idReclamo",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "reclamoNuevoStatus": {
+                  "example": 1,
+                  "type": "number"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Patch reclamos - empleados .Debe estar logueado como empleado , cambia el estado del reclamo",
+        "operationId": "patchReclamos - empleados",
+        "summary": "Patch reclamos - empleados"
+      }
+    },
 
     "/api/registro": {
       "post": {

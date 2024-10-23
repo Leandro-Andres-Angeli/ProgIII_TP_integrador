@@ -15,6 +15,9 @@ class ClaimsService {
     );
     return newClaimQuery;
   };
+  getClaimByClaimIdAndUserId = async (idUsuario, idReclamo) => {
+    return await this.claims.getClaimByClaimIdAndUserId(idUsuario, idReclamo);
+  };
   getUserClaims = async (idUsuario) => {
     return await this.claims.getUserClaims(idUsuario);
   };

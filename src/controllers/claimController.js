@@ -169,11 +169,10 @@ class ClaimController {
       const reclamoNuevoStatus = Number(req.body.reclamoNuevoStatus);
       const { idUsuario } = req.user;
 
-      const [checkRightClaim] = await pool.execute(
-        'SELECT * FROM reclamos r where r.idReclamoTipo =  (SELECT uo.idOficina FROM `usuarios` u  JOIN usuarios_oficinas uo ON u.idUsuario = uo.idUsuario WHERE u.idUsuario=?)  AND r.idReclamo = ? ;',
-        [idUsuario, idReclamo]
+      const checkRightClaim = await this.service.getClaimByClaimIdAndUserId(
+        idUsuario,
+        idReclamo
       );
-
       if (checkRightClaim.length === 0) {
         return res.status(403).json({
           ok: false,

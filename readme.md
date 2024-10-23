@@ -175,6 +175,7 @@ Devuelve todos los reclamos.Debe estar logueado como administrador
 
 ##### Ejemplo respuesta de la peticion
 
+```
 {
 "ok": true,
 "res": [
@@ -227,6 +228,7 @@ Devuelve todos los reclamos.Debe estar logueado como administrador
 "idUsuarioFinalizador": null
 },...]
 }
+```
 
 ```http
 POST api/reclamos/admin/{idUsuario}
@@ -236,12 +238,13 @@ Postea un reclamo recibe el id del cliente por parametro debe estar logueado com
 
 ##### Ejemplo respuesta de la peticion
 
+````
 {
 "idReclamoEstado": 3,
 "asunto": "reclamo creado por admin",
 "descripcion": "descripcion",
 "idReclamoTipo": 4
-}
+}```
 
 #### Reclamos Cliente
 
@@ -250,7 +253,7 @@ Obtiene reclamos asociados a un determinado cliente , debe estar logueado como c
 
 ##### Ejemplo respuesta de la peticion
 
-{
+```{
 "ok": true,
 "claims": [
 {
@@ -291,6 +294,7 @@ Obtiene reclamos asociados a un determinado cliente , debe estar logueado como c
 }
 ]
 }
+````
 
 `POST /api/reclamos/clientes/`
 Postea nuevo reclamo de cliente
@@ -304,10 +308,10 @@ Se debe estar logueado como cliente
 
 ##### Ejemplo respuesta de la peticion
 
-{
+````{
 "ok": true,
 "message": "reclamo con id 107 creado por usuario 62"
-}
+}```
 
 `PATCH /api/reclamos/clientes/{idReclamo}`
 
@@ -319,7 +323,39 @@ Se debe estar logueado como cliente
 Patch reclamos - clientes debe estar logueado como cliente cambia el estado del reclamo a cancelado , si el reclamo ya esta cancelado no ejecuta acción
 
 Ejemplo respuesta peticion
-{
+``` {
 "ok": true,
 "message": "reclamo 107 cancelado"
+}```
+
+#### Reclamos Empleado
+
+`GET /api/reclamos/empleados/`
+
+Obtiene reclamos debe estar logueado como empleado , devuelve los reclamos asociados a la oficina del empleado
+
+| Parameter | Type | Description |
+| :-------- | :--- | :---------- |
+
+| token | `bearer token` | **Requerido**. token |
+
+ejemplo de respuesta
+`PATCH /api/reclamos/empleados/{idReclamo}`
+
+| Parameter | Type | Description |
+| :-------- | :--- | :---------- |
+
+| token | `bearer token` | **Requerido**. token |
+| idReclamo | `numbre` | **Requerido**. idReclamo |
+
+Patch reclamos - empleados .Debe estar logueado como empleado , cambia el estado del reclamo
+````
+
+Ejempo respuesta peticion
+
+```
+{
+  "ok": true,
+  "message": "reclamo modificado con exito"
 }
+```
