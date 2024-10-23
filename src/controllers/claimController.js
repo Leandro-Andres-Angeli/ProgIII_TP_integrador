@@ -68,20 +68,19 @@ class ClaimController {
           .status(403)
           .json({ ok: false, message: 'No está autorizado' });
       }
+      if (existsClaim.idReclamoEstado !== 1) {
+        return res.status(400).json({
+          ok: false,
+          message:
+            'El reclamo no tiene como estado "creado" , no puede ser cancelado',
+        });
+      }
       if (existsClaim.idReclamoEstado === reclamoNuevoStatus) {
         return res
           .status(400)
           .json({ ok: false, message: 'El reclamo ya tiene ese estado' });
       }
-      if (existsClaim.idReclamoEstado !== 1) {
-        return res
-          .status(400)
-          .json({
-            ok: false,
-            message:
-              'El reclamo no tiene como estado "creado"  no puede ser cancelado',
-          });
-      }
+
       const patchClaim = await this.service.patchClaimClient(
         idReclamo,
         idUsuario
