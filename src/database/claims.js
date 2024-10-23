@@ -1,22 +1,42 @@
 const pool = require('../config/dbConfig');
-
-const {
-  getClaimsQueryAccordingUserType,
-  patchClaimsQueryAccordingUserType,
-} = require('../utils/claimsQueries');
+const { patchClaimsQueriesAdminHelper } = require('../utils/claimsQueries');
 
 class Claims {
   constructor() {}
-  getClaims = async (idUsuarioTipo, idUsuario) => {
-    const connection = await pool.getConnection();
-    const { query, args } = getClaimsQueryAccordingUserType[idUsuarioTipo](
-      idUsuarioTipo === 1 ? null : idUsuario
+  getUserClaims = async (idUser) => {
+    const [claims] = await pool.execute(
+      'SELECT * FROM reclamos WHERE idUsuarioCreador = ?',
+      [idUser]
+    );
+    return claims;
+  };
+  getClaimById = async (claimId, userId) => {
+    const [claim] = await pool.execute(
+      'SELECT * FROM `reclamos` r  where r.idReclamo=? AND idUsuarioCreador = ?',
+      [claimId, userId]
     );
 
-    const [queryResult] = await connection.query(query, args);
+    // if(claimId.idReclamoTipo !== )
 
-    connection.release();
-    return queryResult;
+    return claim;
+  };
+  patchClaimClient = async (claimId, idUser) => {
+    const [claimUpdate] = await pool.execute(
+      `UPDATE reclamos r SET r.idReclamoEstado=3 , r.idUsuarioFinalizador = ? ,r.fechaCancelado=NOW()
+      WHERE r.idReclamo =? ;`,
+      [idUser, claimId]
+    );
+    return claimUpdate;
+  };
+  getClaimByClaimId = async (claimId) => {
+    const [claim] = await pool.execute(
+      'SELECT * FROM `reclamos` r  where r.idReclamo=?',
+      [claimId]
+    );
+
+    // if(claimId.idReclamoTipo !== )
+
+    return claim;
   };
   postClaim = async (asunto, descripcion, idReclamoTipo, idUsuario) => {
     const connection = await pool.getConnection();
@@ -27,29 +47,32 @@ class Claims {
     connection.release();
     return newClaimQuery;
   };
-  patchClaim = async (body, user) => {
-    const { claimId, claimNewStatus } = body;
-    const descripcion = body?.descripcion ?? null;
-    const asunto = body?.asunto ?? null;
-    const { idUsuarioTipo } = user;
 
-    const connection = await pool.getConnection();
-    const { query, args } = patchClaimsQueryAccordingUserType[idUsuarioTipo]({
-      claimId,
-      claimNewStatus,
-      descripcion,
-      asunto,
-      user,
-    });
-
-    const [patchClaimQuery] = await connection.query(query, args);
-
-    /*     const [patchClaimQuery] = await connection.query(
-      'UPDATE reclamos r SET r.idReclamoEstado=? , fechaCancelado=NOW() , idUsuarioFinalizador=? WHERE r.idReclamo =? ;',
-      [claimNewStatus, userId, claimId]
-    ); */
-    connection.release();
-    return patchClaimQuery;
+  getClaimsEmployee = async (idUsuario) => {
+    return await pool.execute(
+      'SELECT * FROM reclamos r where r.idReclamoTipo =  (SELECT uo.idOficina FROM `usuarios` u  JOIN usuarios_oficinas uo ON u.idUsuario = uo.idUsuario WHERE u.idUsuario=?)',
+      [idUsuario]
+    );
+  };
+  getClaimByClaimIdAndUserId = async (idUser, idClaim) => {
+    const [claim] = await pool.execute(
+      'SELECT * FROM reclamos r where r.idReclamoTipo =  (SELECT uo.idOficina FROM `usuarios` u  JOIN usuarios_oficinas uo ON u.idUsuario = uo.idUsuario WHERE u.idUsuario=?)  AND r.idReclamo = ? ;',
+      [idUser, idClaim]
+    );
+    return claim;
+  };
+  patchClaimEmployee = async (claimId, userId, claimNewStatus) => {
+    const patchClaim = await pool.execute(
+      `UPDATE reclamos r SET r.idReclamoEstado=? ,
+       fechaFinalizado=${claimNewStatus === 4 ? 'NOW()' : 'NULL'}
+      ,fechaCancelado=${
+        claimNewStatus === 3 ? 'NOW()' : 'NULL'
+      } , idUsuarioFinalizador=${
+        claimNewStatus === 3 || claimNewStatus === 4 ? userId : 'NULL'
+      } WHERE r.idReclamo =? ;`,
+      [claimNewStatus, claimId]
+    );
+    return patchClaim;
   };
   getClaimsByClientId = async (userId) => {
     const connection = await pool.getConnection();
@@ -60,6 +83,37 @@ class Claims {
 
     connection.release();
     return getClaimsByClientId;
+  };
+  getClaimsAdmin = async () => {
+    return await pool.execute('SELECT * FROM reclamos');
+  };
+  patchClaimAdmin = async (body, reclamoId, idUsuario) => {
+    const query = await patchClaimsQueriesAdminHelper(
+      body.reclamoNuevoStatus,
+      idUsuario
+    );
+
+    return await pool.execute(query, [
+      body.descripcion ?? null,
+      body.asunto ?? null,
+      body.reclamoNuevoStatus,
+      reclamoId,
+    ]);
+  };
+  postClaimAdmin = async (data) => {
+    const { idReclamoEstado, idReclamoTipo, asunto, descripcion, idUsuario } =
+      data;
+    return await pool.execute(
+      'INSERT INTO reclamos  (idReclamoEstado ,idReclamoTipo, asunto , descripcion , idUsuarioCreador , fechaCreado) VALUES (?,?,?,?,?,?)',
+      [
+        idReclamoEstado,
+        idReclamoTipo,
+        asunto,
+        descripcion,
+        idUsuario,
+        new Date(),
+      ]
+    );
   };
 }
 module.exports = Claims;

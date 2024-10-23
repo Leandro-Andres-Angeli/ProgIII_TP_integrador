@@ -301,68 +301,199 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
+        "format": "binary",
+        "content": "application/pdf",
         "tags": ["Estadísticas"],
-        "description": "Genera pdf de reclamos",
+        "description": "Genera pdf de reclamos debe estar logueado como administrador",
         "operationId": "generaPdfDeReclamos",
         "summary": "Genera pdf de reclamos"
       }
     },
-    "/api/reclamos": {
+    "/api/reclamos/admin/": {
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
         "tags": ["Reclamos"],
-        "description": "Obtiene reclamos",
-        "operationId": "obtieneReclamos",
-        "summary": "Obtiene reclamos"
-      },
-      "patch": {
-        "consumes": ["application/json"],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "properties": {
-                "asunto": { "example": "Asunto 2", "type": "string" },
-                "claimId": { "example": 19, "type": "number" },
-                "claimNewStatus": { "example": 3, "type": "number" },
-                "descripcion": { "example": "Descripción 2", "type": "string" },
-                "idReclamoTipo": { "example": 1, "type": "number" }
-              },
-              "type": "object"
-            }
-          }
-        ],
-        "responses": { "200": { "description": "" } },
-        "tags": ["Reclamos"],
-        "description": "Actualiza un reclamo",
-        "operationId": "actualizaUnReclamo",
-        "summary": "Actualiza un reclamo"
-      },
-      "post": {
-        "consumes": ["application/json"],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "properties": {
-                "asunto": { "example": "Asunto", "type": "string" },
-                "descripcion": { "example": "Descripción", "type": "string" },
-                "idReclamoTipo": { "example": 6, "type": "number" }
-              },
-              "type": "object"
-            }
-          }
-        ],
-        "responses": { "200": { "description": "" } },
-        "tags": ["Reclamos"],
-        "description": "Crea un nuevo reclamo",
-        "operationId": "creaUnNuevoReclamo",
-        "summary": "Crea un nuevo reclamo"
+        "description": "Obtiene todos los reclamos  - ruta disponible unicamente para administradores",
+        "operationId": "obtieneReclamos - admin",
+        "summary": "Obtiene reclamos - admin"
       }
     },
+    "/api/reclamos/admin/{idUsuario}": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "idUsuario",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "idReclamoEstado": { "example": 3, "type": "number" },
+                "asunto": {
+                  "example": "reclamo creado por admin",
+                  "type": "string"
+                },
+                "descripcion": { "example": "descripcion", "type": "string" },
+                "idReclamoTipo": { "example": 4, "type": "number" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Postea un reclamo recibe el id del cliente por parametro debe estar logueado como admin ",
+        "operationId": "postReclamos - admin",
+        "summary": "Post reclamos - admin"
+      }
+    },
+    "/api/reclamos/admin/{idReclamo}": {
+      "patch": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "idReclamo",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "asunto": {
+                  "example": "reclamo modificado por admin",
+                  "type": "string"
+                },
+                "descripcion": { "example": "descripcion", "type": "string" },
+
+                "reclamoNuevoStatus": { "example": 4, "type": "number" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Actualiza un reclamo recibe el id del cliente por parametro debe estar logueado como admin ",
+        "operationId": "patchReclamos - admin",
+        "summary": "patch reclamos - admin"
+      }
+    },
+    "/api/reclamos/clientes/": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Obtiene reclamos - clientes debe estar logueado como cliente ",
+        "operationId": "obtieneReclamos - clientes",
+        "summary": "Obtiene reclamos - clientes"
+      },
+      "post": {
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "asunto": {
+                  "example": "reclamo posteado por cliente",
+                  "type": "string"
+                },
+                "descripcion": {
+                  "example": "descripcion reclamo",
+                  "type": "string"
+                },
+
+                "idReclamoTipo": { "example": 4, "type": "number" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Postea reclamos - clientes debe estar logueado como cliente ",
+        "operationId": "posteaReclamos - clientes",
+        "summary": "Postea reclamos - clientes"
+      }
+    },
+    "/api/reclamos/clientes/{idReclamo}": {
+      "patch": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "idReclamo",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "reclamoNuevoStatus": {
+                  "example": 1,
+                  "type": "number"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Patch reclamos - clientes debe estar logueado como cliente cambia el estado del reclamo a cancelado , si el reclamo ya esta cancelado no ejecuta acción ",
+        "operationId": "patchReclamos - clientes",
+        "summary": "Patch reclamos - clientes"
+      }
+    },
+    "/api/reclamos/empleados/": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Obtiene reclamos - empleados debe estar logueado como empleado devuelve los reclamos asociados a la oficina del empleado",
+        "operationId": "obtieneReclamos - empleados",
+        "summary": "Obtiene reclamos - empleados"
+      }
+    },
+    "/api/reclamos/empleados/{idReclamo}": {
+      "patch": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "idReclamo",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "reclamoNuevoStatus": {
+                  "example": 1,
+                  "type": "number"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos"],
+        "description": "Patch reclamos - empleados .Debe estar logueado como empleado , cambia el estado del reclamo",
+        "operationId": "patchReclamos - empleados",
+        "summary": "Patch reclamos - empleados"
+      }
+    },
+
     "/api/registro": {
       "post": {
         "consumes": ["application/json"],
