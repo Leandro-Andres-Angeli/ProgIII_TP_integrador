@@ -305,10 +305,10 @@ Se debe estar logueado como cliente
 
 ##### Ejemplo respuesta de la peticion
 
-````{
+`{
 "ok": true,
 "message": "reclamo con id 107 creado por usuario 62"
-}```
+}`
 
 `PATCH /api/reclamos/clientes/{idReclamo}`
 
@@ -320,7 +320,8 @@ Se debe estar logueado como cliente
 Patch reclamos - clientes debe estar logueado como cliente cambia el estado del reclamo a cancelado , si el reclamo ya esta cancelado no ejecuta acción
 
 Ejemplo respuesta peticion
-``` {
+
+````{
 "ok": true,
 "message": "reclamo 107 cancelado"
 }```
