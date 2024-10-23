@@ -301,8 +301,10 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
+        "format": "binary",
+        "content": "application/pdf",
         "tags": ["Estadísticas"],
-        "description": "Genera pdf de reclamos",
+        "description": "Genera pdf de reclamos debe estar logueado como administrador",
         "operationId": "generaPdfDeReclamos",
         "summary": "Genera pdf de reclamos"
       }

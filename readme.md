@@ -332,17 +332,17 @@ Ejemplo respuesta peticion
 
 Obtiene reclamos debe estar logueado como empleado , devuelve los reclamos asociados a la oficina del empleado
 
-| Parameter | Type | Description |
-| :-------- | :--- | :---------- |
-| token | `bearer token` | **Requerido**. token |
+| Parameter | Type           | Description          |
+| :-------- | :------------- | :------------------- |
+| token     | `bearer token` | **Requerido**. token |
 
 ejemplo de respuesta
 `PATCH /api/reclamos/empleados/{idReclamo}`
 
-| Parameter | Type | Description |
-| :-------- | :--- | :---------- |
-| token | `bearer token` | **Requerido**. token |
-| idReclamo | `numbre` | **Requerido**. idReclamo |
+| Parameter | Type           | Description              |
+| :-------- | :------------- | :----------------------- |
+| token     | `bearer token` | **Requerido**. token     |
+| idReclamo | `numbre`       | **Requerido**. idReclamo |
 
 Patch reclamos - empleados .Debe estar logueado como empleado , cambia el estado del reclamo
 
@@ -352,3 +352,16 @@ Ejempo respuesta peticion
   "ok": true,
   "message": "reclamo modificado con exito"
 }`
+
+### Reportes
+
+#### Reporte PDF
+
+`GET /api/pdf/reclamo/{idTipoDeReclamo}/pdf`
+
+Retorna PDF listado los reclamos por tipo de reclamo , se debe estar logueado como administrador .
+
+#### Reporte Stored Procedure
+
+`GET /api/admin/estadisticas/totalesReclamosEstados`
+Retorna un stored procedure que devuelve la cantidad de reclamos separados por estado de reclamo
