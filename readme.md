@@ -175,7 +175,6 @@ Devuelve todos los reclamos.Debe estar logueado como administrador
 
 ##### Ejemplo respuesta de la peticion
 
-```
 {
 "ok": true,
 "res": [
@@ -228,7 +227,6 @@ Devuelve todos los reclamos.Debe estar logueado como administrador
 "idUsuarioFinalizador": null
 },...]
 }
-```
 
 ```http
 POST api/reclamos/admin/{idUsuario}
@@ -238,13 +236,12 @@ Postea un reclamo recibe el id del cliente por parametro debe estar logueado com
 
 ##### Ejemplo respuesta de la peticion
 
-````
-{
+`{
 "idReclamoEstado": 3,
 "asunto": "reclamo creado por admin",
 "descripcion": "descripcion",
 "idReclamoTipo": 4
-}```
+}`
 
 #### Reclamos Cliente
 
@@ -294,7 +291,7 @@ Obtiene reclamos asociados a un determinado cliente , debe estar logueado como c
 }
 ]
 }
-````
+```
 
 `POST /api/reclamos/clientes/`
 Postea nuevo reclamo de cliente
