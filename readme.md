@@ -321,10 +321,10 @@ Patch reclamos - clientes debe estar logueado como cliente cambia el estado del 
 
 Ejemplo respuesta peticion
 
-````{
+`{
 "ok": true,
 "message": "reclamo 107 cancelado"
-}```
+}`
 
 #### Reclamos Empleado
 
@@ -347,13 +347,10 @@ ejemplo de respuesta
 | idReclamo | `numbre` | **Requerido**. idReclamo |
 
 Patch reclamos - empleados .Debe estar logueado como empleado , cambia el estado del reclamo
-````
 
 Ejempo respuesta peticion
 
-```
-{
+`{
   "ok": true,
   "message": "reclamo modificado con exito"
-}
-```
+}`
