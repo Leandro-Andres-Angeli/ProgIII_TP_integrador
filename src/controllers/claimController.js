@@ -80,20 +80,28 @@ class ClaimController {
           .status(400)
           .json({ ok: false, message: 'El reclamo ya tiene ese estado' });
       }
-
+      /* Refactored
+      
+      sendEmail({
+        name: nombre + ' ' + apellido,
+        correoElectronico,
+        status: 'cancelado',
+      }); 
+      Refactored
+      */
       const patchClaim = await this.service.patchClaimClient(
         idReclamo,
-        idUsuario
+        idUsuario,
+        {
+          name: nombre + ' ' + apellido,
+          correoElectronico,
+          status: 'cancelado',
+        }
       );
 
       const { nombre, apellido, correoElectronico } =
         await this.usuarioService.getUsuarioById(idUsuario, 3);
 
-      sendEmail({
-        name: nombre + ' ' + apellido,
-        correoElectronico,
-        status: 'cancelado',
-      });
       if (patchClaim.affectedRows !== 1) {
         return res
           .status(500)
@@ -193,11 +201,26 @@ class ClaimController {
           .status(400)
           .json({ ok: false, message: 'El reclamo ya tiene ese estado' });
       }
+      /*    
+      Refactored
+   sendEmail({
+        name: nombre + ' ' + apellido,
+        correoElectronico,
 
+        status: claimBynewStatus.descripcion,
+      });
+      Refactored
+      */
       const [patchClaim] = await this.service.patchClaimEmployee(
         idReclamo,
         idUsuario,
-        reclamoNuevoStatus
+        reclamoNuevoStatus,
+        {
+          name: nombre + ' ' + apellido,
+          correoElectronico,
+
+          status: claimBynewStatus.descripcion,
+        }
       );
 
       if (!patchClaim.changedRows) {
@@ -216,12 +239,6 @@ class ClaimController {
           reclamoNuevoStatus
         );
 
-      sendEmail({
-        name: nombre + ' ' + apellido,
-        correoElectronico,
-
-        status: claimBynewStatus.descripcion,
-      });
       return res
         .status(200)
         .json({ ok: true, message: 'reclamo modificado con exito' });
@@ -263,31 +280,41 @@ class ClaimController {
           .status(400)
           .json({ ok: false, message: 'El reclamo ya tiene ese estado' });
       }
-      const [patchResult] = await this.service.patchClaimAdmin(
-        body,
-        reclamoId,
-        idUsuario
-      );
-      if (patchResult.affectedRows !== 1) {
-        return res
-          .status(500)
-          .json({ ok: false, message: 'Error actualizando reclamo' });
-      }
       const userClaim = await this.usuarioService.getUsuarioById(
         checkClaimExists[0].idUsuarioCreador
       );
-
       const [newStatus] =
         await this.claimsStatusService.getClaimStatusByIdStatus(
           body.reclamoNuevoStatus
         );
 
       const { nombre, apellido, correoElectronico } = userClaim;
-      sendEmail({
+      /*    
+   Refactored
+   sendEmail({
         name: nombre + ' ' + apellido,
         correoElectronico,
         status: newStatus.descripcion,
       });
+        Refactored
+      */
+
+      const [patchResult] = await this.service.patchClaimAdmin(
+        body,
+        reclamoId,
+        idUsuario,
+        {
+          name: nombre + ' ' + apellido,
+          correoElectronico,
+          status: newStatus.descripcion,
+        },
+        checkClaimExists[0].idReclamoEstado !== Number(body.reclamoNuevoStatus)
+      );
+      if (patchResult.affectedRows !== 1) {
+        return res
+          .status(500)
+          .json({ ok: false, message: 'Error actualizando reclamo' });
+      }
 
       return res.status(200).json({
         ok: true,

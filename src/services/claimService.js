@@ -1,5 +1,6 @@
 const pool = require('../config/dbConfig');
 const Claims = require('../database/claims');
+const { sendEmail } = require('../utils/sendEmail');
 
 class ClaimsService {
   constructor() {
@@ -37,13 +38,15 @@ class ClaimsService {
   getClaimsByClientId = async ({ idUsuario }) => {
     return await this.claims.getClaimsByClientId(idUsuario);
   };
-  patchClaimClient = async (claimId, userId, claimNewStatus) => {
+  patchClaimClient = async (claimId, userId, claimNewStatus, userData) => {
+    sendEmail(userData);
     return await this.claims.patchClaimClient(claimId, userId, claimNewStatus);
   };
   getClaimsEmployee = async (idUsuario) => {
     return await this.claims.getClaimsEmployee(idUsuario);
   };
-  patchClaimEmployee = async (claimId, userId, claimNewStatus) => {
+  patchClaimEmployee = async (claimId, userId, claimNewStatus, userData) => {
+    sendEmail(userData);
     const patchClaim = await this.claims.patchClaimEmployee(
       claimId,
       userId,
@@ -55,7 +58,17 @@ class ClaimsService {
   getClaimsAdmin = async () => {
     return await this.claims.getClaimsAdmin();
   };
-  patchClaimAdmin = async (body, reclamoId, idUsuario) => {
+  patchClaimAdmin = async (
+    body,
+    reclamoId,
+    idUsuario,
+    userData,
+    isClaimUpdated
+  ) => {
+    if (isClaimUpdated) {
+      sendEmail(userData);
+    }
+
     return await this.claims.patchClaimAdmin(body, reclamoId, idUsuario);
   };
   postClaimAdmin = async ({ ...data }) => {
