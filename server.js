@@ -26,6 +26,7 @@ const PORT = process.env.SERVER_PORT || 3001;
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
+const { createObjectCsvStringifier } = require('csv-writer');
 
 passport.use(passportJWTStrategy);
 passport.use(passportLocalStrategy);
@@ -50,7 +51,48 @@ server.use('/api/clientes', [handleTokenValidity, isClient], clienteRoutes);
 server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
 server.use('/api/v2/admin/', [handleTokenValidity, isAdmin], adminRoutes_v2);
 server.use('/api/pdf', [handleTokenValidity, isAdmin], pdfRoutes);
+/* refactor later */
+server.use('/api/csv', async (req, res) => {
+  try {
+    const [reclamos] = await pool.query(
+      'SELECT r.idReclamo,r.asunto,r.descripcion,r.fechaCreado,r.fechaFinalizado,r.fechaCancelado,re.descripcion AS descripcionEstado,r.idReclamoTipo,r.idUsuarioCreador,r.idUsuarioFinalizador FROM reclamos r  join   reclamos_estado re  on r.idReclamoEstado = re.idReclamoEstado WHERE idReclamoTipo = ?',
 
+      [1]
+    );
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename="data.csv"');
+
+    // Create a CSV stringifier
+    const csvStringifier = createObjectCsvStringifier({
+      header: [
+        { id: 'id', title: 'id' },
+        { id: 'asunto', title: 'asunto' },
+        { id: 'descripcion', title: 'descripcion' },
+        { id: 'fecha creado', title: 'fecha creado' },
+        { id: 'fecha finalizado', title: 'fecha finalizado' },
+        { id: 'fecha cancelado', title: 'fecha cancelado' },
+        { id: 'reclamo estado', title: 'reclamo estado' },
+        { id: 'reclamo tipo', title: 'reclamo tipo' },
+        { id: 'usuario creador', title: 'usuario creador' },
+        { id: 'usuario finalizador', title: 'usuario finalizador' },
+      ],
+    });
+
+    // Convert the list of objects to CSV format as a string
+    const csvString =
+      csvStringifier.getHeaderString() +
+      csvStringifier.stringifyRecords(reclamos);
+
+    // Send the CSV data as the response
+    res.status(200).send(csvString);
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({ ok: false, message: 'error de servidor' });
+  }
+});
+/* refactor later */
 const checkConnection = async () => {
   try {
     await pool.getConnection();
