@@ -16,7 +16,9 @@ const generateToken = (req, res) => {
   logIn(user, { session: false }, async (err) => {
     if (err) return err;
 
-    const token = jwt.sign({ user }, 'secret', { expiresIn: '90d' });
+    const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+      expiresIn: '90d',
+    });
     const { contrasenia, ...userWithoutPassword } = user;
     return res.status(200).json({
       ok: true,
@@ -89,6 +91,8 @@ const passportJWTStrategy = new JWTStrategy(
       connection.release();
       return cb(null, user);
     } catch (err) {
+      console.log(err);
+
       return cb(new Error('Error de servidor'), false);
     }
   }
