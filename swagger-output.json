@@ -488,7 +488,7 @@
         ],
         "responses": { "200": { "description": "" } },
         "tags": ["Reclamos"],
-        "description": "Patch reclamos - empleados .Debe estar logueado como empleado , cambia el estado del reclamo",
+        "description": "Patch reclamos - empleados .Debe estar logueado como empleado , cambia el estado del reclamo .El reclamo debe estar en un estado distinto a 'creado' para poder ser modificado",
         "operationId": "patchReclamos - empleados",
         "summary": "Patch reclamos - empleados"
       }

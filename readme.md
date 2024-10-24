@@ -344,7 +344,7 @@ ejemplo de respuesta
 | token     | `bearer token` | **Requerido**. token     |
 | idReclamo | `numbre`       | **Requerido**. idReclamo |
 
-Patch reclamos - empleados .Debe estar logueado como empleado , cambia el estado del reclamo
+Patch reclamos - empleados .Debe estar logueado como empleado , cambia el estado del reclamo .El reclamo debe estar en un estado distinto a 'creado' para poder ser modificado
 
 Ejempo respuesta peticion
 
