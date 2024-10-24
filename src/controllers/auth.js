@@ -67,7 +67,7 @@ function handleLogin(req, res, next) {
 const passportJWTStrategy = new JWTStrategy(
   {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'secret',
+    secretOrKey: process.env.JWT_SECRET,
   },
   async function (JWTPayload, cb) {
     try {
