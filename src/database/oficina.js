@@ -12,7 +12,7 @@ const Oficina = {
   },
 
   getOficinas: async () => {
-    const query = `SELECT * FROM oficinas`;
+    const query = `SELECT * FROM oficinas WHERE activo=1`;
     const [result] = await pool.execute(query);
     return result;
   },

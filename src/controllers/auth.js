@@ -84,6 +84,7 @@ const passportJWTStrategy = new JWTStrategy(
       const [user] = await connection.query(
         `SELECT * FROM usuarios WHERE correoElectronico='${correoElectronico}' AND contrasenia='${contrasenia}'`
       );
+
       if (user.length === 0) {
         return cb(new Error('Error de autenticacion'), false);
       }

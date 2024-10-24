@@ -19,7 +19,7 @@ const pdfRoutes = require('./src/routes/pdfRoutes');
 const { validLogin } = require('./src/validations/validLogin');
 const { validateCreateUsuario } = require('./src/validations/usuarioValidator');
 
-const { isAdmin, isClient } = require('./src/middleware/authorization');
+const { isAdmin, isClient } = require('./src/middlewares/authorization');
 const dotenv = require('dotenv');
 dotenv.config();
 const PORT = process.env.SERVER_PORT || 3001;
@@ -27,6 +27,7 @@ const PORT = process.env.SERVER_PORT || 3001;
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
 const { createObjectCsvStringifier } = require('csv-writer');
+const reportesRoutes = require('./src/routes/reportesRoutes');
 
 passport.use(passportJWTStrategy);
 passport.use(passportLocalStrategy);
@@ -92,6 +93,7 @@ server.use('/api/csv', async (req, res) => {
     res.status(500).json({ ok: false, message: 'error de servidor' });
   }
 });
+server.use('/api/reportes', reportesRoutes);
 /* refactor later */
 const checkConnection = async () => {
   try {
