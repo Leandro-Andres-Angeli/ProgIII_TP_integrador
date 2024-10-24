@@ -196,6 +196,13 @@ class ClaimController {
         });
       }
 
+      if (checkRightClaim[0].idReclamoEstado === 1) {
+        return res.status(403).json({
+          ok: false,
+          message:
+            'Reclamo no esta en "proceso" , no puede ser modificado su status ',
+        });
+      }
       if (checkRightClaim[0].idReclamoEstado === reclamoNuevoStatus) {
         return res
           .status(400)
@@ -211,6 +218,14 @@ class ClaimController {
       });
       Refactored
       */
+      const { nombre, apellido, correoElectronico } =
+        await this.usuarioService.getUsuarioById(
+          checkRightClaim[0].idUsuarioCreador
+        );
+      const [claimBynewStatus] =
+        await this.claimsStatusService.getClaimStatusByIdStatus(
+          reclamoNuevoStatus
+        );
       const [patchClaim] = await this.service.patchClaimEmployee(
         idReclamo,
         idUsuario,
@@ -228,16 +243,6 @@ class ClaimController {
           .status(500)
           .json({ ok: false, message: 'error actualizando reclamo' });
       }
-
-      const { nombre, apellido, correoElectronico } =
-        await this.usuarioService.getUsuarioById(
-          checkRightClaim[0].idUsuarioCreador
-        );
-
-      const [claimBynewStatus] =
-        await this.claimsStatusService.getClaimStatusByIdStatus(
-          reclamoNuevoStatus
-        );
 
       return res
         .status(200)
