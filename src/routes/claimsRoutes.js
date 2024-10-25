@@ -10,7 +10,7 @@ const {
   isAdmin,
 } = require('../middlewares/authorization');
 const { check, param } = require('express-validator');
-const { validarCampos } = require('../middlewares/validarcampos');
+const { validarCampos } = require('../middlewares/validarCampos');
 
 const claimController = new ClaimController();
 router.use(handleTokenValidity);

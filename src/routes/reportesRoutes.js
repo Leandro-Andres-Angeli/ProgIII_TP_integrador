@@ -3,7 +3,7 @@ const { handleTokenValidity } = require('../controllers/auth');
 const { isAdmin } = require('../middlewares/authorization');
 
 const { param } = require('express-validator');
-const { validarCampos } = require('../middlewares/validarcampos');
+const { validarCampos } = require('../middlewares/validarCampos');
 const validateReportFormat = require('../validations/validateReportFormat');
 const ReportesController = require('../controllers/reportesController');
 const router = express.Router();
