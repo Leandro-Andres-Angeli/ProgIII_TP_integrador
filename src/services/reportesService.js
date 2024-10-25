@@ -61,8 +61,6 @@ class ReportesService {
       });
       return [pdfBuffer, null];
     } catch (error) {
-      /*  res.status(500).send('Error al generar el PDF'); */
-      /* throw Error('Error al generar el PDF'); */
       return [null, error.message || 'Error al generar PDF'];
     }
   };
