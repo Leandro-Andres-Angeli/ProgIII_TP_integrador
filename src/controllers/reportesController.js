@@ -5,9 +5,7 @@ class ReportesController {
   constructor() {
     this.reportesService = new ReportesService();
   }
-  handleResponseError(res) {
-    return res.status(500).json({ ok: false, message: 'error de servidor' });
-  }
+
   getReporte = async (req, res = response) => {
     try {
       const { formatoReporte, idReclamoTipo } = req.params;
@@ -19,7 +17,7 @@ class ReportesController {
       //Llamar dinamicamente metodo
       const [reporteResult, error] = await this.reportesService[
         `generateReporte${parseFormat}`
-      ](idReclamoTipo, res);
+      ](idReclamoTipo);
       if (!reporteResult || reporteResult.length === 0) {
         return res.status(404).json({ ok: true, error });
       }
@@ -28,12 +26,13 @@ class ReportesController {
       //Llamar dinamicamente metodo
       return res
         .status(200)
-        .setHeader('Content-Type', 'application/pdf')
+        .setHeader('Content-Type', `application/${formatoReporte}`)
+        .setHeader(
+          'Content-Disposition',
+          `attachment;filename.${formatoReporte}`
+        )
         .send(reporteResult);
     } catch (error) {
-      console.log(error);
-
-      /* return this.handleResponseError(res); */
       return res
         .status(500)
         .json({ ok: false, message: error.message || 'error de servidor' });

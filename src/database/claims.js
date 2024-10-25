@@ -115,5 +115,13 @@ class Claims {
       ]
     );
   };
+  reportesClaimQuery = async (idReclamoTipo) => {
+    const [claims] = await pool.query(
+      'SELECT r.idReclamo,r.asunto,r.descripcion,r.fechaCreado,r.fechaFinalizado,r.fechaCancelado,re.descripcion AS descripcionEstado,r.idReclamoTipo,r.idUsuarioCreador,r.idUsuarioFinalizador FROM reclamos r  join   reclamos_estado re  on r.idReclamoEstado = re.idReclamoEstado WHERE idReclamoTipo = ?',
+
+      [idReclamoTipo]
+    );
+    return claims;
+  };
 }
 module.exports = Claims;

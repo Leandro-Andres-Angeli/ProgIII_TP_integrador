@@ -1,21 +1,20 @@
 const pool = require('../config/dbConfig');
-const blobStream = require('blob-stream');
 
 const PDFDocument = require('pdfkit-table');
-const CustomError = require('../utils/customError');
+const { createObjectCsvStringifier } = require('csv-writer');
+const Claims = require('../database/claims');
 const formatDate = (date) =>
   new Intl.DateTimeFormat('es').format(new Date(date));
 class ReportesService {
-  constructor() {}
+  constructor() {
+    this.claims = new Claims();
+  }
 
-  generateReportePdf = async (idReclamoTipo, res) => {
+  generateReportePdf = async (idReclamoTipo) => {
     try {
       let doc = new PDFDocument({ margin: 30, size: 'A4' });
-      const [reclamos] = await pool.query(
-        'SELECT r.idReclamo,r.asunto,r.descripcion,r.fechaCreado,r.fechaFinalizado,r.fechaCancelado,re.descripcion AS descripcionEstado,r.idReclamoTipo,r.idUsuarioCreador,r.idUsuarioFinalizador FROM reclamos r  join   reclamos_estado re  on r.idReclamoEstado = re.idReclamoEstado WHERE idReclamoTipo = ?',
 
-        [idReclamoTipo]
-      );
+      const reclamos = await this.claims.reportesClaimQuery(idReclamoTipo);
       const reclamosValues = reclamos.reduce((acc, curr) => {
         acc.push(
           Object.values(curr).map((val) => {
@@ -32,10 +31,7 @@ class ReportesService {
         return acc;
       }, []);
 
-      if (!reclamos || reclamos.length === 0) {
-        // const error = new Error('Reclamo no encontrado');
-
-        // throw error;
+      if (reclamos.length === 0) {
         return [null, 'No existen reclamos de este tipo'];
       }
       const pdfBuffer = await new Promise((resolve, reject) => {
@@ -67,79 +63,37 @@ class ReportesService {
     } catch (error) {
       /*  res.status(500).send('Error al generar el PDF'); */
       /* throw Error('Error al generar el PDF'); */
-      return [null, error || 'Error al generar PDF'];
+      return [null, error.message || 'Error al generar PDF'];
     }
   };
-  /*   generateReportePdf = async () => {
+
+  generateReporteCsv = async (idReclamoTipo) => {
     try {
-      const reclamoId = 1;
-      let doc = new PDFDocument({ margin: 30, size: 'A4' });
-      const [reclamos] = await pool.query(
-        'SELECT r.idReclamo,r.asunto,r.descripcion,r.fechaCreado,r.fechaFinalizado,r.fechaCancelado,re.descripcion AS descripcionEstado,r.idReclamoTipo,r.idUsuarioCreador,r.idUsuarioFinalizador FROM reclamos r  join   reclamos_estado re  on r.idReclamoEstado = re.idReclamoEstado WHERE idReclamoTipo = ?',
-
-        [reclamoId]
-      );
-      const reclamosValues = reclamos.reduce((acc, curr) => {
-        acc.push(
-          Object.values(curr).map((val) => {
-            let objectValue = val;
-            if (val instanceof Date) {
-              objectValue = formatDate(val);
-            }
-            if (!val) {
-              objectValue = 'N/A';
-            }
-            return objectValue;
-          })
-        );
-        return acc;
-      }, []);
-
-      if (!reclamos || reclamos.length === 0) {
-        return res.status(404).send('Reclamo no encontrado');
+      const reclamos = await this.claims.reportesClaimQuery(idReclamoTipo);
+      if (reclamos.length === 0) {
+        return [null, 'No existen reclamos de este tipo'];
       }
-      const table = {
-        title: 'Listado reclamos',
-
-        headers: [
-          'id',
-          'asunto',
-          'descripcion',
-          'fecha creado',
-          'fecha finalizado',
-          'fecha cancelado',
-          'reclamo estado',
-          'reclamo tipo',
-          'usuario creador',
-          'usuario finalizador',
+      const csvStringifier = createObjectCsvStringifier({
+        header: [
+          { id: 'id', title: 'id' },
+          { id: 'asunto', title: 'asunto' },
+          { id: 'descripcion', title: 'descripcion' },
+          { id: 'fecha creado', title: 'fecha creado' },
+          { id: 'fecha finalizado', title: 'fecha finalizado' },
+          { id: 'fecha cancelado', title: 'fecha cancelado' },
+          { id: 'reclamo estado', title: 'reclamo estado' },
+          { id: 'reclamo tipo', title: 'reclamo tipo' },
+          { id: 'usuario creador', title: 'usuario creador' },
+          { id: 'usuario finalizador', title: 'usuario finalizador' },
         ],
-        rows: reclamosValues,
-      };
-
-      await doc.table(table);
-
-      const stream = doc.pipe(blobStream());
-      doc.end();
-      return stream;
-      // return await doc.table(table);
-      //   doc.pipe(res);
-      // doc.end();
-
-      // done!
-
-      // const pdfBuffer = await generarPDF(reclamo[0]);
+      });
+      const csvString =
+        csvStringifier.getHeaderString() +
+        csvStringifier.stringifyRecords(reclamos);
+      return [csvString, null];
     } catch (error) {
-      console.log(error.message);
-
-        // res.status(500).send('Error al generar el PDF'); 
-      throw Error('Error al generar el PDF');
+      return [null, error.message || 'Error al generar CSV'];
     }
-  }; */
-  /*   generateReportePdf() {
-    console.log('reporte en pdf');
-  } */
-  generateReporteCsv() {
-    console.log('reporte en csv');
-  }
+  };
 }
 module.exports = ReportesService;
