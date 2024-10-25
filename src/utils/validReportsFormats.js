@@ -1,2 +1,2 @@
 const validFormats = ['pdf', 'csv'];
-exports.module = validFormats;
+module.exports = validFormats;
