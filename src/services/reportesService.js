@@ -1,10 +1,8 @@
-const pool = require('../config/dbConfig');
-
 const PDFDocument = require('pdfkit-table');
 const { createObjectCsvStringifier } = require('csv-writer');
+const formatDate = require('../utils/formatDate');
 const Claims = require('../database/claims');
-const formatDate = (date) =>
-  new Intl.DateTimeFormat('es').format(new Date(date));
+
 class ReportesService {
   constructor() {
     this.claims = new Claims();
