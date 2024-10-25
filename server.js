@@ -25,7 +25,7 @@ const PORT = process.env.SERVER_PORT || 3001;
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
-const { createObjectCsvStringifier } = require('csv-writer');
+
 const reportesRoutes = require('./src/routes/reportesRoutes');
 
 passport.use(passportJWTStrategy);
