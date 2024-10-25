@@ -1,5 +1,6 @@
 const { response } = require('express');
 const ReportesService = require('../services/reportesService');
+
 class ReportesController {
   constructor() {
     this.reportesService = new ReportesService();
@@ -9,7 +10,7 @@ class ReportesController {
   }
   getReporte = async (req, res = response) => {
     try {
-      const { formatoReporte } = req.params;
+      const { formatoReporte, idReclamoTipo } = req.params;
 
       const parseFormat = `${formatoReporte[0].toUpperCase()}${formatoReporte.slice(
         1
@@ -18,11 +19,11 @@ class ReportesController {
       //Llamar dinamicamente metodo
       const [reporteResult, error] = await this.reportesService[
         `generateReporte${parseFormat}`
-      ]();
-      if (error) {
-        throw Error('Error en servicio');
+      ](idReclamoTipo, res);
+      if (!reporteResult || reporteResult.length === 0) {
+        return res.status(404).json({ ok: true, error });
       }
-      console.log(reporteResult);
+      // console.log(reporteResult);
 
       //Llamar dinamicamente metodo
       return res
@@ -30,7 +31,7 @@ class ReportesController {
         .setHeader('Content-Type', 'application/pdf')
         .send(reporteResult);
     } catch (error) {
-      /* console.log(error); */
+      console.log(error);
 
       /* return this.handleResponseError(res); */
       return res

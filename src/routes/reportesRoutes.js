@@ -11,12 +11,12 @@ router.use(handleTokenValidity);
 router.use(isAdmin);
 const reportesController = new ReportesController();
 router.get(
-  '/:formatoReporte/:id',
+  '/:formatoReporte/:idReclamoTipo',
   [
     param('formatoReporte')
       .custom(validateReportFormat)
       .withMessage('error : formatos validos de reporte : pdf , csv'),
-    param('id')
+    param('idReclamoTipo')
       .isNumeric()
       .withMessage('id tipo de reclamo tiene que ser un numero'),
     validarCampos,

@@ -2,19 +2,19 @@ const pool = require('../config/dbConfig');
 const blobStream = require('blob-stream');
 
 const PDFDocument = require('pdfkit-table');
+const CustomError = require('../utils/customError');
 const formatDate = (date) =>
   new Intl.DateTimeFormat('es').format(new Date(date));
 class ReportesService {
   constructor() {}
 
-  generateReportePdf = async () => {
+  generateReportePdf = async (idReclamoTipo, res) => {
     try {
-      const reclamoId = 1;
       let doc = new PDFDocument({ margin: 30, size: 'A4' });
       const [reclamos] = await pool.query(
         'SELECT r.idReclamo,r.asunto,r.descripcion,r.fechaCreado,r.fechaFinalizado,r.fechaCancelado,re.descripcion AS descripcionEstado,r.idReclamoTipo,r.idUsuarioCreador,r.idUsuarioFinalizador FROM reclamos r  join   reclamos_estado re  on r.idReclamoEstado = re.idReclamoEstado WHERE idReclamoTipo = ?',
 
-        [reclamoId]
+        [idReclamoTipo]
       );
       const reclamosValues = reclamos.reduce((acc, curr) => {
         acc.push(
@@ -33,8 +33,10 @@ class ReportesService {
       }, []);
 
       if (!reclamos || reclamos.length === 0) {
-        /* return res.status(404).json({message:'reclamo no encontrado'}) */
-        throw Error('Reclamo no encontrado');
+        // const error = new Error('Reclamo no encontrado');
+
+        // throw error;
+        return [null, 'No existen reclamos de este tipo'];
       }
       const pdfBuffer = await new Promise((resolve, reject) => {
         const buffers = [];
@@ -63,11 +65,9 @@ class ReportesService {
       });
       return [pdfBuffer, null];
     } catch (error) {
-      console.log(error.message);
-
       /*  res.status(500).send('Error al generar el PDF'); */
       /* throw Error('Error al generar el PDF'); */
-      return [null, error.message || 'Erro al generar PDF'];
+      return [null, error || 'Error al generar PDF'];
     }
   };
   /*   generateReportePdf = async () => {
