@@ -1,4 +1,5 @@
-const { check, validationResult } = require('express-validator');
+const { check } = require('express-validator');
+const { validarCampos } = require('../middlewares/validarCampos');
 
 const validateCreateUsuario = [
   check('correoElectronico')
@@ -14,30 +15,16 @@ const validateCreateUsuario = [
     .withMessage('La contraseña debe tener mínimo 6 caracteres.'),
 
   check('nombre').notEmpty().withMessage('Debe ingresar un nombre.'),
-
   check('apellido').notEmpty().withMessage('Debe ingresar un apellido.'),
 
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ ok: false, errors: errors.array() });
-    }
-    next();
-  },
+  validarCampos,
 ];
 
 const validateUpdateUsuario = [
   check('nombre').notEmpty().withMessage('Debe ingresar un nombre.'),
-
   check('apellido').notEmpty().withMessage('Debe ingresar un apellido.'),
 
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ ok: false, errors: errors.array() });
-    }
-    next();
-  },
+  validarCampos,
 ];
 
 module.exports = { validateCreateUsuario, validateUpdateUsuario };
