@@ -29,7 +29,7 @@ class ReportesController {
         .setHeader('Content-Type', `application/${formatoReporte}`)
         .setHeader(
           'Content-Disposition',
-          `attachment;filename.${formatoReporte}`
+          `attachment;filename=reporte.${formatoReporte}`
         )
         .send(reporteResult);
     } catch (error) {

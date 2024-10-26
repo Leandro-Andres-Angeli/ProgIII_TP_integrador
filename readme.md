@@ -357,9 +357,15 @@ Ejempo respuesta peticion
 
 #### Reporte PDF
 
-`GET /api/pdf/reclamo/{idTipoDeReclamo}/pdf`
+`GET /api/reportes/{formatoReporte}/{idTipoDeReclamo}`
 
-Retorna PDF listado los reclamos por tipo de reclamo , se debe estar logueado como administrador .
+| Parameter        | Type           | Description                     |
+| :--------------- | :------------- | :------------------------------ |
+| idTipoDeReclamos | `number`       | **Requerido**. idTipoDeReclamos |
+| formatoReporte   | `string`       | **Requerido**. formatoReporte   |
+| token            | `bearer token` | **Requerido**. token            |
+
+Genera archivo de reclamos debe estar logueado como administrador recibo como parametro el formato que tendra el reporte (pdf o csv) y el id de tipo de reclamos
 
 #### Reporte Stored Procedure
 
