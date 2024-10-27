@@ -1,28 +1,41 @@
 const express = require('express');
 const router = express.Router();
-const usuarioController = require('../controllers/usuarioController');
+const clienteController = require('../controllers/clienteController');
+const empleadoController = require('../controllers/empleadoController');
 const oficinaController = require('../controllers/oficinaController');
 const estadisticasController = require('../controllers/estadisticasController');
 const {
   validateCreateUsuario,
   validateUpdateUsuario,
+  validateUpdateContrasenia,
+  validateUpdateCorreo,
 } = require('../validations/usuarioValidator');
 
-router.get('/clientes', usuarioController.getClientes);
-router.get('/clientes/:id', usuarioController.getClienteById);
+router.get('/clientes', clienteController.getClientes);
+router.get('/clientes/:id', clienteController.getClienteById);
 
-router.get('/empleados', usuarioController.getEmpleados);
-router.get('/empleados/:id', usuarioController.getEmpleadoById);
+router.get('/empleados', empleadoController.getEmpleados);
+router.get('/empleados/:id', empleadoController.getEmpleadoById);
 router.post(
   '/empleados',
   [validateCreateUsuario],
-  usuarioController.createEmpleado
+  empleadoController.createEmpleado
 );
-router.patch('/empleados/:id', usuarioController.deleteEmpleado);
-router.put(
+router.patch('/empleados/:id/delete', empleadoController.deleteEmpleado);
+router.patch(
   '/empleados/:id',
   [validateUpdateUsuario],
-  usuarioController.updateEmpleado
+  empleadoController.updateEmpleado
+);
+router.patch(
+  '/empleados/:id/correo',
+  [validateUpdateCorreo],
+  empleadoController.updateCorreoEmpleado
+);
+router.patch(
+  '/empleados/:id/contrasenia',
+  [validateUpdateContrasenia],
+  empleadoController.updateContraseniaEmpleado
 );
 
 router.get('/oficinas', oficinaController.getOficinas);

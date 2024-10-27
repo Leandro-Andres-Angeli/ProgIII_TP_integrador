@@ -72,6 +72,30 @@ const Usuario = {
     await pool.execute(query, [nombre, apellido, imagen, id, idTipo]);
   },
 
+  updateCorreoUsuario: async (id, data, idTipo) => {
+    const { correoElectronico } = data;
+
+    const query = `
+      UPDATE usuarios 
+      SET correoElectronico = ?
+      WHERE idUsuario = ?
+      AND idUsuarioTipo = ?
+    `;
+    await pool.execute(query, [correoElectronico, id, idTipo]);
+  },
+
+  updateContraseniaUsuario: async (id, data, idTipo) => {
+    const { contrasenia } = data;
+
+    const query = `
+      UPDATE usuarios 
+      SET contrasenia = sha2(?,256)
+      WHERE idUsuario = ?
+      AND idUsuarioTipo = ?
+    `;
+    await pool.execute(query, [contrasenia, id, idTipo]);
+  },
+
   deleteUsuario: async (id, idTipo) => {
     const query = ` UPDATE usuarios SET activo = 0 WHERE idUsuario = ? AND idUsuarioTipo = ? `;
     await pool.execute(query, [id, idTipo]);

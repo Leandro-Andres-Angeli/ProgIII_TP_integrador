@@ -31,6 +31,16 @@ const usuarioService = {
     await Usuario.updateUsuario(id, data, idTipo);
   },
 
+  updateCorreo: async (id, data, idTipo) => {
+    await checkExisteUsuario(id, idTipo);
+    await Usuario.updateCorreoUsuario(id, data, idTipo);
+  },
+
+  updateContrasenia: async (id, data, idTipo) => {
+    await checkExisteUsuario(id, idTipo);
+    await Usuario.updateContraseniaUsuario(id, data, idTipo);
+  },
+
   deleteUsuario: async (id, idTipo) => {
     await checkExisteUsuario(id, idTipo);
     await Usuario.deleteUsuario(id, idTipo);

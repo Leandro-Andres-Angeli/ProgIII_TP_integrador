@@ -9,7 +9,7 @@ const {
   generateToken,
   handleLogin,
 } = require('./src/controllers/auth');
-const usuarioController = require('./src/controllers/usuarioController');
+const clienteController = require('./src/controllers/clienteController');
 const claimRoutes = require('./src/routes/claimsRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
 const clienteRoutes = require('./src/routes/clienteRoutes');
@@ -42,7 +42,7 @@ server.post('/api/login', [validLogin, handleLogin], generateToken);
 server.post(
   '/api/registro',
   [validateCreateUsuario],
-  usuarioController.createCliente
+  clienteController.createCliente
 );
 
 server.use('/api/reclamos', claimRoutes);
