@@ -41,6 +41,7 @@ const usuarioService = {
 
   updateCorreo: async (id, data, idTipo) => {
     await checkExisteUsuario(id, idTipo);
+    await checkNoExisteCorreo(data.correoElectronico);
     await Usuario.updateCorreoUsuario(id, data, idTipo);
   },
 
