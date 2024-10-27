@@ -38,11 +38,6 @@ const Oficina = {
   },
 
   deleteOficina: async (id) => {
-    const query = ` UPDATE oficinas SET activo = 0 WHERE idOficina = ? `;
-    await pool.execute(query, [id]);
-  },
-
-  deleteOficina_v2: async (id) => {
     const connection = await pool.getConnection();
     try {
       connection.beginTransaction();

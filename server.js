@@ -12,7 +12,6 @@ const {
 const usuarioController = require('./src/controllers/usuarioController');
 const claimRoutes = require('./src/routes/claimsRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
-const adminRoutes_v2 = require('./src/routes/v2/adminRoutes_v2');
 const clienteRoutes = require('./src/routes/clienteRoutes');
 
 const { validLogin } = require('./src/validations/validLogin');
@@ -49,7 +48,6 @@ server.post(
 server.use('/api/reclamos', claimRoutes);
 server.use('/api/clientes', [handleTokenValidity, isClient], clienteRoutes);
 server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
-server.use('/api/v2/admin/', [handleTokenValidity, isAdmin], adminRoutes_v2);
 
 server.use('/api/reportes', reportesRoutes);
 /* refactor later */
