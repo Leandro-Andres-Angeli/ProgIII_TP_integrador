@@ -110,6 +110,15 @@ const Usuario = {
     const [result] = await pool.execute(query, [id, idTipo]);
     return result.length > 0;
   },
+
+  existeCorreo: async (correoElectronico) => {
+    const query = `SELECT 1
+    FROM usuarios
+    WHERE correoElectronico = ?
+    `;
+    const [result] = await pool.execute(query, [correoElectronico]);
+    return result.length > 0;
+  },
 };
 
 module.exports = Usuario;

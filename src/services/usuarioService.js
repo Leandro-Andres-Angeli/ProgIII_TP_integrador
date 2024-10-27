@@ -7,8 +7,16 @@ const checkExisteUsuario = async (id, idTipo) => {
   }
 };
 
+const checkNoExisteCorreo = async (correoElectronico) => {
+  const correoExiste = await Usuario.existeCorreo(correoElectronico);
+  if (correoExiste) {
+    throw new Error('Ya existe un usuario con ese correo electrónico.');
+  }
+};
+
 const usuarioService = {
   createUsuario: async (data) => {
+    await checkNoExisteCorreo(data.correoElectronico);
     const id = await Usuario.createUsuario(data);
     return id;
   },
