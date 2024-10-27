@@ -28,13 +28,10 @@ router.put(
 router.get('/oficinas', oficinaController.getOficinas);
 router.get('/oficinas/:id', oficinaController.getOficinaById);
 router.post('/oficinas', oficinaController.createOficina);
-router.patch('/oficinas/:id', oficinaController.deleteOficina);
-router.put('/oficinas/:id', oficinaController.updateOficina);
+router.patch('/oficinas/:id/delete', oficinaController.deleteOficina);
+router.patch('/oficinas/:id', oficinaController.updateOficina);
 
-router.post(
-  '/oficinas/:idOficina/empleados/:idEmpleado',
-  oficinaController.asignarEmpleado
-);
+router.post('/oficinas/empleados', oficinaController.asignarEmpleados);
 router.get('/oficinas/:id/empleados', oficinaController.getEmpleados);
 
 router.get(

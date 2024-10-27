@@ -27,6 +27,7 @@ const generateToken = (req, res) => {
     });
   });
 };
+
 //PASSPORT STRATEGIES
 const passportLocalStrategy = new Strategy(
   { usernameField: 'correoElectronico', passwordField: 'contrasenia' },
@@ -34,11 +35,10 @@ const passportLocalStrategy = new Strategy(
     try {
       const connection = await pool.getConnection();
 
-      /*       const [user] = await connection.query(
-        `SELECT * FROM usuarios WHERE correoElectronico = '${username}' AND contrasenia =sha2('${password}',256) `
-      ); */
-
-      const user = await Usuario.getUsuarioByIdAndPassword(username, password);
+      const user = await Usuario.getUsuarioByUsernameAndPassword(
+        username,
+        password
+      );
 
       if (!Boolean(user.length)) {
         return cb(
@@ -80,9 +80,9 @@ const passportJWTStrategy = new JWTStrategy(
       const connection = await pool.getConnection();
 
       const { contrasenia, correoElectronico } = JWTPayload?.user;
-
-      const [user] = await connection.query(
-        `SELECT * FROM usuarios WHERE correoElectronico='${correoElectronico}' AND contrasenia='${contrasenia}'`
+      const user = await Usuario.getUsuarioByUsernameAndPasswordHashed(
+        correoElectronico,
+        contrasenia
       );
 
       if (user.length === 0) {
