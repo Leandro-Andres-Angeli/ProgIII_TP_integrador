@@ -7,12 +7,12 @@ const Usuario = {
       apellido,
       correoElectronico,
       contrasenia,
-      imagen,
+      imagen = null,
       idUsuarioTipo,
     } = data;
     const query = `
-      INSERT INTO usuarios (nombre, apellido, correoElectronico, contrasenia,imagen, idUsuarioTipo, activo) 
-      VALUES (?, ?, ?,sha2( ?,256),?, ?, 1)
+      INSERT INTO usuarios (nombre, apellido, correoElectronico, contrasenia, imagen, idUsuarioTipo, activo) 
+      VALUES (?, ?, ?, sha2(?,256), ?, ?, 1)
     `;
     const [result] = await pool.execute(query, [
       nombre,
