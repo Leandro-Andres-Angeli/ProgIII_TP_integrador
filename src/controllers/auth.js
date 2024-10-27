@@ -16,7 +16,9 @@ const generateToken = (req, res) => {
   logIn(user, { session: false }, async (err) => {
     if (err) return err;
 
-    const token = jwt.sign({ user }, 'secret', { expiresIn: '90d' });
+    const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+      expiresIn: '90d',
+    });
     const { contrasenia, ...userWithoutPassword } = user;
     return res.status(200).json({
       ok: true,
@@ -67,7 +69,7 @@ function handleLogin(req, res, next) {
 const passportJWTStrategy = new JWTStrategy(
   {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'secret',
+    secretOrKey: process.env.JWT_SECRET,
   },
   async function (JWTPayload, cb) {
     try {
@@ -82,6 +84,7 @@ const passportJWTStrategy = new JWTStrategy(
       const [user] = await connection.query(
         `SELECT * FROM usuarios WHERE correoElectronico='${correoElectronico}' AND contrasenia='${contrasenia}'`
       );
+
       if (user.length === 0) {
         return cb(new Error('Error de autenticacion'), false);
       }
@@ -89,6 +92,8 @@ const passportJWTStrategy = new JWTStrategy(
       connection.release();
       return cb(null, user);
     } catch (err) {
+      console.log(err);
+
       return cb(new Error('Error de servidor'), false);
     }
   }

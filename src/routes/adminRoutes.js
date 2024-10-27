@@ -18,7 +18,7 @@ router.post(
   [validateCreateUsuario],
   usuarioController.createEmpleado
 );
-router.delete('/empleados/:id', usuarioController.deleteEmpleado);
+router.patch('/empleados/:id', usuarioController.deleteEmpleado);
 router.put(
   '/empleados/:id',
   [validateUpdateUsuario],
@@ -28,7 +28,7 @@ router.put(
 router.get('/oficinas', oficinaController.getOficinas);
 router.get('/oficinas/:id', oficinaController.getOficinaById);
 router.post('/oficinas', oficinaController.createOficina);
-router.delete('/oficinas/:id', oficinaController.deleteOficina);
+router.patch('/oficinas/:id', oficinaController.deleteOficina);
 router.put('/oficinas/:id', oficinaController.updateOficina);
 
 router.post(

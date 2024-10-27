@@ -8,9 +8,9 @@ const {
   isClient,
   isEmpleado,
   isAdmin,
-} = require('../middleware/authorization');
+} = require('../middlewares/authorization');
 const { check, param } = require('express-validator');
-const { validarCampos } = require('../middleware/validarcampos');
+const { validarCampos } = require('../middlewares/validarCampos');
 
 const claimController = new ClaimController();
 router.use(handleTokenValidity);

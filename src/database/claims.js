@@ -20,6 +20,24 @@ class Claims {
 
     return claim;
   };
+  patchClaimClient = async (claimId, idUser) => {
+    const [claimUpdate] = await pool.execute(
+      `UPDATE reclamos r SET r.idReclamoEstado=3 , r.idUsuarioFinalizador = ? ,r.fechaCancelado=NOW()
+      WHERE r.idReclamo =? ;`,
+      [idUser, claimId]
+    );
+    return claimUpdate;
+  };
+  getClaimByClaimId = async (claimId) => {
+    const [claim] = await pool.execute(
+      'SELECT * FROM `reclamos` r  where r.idReclamo=?',
+      [claimId]
+    );
+
+    // if(claimId.idReclamoTipo !== )
+
+    return claim;
+  };
   postClaim = async (asunto, descripcion, idReclamoTipo, idUsuario) => {
     const connection = await pool.getConnection();
     const [newClaimQuery] = await connection.query(
@@ -35,6 +53,13 @@ class Claims {
       'SELECT * FROM reclamos r where r.idReclamoTipo =  (SELECT uo.idOficina FROM `usuarios` u  JOIN usuarios_oficinas uo ON u.idUsuario = uo.idUsuario WHERE u.idUsuario=?)',
       [idUsuario]
     );
+  };
+  getClaimByClaimIdAndUserId = async (idUser, idClaim) => {
+    const [claim] = await pool.execute(
+      'SELECT * FROM reclamos r where r.idReclamoTipo =  (SELECT uo.idOficina FROM `usuarios` u  JOIN usuarios_oficinas uo ON u.idUsuario = uo.idUsuario WHERE u.idUsuario=?)  AND r.idReclamo = ? ;',
+      [idUser, idClaim]
+    );
+    return claim;
   };
   patchClaimEmployee = async (claimId, userId, claimNewStatus) => {
     const patchClaim = await pool.execute(
@@ -89,6 +114,14 @@ class Claims {
         new Date(),
       ]
     );
+  };
+  reportesClaimQuery = async (idReclamoTipo) => {
+    const [claims] = await pool.query(
+      'SELECT r.idReclamo,r.asunto,r.descripcion,r.fechaCreado,r.fechaFinalizado,r.fechaCancelado,re.descripcion AS descripcionEstado,r.idReclamoTipo,r.idUsuarioCreador,r.idUsuarioFinalizador FROM reclamos r  join   reclamos_estado re  on r.idReclamoEstado = re.idReclamoEstado WHERE idReclamoTipo = ?',
+
+      [idReclamoTipo]
+    );
+    return claims;
   };
 }
 module.exports = Claims;
