@@ -11,7 +11,7 @@ router.use(handleTokenValidity);
 router.use(isAdmin);
 const reportesController = new ReportesController();
 router.get(
-  '/:formatoReporte/:idReclamoTipo',
+  '/tablas/:formatoReporte/:idReclamoTipo',
   [
     param('formatoReporte')
       .custom(validateReportFormat)

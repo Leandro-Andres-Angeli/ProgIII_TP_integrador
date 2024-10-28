@@ -294,7 +294,7 @@
         "summary": "Loguearse"
       }
     },
-    "/api/reportes/{formatoReporte}/{idTipoDeReclamo}": {
+    "/api/reportes/tablas/{formatoReporte}/{idTipoDeReclamo}": {
       "parameters": [
         {
           "in": "path",
