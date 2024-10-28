@@ -49,13 +49,8 @@ server.use('/api/reclamos', claimRoutes);
 server.use('/api/clientes', [handleTokenValidity, isClient], clienteRoutes);
 server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
 
-<<<<<<< HEAD
-server.use('/api/v1/reportes', reportesRoutes);
-/* refactor later */
-=======
-server.use('/api/reportes', [handleTokenValidity, isAdmin], reportesRoutes);
+server.use('/api/v1/reportes', [handleTokenValidity, isAdmin], reportesRoutes);
 
->>>>>>> 8848fd5eca466e66f73e018dc81f2033837238c6
 const checkConnection = async () => {
   try {
     await pool.getConnection();
