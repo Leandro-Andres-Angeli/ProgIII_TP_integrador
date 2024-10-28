@@ -3,7 +3,6 @@ const router = express.Router();
 const clienteController = require('../controllers/clienteController');
 const empleadoController = require('../controllers/empleadoController');
 const oficinaController = require('../controllers/oficinaController');
-const estadisticasController = require('../controllers/estadisticasController');
 const {
   validateCreateUsuario,
   validateUpdateUsuario,
@@ -46,10 +45,5 @@ router.patch('/oficinas/:id', oficinaController.updateOficina);
 
 router.post('/oficinas/empleados', oficinaController.asignarEmpleados);
 router.get('/oficinas/:id/empleados', oficinaController.getEmpleados);
-
-router.get(
-  '/estadisticas/totalesReclamosEstados',
-  estadisticasController.getTotalesReclamosEstados
-);
 
 module.exports = router;
