@@ -51,7 +51,7 @@ server.use('/api/clientes', [handleTokenValidity, isClient], clienteRoutes);
 server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
 server.use('/api/v2/admin/', [handleTokenValidity, isAdmin], adminRoutes_v2);
 
-server.use('/api/reportes', reportesRoutes);
+server.use('/api/v1/reportes', reportesRoutes);
 /* refactor later */
 const checkConnection = async () => {
   try {

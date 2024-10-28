@@ -357,7 +357,7 @@ Ejempo respuesta peticion
 
 #### Reporte PDF
 
-`GET /api/reportes/tablas/{formatoReporte}/{idTipoDeReclamo}`
+`GET /api/reportes/v1/{formatoReporte}/{idTipoDeReclamo}`
 
 | Parameter        | Type           | Description                     |
 | :--------------- | :------------- | :------------------------------ |
