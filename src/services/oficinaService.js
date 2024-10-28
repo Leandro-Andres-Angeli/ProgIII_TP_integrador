@@ -30,11 +30,6 @@ const oficinaService = {
     await Oficina.deleteOficina(id);
   },
 
-  deleteOficina_v2: async (id) => {
-    await checkExisteOficina(id);
-    await Oficina.deleteOficina_v2(id);
-  },
-
   asignarEmpleado: async (idOficina, idEmpleado) => {
     await checkExisteOficina(idOficina);
     await checkExisteUsuario(idEmpleado, 2);

@@ -7,12 +7,12 @@ const Usuario = {
       apellido,
       correoElectronico,
       contrasenia,
-      imagen,
+      imagen = null,
       idUsuarioTipo,
     } = data;
     const query = `
-      INSERT INTO usuarios (nombre, apellido, correoElectronico, contrasenia,imagen, idUsuarioTipo, activo) 
-      VALUES (?, ?, ?,sha2( ?,256),?, ?, 1)
+      INSERT INTO usuarios (nombre, apellido, correoElectronico, contrasenia, imagen, idUsuarioTipo, activo) 
+      VALUES (?, ?, ?, sha2(?,256), ?, ?, 1)
     `;
     const [result] = await pool.execute(query, [
       nombre,
@@ -30,8 +30,16 @@ const Usuario = {
     const [result] = await pool.execute(query, [idUsuarioTipo]);
     return result;
   },
-  getUsuarioByIdAndPassword: async (username, password) => {
-    const query = `SELECT * FROM usuarios WHERE correoElectronico = '${username}' AND contrasenia =sha2('${password}',256) AND activo=1`;
+
+  getUsuarioByUsernameAndPassword: async (username, password) => {
+    const query = `SELECT * FROM usuarios WHERE correoElectronico = '${username}' AND contrasenia = sha2('${password}',256) AND activo=1`;
+    const [result] = await pool.execute(query, [username, password]);
+
+    return result;
+  },
+
+  getUsuarioByUsernameAndPasswordHashed: async (username, password) => {
+    const query = `SELECT * FROM usuarios WHERE correoElectronico = '${username}' AND contrasenia = '${password}' AND activo=1`;
     const [result] = await pool.execute(query, [username, password]);
 
     return result;
@@ -64,6 +72,30 @@ const Usuario = {
     await pool.execute(query, [nombre, apellido, imagen, id, idTipo]);
   },
 
+  updateCorreoUsuario: async (id, data, idTipo) => {
+    const { correoElectronico } = data;
+
+    const query = `
+      UPDATE usuarios 
+      SET correoElectronico = ?
+      WHERE idUsuario = ?
+      AND idUsuarioTipo = ?
+    `;
+    await pool.execute(query, [correoElectronico, id, idTipo]);
+  },
+
+  updateContraseniaUsuario: async (id, data, idTipo) => {
+    const { contrasenia } = data;
+
+    const query = `
+      UPDATE usuarios 
+      SET contrasenia = sha2(?,256)
+      WHERE idUsuario = ?
+      AND idUsuarioTipo = ?
+    `;
+    await pool.execute(query, [contrasenia, id, idTipo]);
+  },
+
   deleteUsuario: async (id, idTipo) => {
     const query = ` UPDATE usuarios SET activo = 0 WHERE idUsuario = ? AND idUsuarioTipo = ? `;
     await pool.execute(query, [id, idTipo]);
@@ -76,6 +108,15 @@ const Usuario = {
     AND idUsuarioTipo = ?
     AND activo = 1`;
     const [result] = await pool.execute(query, [id, idTipo]);
+    return result.length > 0;
+  },
+
+  existeCorreo: async (correoElectronico) => {
+    const query = `SELECT 1
+    FROM usuarios
+    WHERE correoElectronico = ?
+    `;
+    const [result] = await pool.execute(query, [correoElectronico]);
     return result.length > 0;
   },
 };

@@ -1,7 +1,4 @@
-const pool = require('../config/dbConfig');
 const usuarioService = require('../services/usuarioService');
-
-// CRUD Clientes
 
 exports.createCliente = async (req, res) => {
   try {
@@ -43,21 +40,8 @@ exports.getClienteById = async (req, res) => {
 
 exports.updateCliente = async (req, res) => {
   const clienteID = req.user.idUsuario;
-
   try {
-    const [rows] = await pool.query(
-      'SELECT * FROM usuarios WHERE idUsuario = ?',
-      [clienteID]
-    );
-
-    if (rows.length === 0) {
-      return res
-        .status(404)
-        .json({ message: 'No se encuentra al cliente solicitado.' });
-    }
-
     await usuarioService.updateUsuario(clienteID, req.body, 3);
-
     res
       .status(200)
       .json({ ok: true, message: 'Perfil actualizado con éxito.' });
@@ -66,54 +50,32 @@ exports.updateCliente = async (req, res) => {
   }
 };
 
-// CRUD Empleados
-
-exports.createEmpleado = async (req, res) => {
+exports.updateCorreoCliente = async (req, res) => {
+  const clienteID = req.user.idUsuario;
   try {
-    let usuario = req.body;
-    usuario.idUsuarioTipo = 2; // empleado
-    const id = await usuarioService.createUsuario(usuario);
-    res.status(200).json({ ok: true, message: `Empleado creado con éxito.` });
-  } catch (error) {
-    return res.status(500).json({ ok: false, message: error.message });
-  }
-};
-
-exports.getEmpleados = async (req, res) => {
-  try {
-    const usuarios = await usuarioService.getUsuarios(2);
-    res.status(200).json({ ok: true, data: usuarios });
-  } catch (error) {
-    return res.status(500).json({ ok: false, message: error.message });
-  }
-};
-
-exports.getEmpleadoById = async (req, res) => {
-  try {
-    const usuario = await usuarioService.getUsuarioById(req.params.id, 2);
-    res.status(200).json({ ok: true, data: usuario });
-  } catch (error) {
-    return res.status(500).json({ ok: false, message: error.message });
-  }
-};
-
-exports.updateEmpleado = async (req, res) => {
-  try {
-    await usuarioService.updateUsuario(req.params.id, req.body, 2);
+    await usuarioService.updateCorreo(clienteID, req.body, 3);
     res
       .status(200)
-      .json({ ok: true, message: 'Empleado actualizado con éxito.' });
+      .json({
+        ok: true,
+        message:
+          'Correo electrónico actualizado con éxito. Debe volver a loguearse.',
+      });
   } catch (error) {
     return res.status(500).json({ ok: false, message: error.message });
   }
 };
 
-exports.deleteEmpleado = async (req, res) => {
+exports.updateContraseniaCliente = async (req, res) => {
+  const clienteID = req.user.idUsuario;
   try {
-    await usuarioService.deleteUsuario(req.params.id, 2);
+    await usuarioService.updateContrasenia(clienteID, req.body, 3);
     res
       .status(200)
-      .json({ ok: true, message: 'Empleado eliminado con éxito.' });
+      .json({
+        ok: true,
+        message: 'Contraseña actualizada con éxito. Debe volver a loguearse.',
+      });
   } catch (error) {
     return res.status(500).json({ ok: false, message: error.message });
   }

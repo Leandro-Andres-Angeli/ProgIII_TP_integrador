@@ -7,8 +7,16 @@ const checkExisteUsuario = async (id, idTipo) => {
   }
 };
 
+const checkNoExisteCorreo = async (correoElectronico) => {
+  const correoExiste = await Usuario.existeCorreo(correoElectronico);
+  if (correoExiste) {
+    throw new Error('Ya existe un usuario con ese correo electrónico.');
+  }
+};
+
 const usuarioService = {
   createUsuario: async (data) => {
+    await checkNoExisteCorreo(data.correoElectronico);
     const id = await Usuario.createUsuario(data);
     return id;
   },
@@ -29,6 +37,17 @@ const usuarioService = {
   updateUsuario: async (id, data, idTipo) => {
     await checkExisteUsuario(id, idTipo);
     await Usuario.updateUsuario(id, data, idTipo);
+  },
+
+  updateCorreo: async (id, data, idTipo) => {
+    await checkExisteUsuario(id, idTipo);
+    await checkNoExisteCorreo(data.correoElectronico);
+    await Usuario.updateCorreoUsuario(id, data, idTipo);
+  },
+
+  updateContrasenia: async (id, data, idTipo) => {
+    await checkExisteUsuario(id, idTipo);
+    await Usuario.updateContraseniaUsuario(id, data, idTipo);
   },
 
   deleteUsuario: async (id, idTipo) => {

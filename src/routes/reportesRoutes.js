@@ -6,10 +6,13 @@ const { param } = require('express-validator');
 const { validarCampos } = require('../middlewares/validarCampos');
 const validateReportFormat = require('../validations/validateReportFormat');
 const ReportesController = require('../controllers/reportesController');
+const estadisticasController = require('../controllers/estadisticasController');
+
 const router = express.Router();
 router.use(handleTokenValidity);
 router.use(isAdmin);
 const reportesController = new ReportesController();
+
 router.get(
   '/:formatoReporte/:idReclamoTipo',
   [
@@ -23,4 +26,10 @@ router.get(
   ],
   reportesController.getReporte
 );
+
+router.get(
+  '/totalesReclamosEstados',
+  estadisticasController.getTotalesReclamosEstados
+);
+
 module.exports = router;
