@@ -9,7 +9,7 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Clientes"],
+        "tags": ["Clientes - (Admin)"],
         "description": "Obtener todos los clientes",
         "operationId": "obtenerTodosLosClientes",
         "summary": "Obtener todos los clientes"
@@ -22,7 +22,7 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Clientes"],
+        "tags": ["Clientes - (Admin)"],
         "description": "Obtiene un cliente por id",
         "operationId": "obtieneUnClientePorId",
         "summary": "Obtiene un cliente por id"
@@ -32,7 +32,7 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Empleados"],
+        "tags": ["Empleados - (Admin)"],
         "description": "Obtiene todos los empleados",
         "operationId": "obtieneTodosLosEmpleados",
         "summary": "Obtiene todos los empleados"
@@ -45,20 +45,24 @@
             "name": "body",
             "schema": {
               "properties": {
-                "apellido": { "example": "Apellido", "type": "string" },
+                "apellido": { "example": "Empleado", "type": "string" },
                 "contrasenia": { "example": "123456", "type": "string" },
                 "correoElectronico": {
-                  "example": "correo_3@empleado.com",
+                  "example": "correo_7@empleado.com",
                   "type": "string"
                 },
-                "nombre": { "example": "Nombre", "type": "string" }
+                "imagen": {
+                  "example": "https://upload.wikimedia.org/wikipedia/vi/thumb/7/76/Darth_Vader.jpg/220px-Darth_Vader.jpg",
+                  "type": "string"
+                },
+                "nombre": { "example": "Empleado", "type": "string" }
               },
               "type": "object"
             }
           }
         ],
         "responses": { "200": { "description": "" } },
-        "tags": ["Empleados"],
+        "tags": ["Empleados - (Admin)"],
         "description": "Crea un nuevo empleado",
         "operationId": "creaUnNuevoEmpleado",
         "summary": "Crea un nuevo empleado"
@@ -68,24 +72,15 @@
       "parameters": [
         { "in": "path", "name": "id", "required": true, "type": "string" }
       ],
-      "delete": {
-        "parameters": [{ "in": "header", "name": "", "type": "string" }],
-        "responses": { "200": { "description": "" } },
-        "tags": ["Empleados"],
-        "description": "Elimina un empleado",
-        "operationId": "eliminaUnEmpleado",
-        "summary": "Elimina un empleado"
-      },
       "get": {
-        "consumes": ["application/json"],
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Empleados"],
+        "tags": ["Empleados - (Admin)"],
         "description": "Obtiene un empleado por id",
         "operationId": "obtieneUnEmpleadoPorId",
         "summary": "Obtiene un empleado por id"
       },
-      "put": {
+      "patch": {
         "consumes": ["application/json"],
         "parameters": [
           {
@@ -93,35 +88,39 @@
             "name": "body",
             "schema": {
               "properties": {
-                "apellido": { "example": "Otro Apellido", "type": "string" },
-                "nombre": { "example": "Otro Nombre", "type": "string" }
+                "apellido": { "example": "Empleado Updated", "type": "string" },
+                "imagen": { "example": "", "type": "string" },
+                "nombre": { "example": "Empleado Updated", "type": "string" }
               },
               "type": "object"
             }
           }
         ],
         "responses": { "200": { "description": "" } },
-        "tags": ["Empleados"],
+        "tags": ["Empleados - (Admin)"],
         "description": "Actualiza un empleado",
         "operationId": "actualizaUnEmpleado",
         "summary": "Actualiza un empleado"
       }
     },
-    "/api/admin/estadisticas/totalesReclamosEstados": {
-      "get": {
-        "parameters": [],
+    "/api/admin/empleados/{id}/delete": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
+        "parameters": [{ "in": "header", "name": "", "type": "string" }],
         "responses": { "200": { "description": "" } },
-        "tags": ["Estadísticas"],
-        "description": "Totales de reclamos por estados",
-        "operationId": "totalesDeReclamosPorEstados",
-        "summary": "Totales de reclamos por estados"
+        "tags": ["Empleados - (Admin)"],
+        "description": "Elimina un empleado",
+        "operationId": "eliminaUnEmpleado",
+        "summary": "Elimina un empleado"
       }
     },
     "/api/admin/oficinas": {
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Oficinas"],
+        "tags": ["Oficinas - (Admin)"],
         "description": "Obtiene todas las oficinas",
         "operationId": "obtieneTodasLasOficinas",
         "summary": "Obtiene todas las oficinas"
@@ -135,48 +134,85 @@
             "schema": {
               "properties": {
                 "idReclamoTipo": { "example": 2, "type": "number" },
-                "nombre": { "example": "Nombre Oficina", "type": "string" }
+                "nombre": { "example": "Oficina", "type": "string" }
               },
               "type": "object"
             }
           }
         ],
         "responses": { "200": { "description": "" } },
-        "tags": ["Oficinas"],
+        "tags": ["Oficinas - (Admin)"],
         "description": "Crea una nueva oficina",
         "operationId": "creaUnaNuevaOficina",
         "summary": "Crea una nueva oficina"
       }
     },
-    "/api/admin/oficinas/{idOficina}/empleados/{idEmpleado}": {
-      "parameters": [
-        {
-          "in": "path",
-          "name": "idOficina",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "in": "path",
-          "name": "idEmpleado",
-          "required": true,
-          "type": "string"
-        }
-      ],
+    "/api/admin/oficinas/empleados": {
       "post": {
-        "parameters": [],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "idOficina": { "example": 4, "type": "number" },
+                "idsEmpleados": {
+                  "example": [41],
+                  "items": { "example": 41, "type": "number" },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
         "responses": { "200": { "description": "" } },
-        "tags": ["Oficinas-Empleados"],
-        "description": "Asocia un empleado a una oficina",
-        "operationId": "asociaUnEmpleadoAUnaOficina",
-        "summary": "Asocia un empleado a una oficina"
+        "tags": ["Oficinas-Empleados - (Admin)"],
+        "description": "Asocia empleados a una oficina",
+        "operationId": "asociaEmpleadosAUnaOficina",
+        "summary": "Asocia empleados a una oficina"
       }
     },
     "/api/admin/oficinas/{id}": {
       "parameters": [
         { "in": "path", "name": "id", "required": true, "type": "string" }
       ],
-      "delete": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas - (Admin)"],
+        "description": "Obtiene una oficina por id",
+        "operationId": "obtieneUnaOficinaPorId",
+        "summary": "Obtiene una oficina por id"
+      },
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "idReclamoTipo": { "example": 2, "type": "number" },
+                "nombre": { "example": "Oficina Updated", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas - (Admin)"],
+        "description": "Actualiza una oficina",
+        "operationId": "actualizaUnaOficina",
+        "summary": "Actualiza una oficina"
+      }
+    },
+    "/api/admin/oficinas/{id}/delete": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
         "consumes": ["text/plain"],
         "parameters": [
           {
@@ -186,42 +222,10 @@
           }
         ],
         "responses": { "200": { "description": "" } },
-        "tags": ["Oficinas"],
-        "description": "Elimina una oficina",
-        "operationId": "eliminaUnaOficina",
-        "summary": "Elimina una oficina"
-      },
-      "get": {
-        "parameters": [],
-        "responses": { "200": { "description": "" } },
-        "tags": ["Oficinas"],
-        "description": "Obtiene una oficina por id",
-        "operationId": "obtieneUnaOficinaPorId",
-        "summary": "Obtiene una oficina por id"
-      },
-      "put": {
-        "consumes": ["application/json"],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "properties": {
-                "idReclamoTipo": { "example": 2, "type": "number" },
-                "nombre": {
-                  "example": "Nuevo Nombre Oficina",
-                  "type": "string"
-                }
-              },
-              "type": "object"
-            }
-          }
-        ],
-        "responses": { "200": { "description": "" } },
-        "tags": ["Oficinas"],
-        "description": "Actualiza una oficina",
-        "operationId": "actualizaUnaOficina",
-        "summary": "Actualiza una oficina"
+        "tags": ["Oficinas - (Admin)"],
+        "description": "Elimina una oficina y desasigna empleados",
+        "operationId": "eliminaUnaOficinaYDesasignaEmpleados",
+        "summary": "Elimina una oficina y desasigna empleados"
       }
     },
     "/api/admin/oficinas/{id}/empleados": {
@@ -231,7 +235,7 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Oficinas-Empleados"],
+        "tags": ["Oficinas-Empleados - (Admin)"],
         "description": "Obtiene los empleados de una oficina",
         "operationId": "obtieneLosEmpleadosDeUnaOficina",
         "summary": "Obtiene los empleados de una oficina"
@@ -241,12 +245,12 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Clientes"],
-        "description": "Obtiene perfil de cliente",
-        "operationId": "obtienePerfilDeCliente",
-        "summary": "Obtiene perfil de cliente"
+        "tags": ["Clientes - (Clientes)"],
+        "description": "Obtiene perfil",
+        "operationId": "obtienePerfil",
+        "summary": "Obtiene perfil"
       },
-      "put": {
+      "patch": {
         "consumes": ["application/json"],
         "parameters": [
           {
@@ -254,18 +258,69 @@
             "name": "body",
             "schema": {
               "properties": {
-                "apellido": { "example": "Otro Apellido 2", "type": "string" },
-                "nombre": { "example": "Otro Nombre 2", "type": "string" }
+                "apellido": { "example": "Cliente Updated", "type": "string" },
+                "imagen": {
+                  "example": "https://upload.wikimedia.org/wikipedia/vi/thumb/7/76/Darth_Vader.jpg/220px-Darth_Vader.jpg",
+                  "type": "string"
+                },
+                "nombre": { "example": "Cliente Updated", "type": "string" }
               },
               "type": "object"
             }
           }
         ],
         "responses": { "200": { "description": "" } },
-        "tags": ["Clientes"],
-        "description": "Actualiza perfil de cliente",
-        "operationId": "actualizaPerfilDeCliente",
-        "summary": "Actualiza perfil de cliente"
+        "tags": ["Clientes - (Clientes)"],
+        "description": "Actualiza perfil",
+        "operationId": "actualizaPerfil",
+        "summary": "Actualiza perfil"
+      }
+    },
+    "/api/clientes/perfil/contrasenia": {
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "contrasenia": { "example": "654321", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Clientes - (Clientes)"],
+        "description": "Actualiza contraseña",
+        "operationId": "actualizaContraseA",
+        "summary": "Actualiza contraseña"
+      }
+    },
+    "/api/clientes/perfil/correo": {
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "correoElectronico": {
+                  "example": "correo_27@cliente.com",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Clientes - (Clientes)"],
+        "description": "Actualiza correo electrónico",
+        "operationId": "actualizaCorreoElectrNico",
+        "summary": "Actualiza correo electrónico"
       }
     },
     "/api/login": {
@@ -324,88 +379,18 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Reclamos"],
-        "description": "Obtiene todos los reclamos  - ruta disponible unicamente para administradores",
-        "operationId": "obtieneReclamos - admin",
-        "summary": "Obtiene reclamos - admin"
+        "tags": ["Reclamos - (Admin)"],
+        "description": "Obtiene reclamos",
+        "operationId": "obtieneReclamos",
+        "summary": "Obtiene reclamos"
       }
     },
-    "/api/reclamos/admin/{idUsuario}": {
-      "post": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "idUsuario",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "properties": {
-                "idReclamoEstado": { "example": 3, "type": "number" },
-                "asunto": {
-                  "example": "reclamo creado por admin",
-                  "type": "string"
-                },
-                "descripcion": { "example": "descripcion", "type": "string" },
-                "idReclamoTipo": { "example": 4, "type": "number" }
-              },
-              "type": "object"
-            }
-          }
-        ],
-        "responses": { "200": { "description": "" } },
-        "tags": ["Reclamos"],
-        "description": "Postea un reclamo recibe el id del cliente por parametro debe estar logueado como admin ",
-        "operationId": "postReclamos - admin",
-        "summary": "Post reclamos - admin"
-      }
-    },
-    "/api/reclamos/admin/{idReclamo}": {
+    "/api/reclamos/admin/{id}": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
       "patch": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "idReclamo",
-            "required": true,
-            "type": "number"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "properties": {
-                "asunto": {
-                  "example": "reclamo modificado por admin",
-                  "type": "string"
-                },
-                "descripcion": { "example": "descripcion", "type": "string" },
-
-                "reclamoNuevoStatus": { "example": 4, "type": "number" }
-              },
-              "type": "object"
-            }
-          }
-        ],
-        "responses": { "200": { "description": "" } },
-        "tags": ["Reclamos"],
-        "description": "Actualiza un reclamo recibe el id del cliente por parametro debe estar logueado como admin ",
-        "operationId": "patchReclamos - admin",
-        "summary": "patch reclamos - admin"
-      }
-    },
-    "/api/reclamos/clientes/": {
-      "get": {
-        "parameters": [],
-        "responses": { "200": { "description": "" } },
-        "tags": ["Reclamos"],
-        "description": "Obtiene reclamos - clientes debe estar logueado como cliente ",
-        "operationId": "obtieneReclamos - clientes",
-        "summary": "Obtiene reclamos - clientes"
-      },
-      "post": {
+        "consumes": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -413,98 +398,175 @@
             "schema": {
               "properties": {
                 "asunto": {
-                  "example": "reclamo posteado por cliente",
+                  "example": "Asunto Updated Admin",
                   "type": "string"
                 },
                 "descripcion": {
-                  "example": "descripcion reclamo",
+                  "example": "Descripción Updated Admin",
                   "type": "string"
                 },
-
-                "idReclamoTipo": { "example": 4, "type": "number" }
+                "reclamoNuevoStatus": { "example": 1, "type": "number" }
               },
               "type": "object"
             }
           }
         ],
         "responses": { "200": { "description": "" } },
-        "tags": ["Reclamos"],
-        "description": "Postea reclamos - clientes debe estar logueado como cliente ",
-        "operationId": "posteaReclamos - clientes",
-        "summary": "Postea reclamos - clientes"
+        "tags": ["Reclamos - (Admin)"],
+        "description": "Actualiza un reclamo",
+        "operationId": "actualizaUnReclamo",
+        "summary": "Actualiza un reclamo"
       }
     },
-    "/api/reclamos/clientes/{idReclamo}": {
-      "patch": {
+    "/api/reclamos/admin/{isUsuario}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "isUsuario",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "post": {
+        "consumes": ["application/json"],
         "parameters": [
-          {
-            "in": "path",
-            "name": "idReclamo",
-            "required": true,
-            "type": "number"
-          },
           {
             "in": "body",
             "name": "body",
             "schema": {
               "properties": {
-                "reclamoNuevoStatus": {
-                  "example": 1,
-                  "type": "number"
-                }
+                "asunto": { "example": "Asunto Admin", "type": "string" },
+                "descripcion": {
+                  "example": "Descripción Admin",
+                  "type": "string"
+                },
+                "idReclamoEstado": { "example": 1, "type": "number" },
+                "idReclamoTipo": { "example": 6, "type": "number" }
               },
               "type": "object"
             }
           }
         ],
         "responses": { "200": { "description": "" } },
-        "tags": ["Reclamos"],
-        "description": "Patch reclamos - clientes debe estar logueado como cliente cambia el estado del reclamo a cancelado , si el reclamo ya esta cancelado no ejecuta acción ",
-        "operationId": "patchReclamos - clientes",
-        "summary": "Patch reclamos - clientes"
+        "tags": ["Reclamos - (Admin)"],
+        "description": "Crea un nuevo reclamo",
+        "operationId": "creaUnNuevoReclamo",
+        "summary": "Crea un nuevo reclamo"
       }
     },
-    "/api/reclamos/empleados/": {
+    "/api/reclamos/clientes": {
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Reclamos"],
-        "description": "Obtiene reclamos - empleados debe estar logueado como empleado devuelve los reclamos asociados a la oficina del empleado",
-        "operationId": "obtieneReclamos - empleados",
-        "summary": "Obtiene reclamos - empleados"
-      }
-    },
-    "/api/reclamos/empleados/{idReclamo}": {
-      "patch": {
+        "tags": ["Reclamos - (Clientes)"],
+        "description": "Obtiene reclamos",
+        "operationId": "obtieneReclamos2",
+        "summary": "Obtiene reclamos"
+      },
+      "post": {
+        "consumes": ["application/json"],
         "parameters": [
-          {
-            "in": "path",
-            "name": "idReclamo",
-            "required": true,
-            "type": "number"
-          },
           {
             "in": "body",
             "name": "body",
             "schema": {
               "properties": {
-                "reclamoNuevoStatus": {
-                  "example": 1,
-                  "type": "number"
-                }
+                "asunto": { "example": "Asunto Cliente", "type": "string" },
+                "descripcion": {
+                  "example": "Descripción Cliente",
+                  "type": "string"
+                },
+                "idReclamoTipo": { "example": 6, "type": "number" }
               },
               "type": "object"
             }
           }
         ],
         "responses": { "200": { "description": "" } },
-        "tags": ["Reclamos"],
-        "description": "Patch reclamos - empleados .Debe estar logueado como empleado , cambia el estado del reclamo .El reclamo debe estar en un estado distinto a 'creado' para poder ser modificado",
-        "operationId": "patchReclamos - empleados",
-        "summary": "Patch reclamos - empleados"
+        "tags": ["Reclamos - (Clientes)"],
+        "description": "Crea un nuevo reclamo",
+        "operationId": "creaUnNuevoReclamo1",
+        "summary": "Crea un nuevo reclamo"
       }
     },
-
+    "/api/reclamos/clientes/{id}": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos - (Clientes)"],
+        "description": "Obtiene un reclamo por id",
+        "operationId": "obtieneUnReclamoPorId",
+        "summary": "Obtiene un reclamo por id"
+      },
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "asunto": { "example": "Asunto 2", "type": "string" },
+                "descripcion": { "example": "Descripción 2", "type": "string" },
+                "reclamoNuevoStatus": { "example": 3, "type": "number" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos - (Clientes)"],
+        "description": "Actualiza un reclamo a cancelado",
+        "operationId": "actualizaUnReclamoACancelado",
+        "summary": "Actualiza un reclamo a cancelado"
+      }
+    },
+    "/api/reclamos/empleados": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos - (Empleados)"],
+        "description": "Obtiene reclamos",
+        "operationId": "obtieneReclamos1",
+        "summary": "Obtiene reclamos"
+      }
+    },
+    "/api/reclamos/empleados/{id}": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "asunto": {
+                  "example": "Asunto Updated Empleado",
+                  "type": "string"
+                },
+                "descripcion": {
+                  "example": "Descripción Updated Empleado",
+                  "type": "string"
+                },
+                "reclamoNuevoStatus": { "example": 3, "type": "number" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos - (Empleados)"],
+        "description": "Actualiza un reclamo",
+        "operationId": "actualizaUnReclamo1",
+        "summary": "Actualiza un reclamo"
+      }
+    },
     "/api/registro": {
       "post": {
         "consumes": ["application/json"],
@@ -514,23 +576,61 @@
             "name": "body",
             "schema": {
               "properties": {
-                "apellido": { "example": "Apellido", "type": "string" },
+                "apellido": { "example": "Cliente", "type": "string" },
                 "contrasenia": { "example": "123456", "type": "string" },
                 "correoElectronico": {
-                  "example": "correo_2@cliente.com",
+                  "example": "correo_1@cliente.com",
                   "type": "string"
                 },
-                "nombre": { "example": "Nombre", "type": "string" }
+                "imagen": {
+                  "example": "https://i.pinimg.com/736x/34/88/98/348898fe7e68341c5acba805b9a4dd3f.jpg",
+                  "type": "string"
+                },
+                "nombre": { "example": "Cliente", "type": "string" }
               },
               "type": "object"
             }
           }
         ],
         "responses": { "200": { "description": "" } },
-        "tags": ["Clientes"],
+        "tags": ["Auth"],
         "description": "Crear un nuevo cliente",
         "operationId": "crearUnNuevoCliente",
         "summary": "Crear un nuevo cliente"
+      }
+    },
+    "/api/reportes/totalesReclamosEstados": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Estadísticas - (Admin)"],
+        "description": "Totales de reclamos por estados",
+        "operationId": "totalesDeReclamosPorEstados",
+        "summary": "Totales de reclamos por estados"
+      }
+    },
+    "/api/reportes/{formatoReporte}/{idTipoReclamo}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "formatoReporte",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "path",
+          "name": "idTipoReclamo",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Estadísticas - (Admin)"],
+        "description": "Genera archivo de reclamos",
+        "operationId": "generaArchivoDeReclamos",
+        "summary": "Genera archivo de reclamos"
       }
     }
   },
@@ -549,11 +649,14 @@
   ],
   "tags": [
     { "name": "Auth" },
-    { "name": "Clientes" },
-    { "name": "Empleados" },
-    { "name": "Oficinas" },
-    { "name": "Oficinas-Empleados" },
-    { "name": "Reclamos" },
-    { "name": "Estadísticas" }
+    { "name": "Clientes - (Clientes)" },
+    { "name": "Clientes - (Admin)" },
+    { "name": "Empleados - (Admin)" },
+    { "name": "Oficinas - (Admin)" },
+    { "name": "Oficinas-Empleados - (Admin)" },
+    { "name": "Reclamos - (Admin)" },
+    { "name": "Reclamos - (Empleados)" },
+    { "name": "Reclamos - (Clientes)" },
+    { "name": "Estadísticas - (Admin)" }
   ]
 }

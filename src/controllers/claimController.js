@@ -89,6 +89,9 @@ class ClaimController {
       }); 
       Refactored
       */
+      const { nombre, apellido, correoElectronico } =
+        await this.usuarioService.getUsuarioById(idUsuario, 3);
+
       const patchClaim = await this.service.patchClaimClient(
         idReclamo,
         idUsuario,
@@ -98,9 +101,6 @@ class ClaimController {
           status: 'cancelado',
         }
       );
-
-      const { nombre, apellido, correoElectronico } =
-        await this.usuarioService.getUsuarioById(idUsuario, 3);
 
       if (patchClaim.affectedRows !== 1) {
         return res

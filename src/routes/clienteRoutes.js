@@ -1,10 +1,30 @@
 const express = require('express');
-const { validateUpdateUsuario } = require('../validations/usuarioValidator');
+const {
+  validateUpdateUsuario,
+  validateUpdateCorreo,
+  validateUpdateContrasenia,
+} = require('../validations/usuarioValidator');
 const router = express.Router();
-const usuarioController = require('../controllers/usuarioController');
+const clienteController = require('../controllers/clienteController');
 
-router.get('/perfil', usuarioController.getPerfilCliente);
+router.get('/perfil', clienteController.getPerfilCliente);
 
-router.put('/perfil', [validateUpdateUsuario], usuarioController.updateCliente);
+router.patch(
+  '/perfil',
+  [validateUpdateUsuario],
+  clienteController.updateCliente
+);
+
+router.patch(
+  '/perfil/correo',
+  [validateUpdateCorreo],
+  clienteController.updateCorreoCliente
+);
+
+router.patch(
+  '/perfil/contrasenia',
+  [validateUpdateContrasenia],
+  clienteController.updateContraseniaCliente
+);
 
 module.exports = router;

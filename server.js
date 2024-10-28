@@ -9,10 +9,9 @@ const {
   generateToken,
   handleLogin,
 } = require('./src/controllers/auth');
-const usuarioController = require('./src/controllers/usuarioController');
+const clienteController = require('./src/controllers/clienteController');
 const claimRoutes = require('./src/routes/claimsRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
-const adminRoutes_v2 = require('./src/routes/v2/adminRoutes_v2');
 const clienteRoutes = require('./src/routes/clienteRoutes');
 
 const { validLogin } = require('./src/validations/validLogin');
@@ -43,16 +42,20 @@ server.post('/api/login', [validLogin, handleLogin], generateToken);
 server.post(
   '/api/registro',
   [validateCreateUsuario],
-  usuarioController.createCliente
+  clienteController.createCliente
 );
 
 server.use('/api/reclamos', claimRoutes);
 server.use('/api/clientes', [handleTokenValidity, isClient], clienteRoutes);
 server.use('/api/admin', [handleTokenValidity, isAdmin], adminRoutes);
-server.use('/api/v2/admin/', [handleTokenValidity, isAdmin], adminRoutes_v2);
 
+<<<<<<< HEAD
 server.use('/api/v1/reportes', reportesRoutes);
 /* refactor later */
+=======
+server.use('/api/reportes', [handleTokenValidity, isAdmin], reportesRoutes);
+
+>>>>>>> 8848fd5eca466e66f73e018dc81f2033837238c6
 const checkConnection = async () => {
   try {
     await pool.getConnection();

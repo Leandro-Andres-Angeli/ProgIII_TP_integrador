@@ -101,6 +101,8 @@ router.get(
 );
 router.patch(
   '/admin/:reclamoId',
+  isAdmin,
+
   [
     param('reclamoId').isNumeric().withMessage('parametro debe ser un numero'),
     check('reclamoNuevoStatus')
@@ -110,12 +112,12 @@ router.patch(
       .withMessage('campo reclamoNuevoStatus debe ser un numero'),
     validarCampos,
   ],
-  isAdmin,
 
   claimController.patchClaimsAdmin
 );
 router.post(
   '/admin/:idUsuario/',
+  isAdmin,
   [
     param('idUsuario').isNumeric().withMessage('parametro debe ser un numero'),
     check('idReclamoEstado')
@@ -129,7 +131,6 @@ router.post(
       .withMessage('descripcion no puede estar vacio'),
     validarCampos,
   ],
-  isAdmin,
 
   claimController.postClaimAdmin
 );
