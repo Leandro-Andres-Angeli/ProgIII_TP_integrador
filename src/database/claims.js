@@ -50,14 +50,20 @@ class Claims {
 
   getClaimsEmployee = async (idUsuario) => {
     return await pool.execute(
-      'SELECT * FROM reclamos r where r.idReclamoTipo =  (SELECT uo.idOficina FROM `usuarios` u  JOIN usuarios_oficinas uo ON u.idUsuario = uo.idUsuario WHERE u.idUsuario=?)',
+      `SELECT r.* FROM reclamos as r 
+        JOIN oficinas as o ON r.idReclamoTipo = o.idReclamoTipo 
+        JOIN usuarios_oficinas as uo ON uo.idOficina = o.idOficina
+        WHERE uo.idUsuario = ?`,
       [idUsuario]
     );
   };
   getClaimByClaimIdAndUserId = async (idUser, idClaim) => {
     const [claim] = await pool.execute(
-      'SELECT * FROM reclamos r where r.idReclamoTipo =  (SELECT uo.idOficina FROM `usuarios` u  JOIN usuarios_oficinas uo ON u.idUsuario = uo.idUsuario WHERE u.idUsuario=?)  AND r.idReclamo = ? ;',
-      [idUser, idClaim]
+      `SELECT r.* FROM reclamos as r 
+        JOIN oficinas as o ON r.idReclamoTipo = o.idReclamoTipo
+        JOIN usuarios_oficinas as uo ON uo.idOficina = o.idOficina
+        WHERE r.idReclamo = ? AND uo.idUsuario = ?`,
+      [idClaim, idUser]
     );
     return claim;
   };
