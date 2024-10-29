@@ -156,10 +156,10 @@
             "name": "body",
             "schema": {
               "properties": {
-                "idOficina": { "example": 4, "type": "number" },
+                "idOficina": { "example": 8, "type": "number" },
                 "idsEmpleados": {
-                  "example": [41],
-                  "items": { "example": 41, "type": "number" },
+                  "example": [36],
+                  "items": { "example": 36, "type": "number" },
                   "type": "array"
                 }
               },
@@ -239,6 +239,98 @@
         "description": "Obtiene los empleados de una oficina",
         "operationId": "obtieneLosEmpleadosDeUnaOficina",
         "summary": "Obtiene los empleados de una oficina"
+      }
+    },
+    "/api/admin/tipoReclamos": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Tipo Reclamos - (Admin)"],
+        "description": "Obtiene todos los tipos de reclamo",
+        "operationId": "obtieneTodosLosTiposDeReclamo",
+        "summary": "Obtiene todos los tipos de reclamo"
+      },
+      "post": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "descripcion": { "example": "Limpieza", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Tipo Reclamos - (Admin)"],
+        "description": "Crea un tipo de reclamo",
+        "operationId": "creaUnTipoDeReclamo",
+        "summary": "Crea un tipo de reclamo"
+      }
+    },
+    "/api/admin/tipoReclamos/{id}": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Tipo Reclamos - (Admin)"],
+        "description": "Obtiene un tipo de reclamo por id",
+        "operationId": "obtieneUnTipoDeReclamoPorId",
+        "summary": "Obtiene un tipo de reclamo por id"
+      },
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "descripcion": {
+                  "example": "Limpieza de Filtros de aire",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Tipo Reclamos - (Admin)"],
+        "description": "Actualiza un tipo de reclamo",
+        "operationId": "actualizaUnTipoDeReclamo",
+        "summary": "Actualiza un tipo de reclamo"
+      }
+    },
+    "/api/admin/tipoReclamos/{id}/activar": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Tipo Reclamos - (Admin)"],
+        "description": "Reactiva un tipo de reclamo",
+        "operationId": "reactivaUnTipoDeReclamo",
+        "summary": "Reactiva un tipo de reclamo"
+      }
+    },
+    "/api/admin/tipoReclamos/{id}/delete": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Tipo Reclamos - (Admin)"],
+        "description": "Elimina un tipo de reclamo",
+        "operationId": "eliminaUnTipoDeReclamo",
+        "summary": "Elimina un tipo de reclamo"
       }
     },
     "/api/clientes/perfil": {
@@ -323,6 +415,16 @@
         "summary": "Actualiza correo electrónico"
       }
     },
+    "/api/clientes/tipoReclamos": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Tipo Reclamos - (Clientes)"],
+        "description": "Obtiene  tipos de reclamos activos",
+        "operationId": "obtieneTiposDeReclamosActivos",
+        "summary": "Obtiene  tipos de reclamos activos"
+      }
+    },
     "/api/login": {
       "post": {
         "consumes": ["application/json"],
@@ -347,32 +449,6 @@
         "description": "Loguearse",
         "operationId": "loguearse",
         "summary": "Loguearse"
-      }
-    },
-    "/api/reportes/v1/{formatoReporte}/{idTipoDeReclamo}": {
-      "parameters": [
-        {
-          "in": "path",
-          "name": "formatoReporte",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "in": "path",
-          "name": "idTipoDeReclamo",
-          "required": true,
-          "type": "number"
-        }
-      ],
-      "get": {
-        "parameters": [],
-        "responses": { "200": { "description": "" } },
-        "format": "binary",
-        "content": "application/pdf",
-        "tags": ["Estadísticas"],
-        "description": "Genera archivo de reclamos debe estar logueado como administrador recibo como parametro el formato que tendra el reporte (pdf o csv) y el id de tipo de reclamos",
-        "operationId": "generaArchivoDeReclamos",
-        "summary": "Genera archivo de reclamos"
       }
     },
     "/api/reclamos/admin/": {
@@ -599,7 +675,7 @@
         "summary": "Crear un nuevo cliente"
       }
     },
-    "/api/reportes/totalesReclamosEstados": {
+    "/api/v1/reportes/totalesReclamosEstados": {
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
@@ -609,7 +685,7 @@
         "summary": "Totales de reclamos por estados"
       }
     },
-    "/api/reportes/{formatoReporte}/{idTipoReclamo}": {
+    "/api/v1/reportes/{formatoReporte}/{idTipoReclamo}": {
       "parameters": [
         {
           "in": "path",
@@ -628,7 +704,7 @@
         "parameters": [],
         "responses": { "200": { "description": "" } },
         "tags": ["Estadísticas - (Admin)"],
-        "description": "Genera archivo de reclamos",
+        "description": "Genera archivo de reclamos debe estar logueado como administrador recibo como parametro el formato que tendra el reporte (pdf o csv) y el id de tipo de reclamos",
         "operationId": "generaArchivoDeReclamos",
         "summary": "Genera archivo de reclamos"
       }
@@ -657,6 +733,8 @@
     { "name": "Reclamos - (Admin)" },
     { "name": "Reclamos - (Empleados)" },
     { "name": "Reclamos - (Clientes)" },
-    { "name": "Estadísticas - (Admin)" }
+    { "name": "Estadísticas - (Admin)" },
+    { "name": "Tipo Reclamos - (Admin)" },
+    { "name": "Tipo Reclamos - (Clientes)" }
   ]
 }
