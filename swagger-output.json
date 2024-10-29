@@ -349,6 +349,32 @@
         "summary": "Loguearse"
       }
     },
+    "/api/reportes/v1/{formatoReporte}/{idTipoDeReclamo}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "formatoReporte",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "path",
+          "name": "idTipoDeReclamo",
+          "required": true,
+          "type": "number"
+        }
+      ],
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "format": "binary",
+        "content": "application/pdf",
+        "tags": ["Estadísticas"],
+        "description": "Genera archivo de reclamos debe estar logueado como administrador recibo como parametro el formato que tendra el reporte (pdf o csv) y el id de tipo de reclamos",
+        "operationId": "generaArchivoDeReclamos",
+        "summary": "Genera archivo de reclamos"
+      }
+    },
     "/api/reclamos/admin/": {
       "get": {
         "parameters": [],
