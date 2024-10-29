@@ -6,6 +6,7 @@ const {
 } = require('../validations/usuarioValidator');
 const router = express.Router();
 const clienteController = require('../controllers/clienteController');
+const tipoReclamoController = require('../controllers/tipoReclamoController');
 
 router.get('/perfil', clienteController.getPerfilCliente);
 
@@ -26,5 +27,7 @@ router.patch(
   [validateUpdateContrasenia],
   clienteController.updateContraseniaCliente
 );
+
+router.get('/tipoReclamos', tipoReclamoController.getTipoReclamosActivos);
 
 module.exports = router;

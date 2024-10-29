@@ -9,6 +9,7 @@ const {
   validateUpdateContrasenia,
   validateUpdateCorreo,
 } = require('../validations/usuarioValidator');
+const tipoReclamoController = require('../controllers/tipoReclamoController');
 
 router.get('/clientes', clienteController.getClientes);
 router.get('/clientes/:id', clienteController.getClienteById);
@@ -45,5 +46,19 @@ router.patch('/oficinas/:id', oficinaController.updateOficina);
 
 router.post('/oficinas/empleados', oficinaController.asignarEmpleados);
 router.get('/oficinas/:id/empleados', oficinaController.getEmpleados);
+
+router.post('/tipoReclamos', tipoReclamoController.createTipoReclamo);
+router.patch(
+  '/tipoReclamos/:id/delete',
+  tipoReclamoController.deleteTipoReclamo
+);
+router.patch(
+  '/tipoReclamos/:id/activar',
+  tipoReclamoController.activarTipoReclamo
+);
+router.patch('/tipoReclamos/:id', tipoReclamoController.updateTipoReclamo);
+
+router.get('/tipoReclamos/:id', tipoReclamoController.getTipoReclamoById);
+router.get('/tipoReclamos', tipoReclamoController.getTipoReclamos);
 
 module.exports = router;
