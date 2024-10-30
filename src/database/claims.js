@@ -129,5 +129,9 @@ class Claims {
     );
     return claims;
   };
+  reportesClaimProcedure = async () => {
+    const [claims] = await pool.query('call datosPDF()');
+    return claims.flat()[0];
+  };
 }
 module.exports = Claims;

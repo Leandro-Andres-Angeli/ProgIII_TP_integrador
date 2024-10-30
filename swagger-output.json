@@ -685,7 +685,7 @@
         "summary": "Totales de reclamos por estados"
       }
     },
-    "/api/v1/reportes/{formatoReporte}/{idTipoReclamo}": {
+    "/api/reportes/{formatoReporte}/{idTipoReclamo}": {
       "parameters": [
         {
           "in": "path",

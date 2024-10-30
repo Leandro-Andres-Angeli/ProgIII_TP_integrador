@@ -1206,7 +1206,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/v1/reportes/totalesReclamosEstados",
+							"raw": "http://localhost:3001/api/reportes/totalesReclamosEstados",
 							"protocol": "http",
 							"host": [
 								"localhost"

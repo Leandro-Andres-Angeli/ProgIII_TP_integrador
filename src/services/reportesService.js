@@ -1,13 +1,35 @@
+const path = require('path');
+const fs = require('fs');
+const handlebars = require('handlebars');
 const PDFDocument = require('pdfkit-table');
 const { createObjectCsvStringifier } = require('csv-writer');
 const formatDate = require('../utils/formatDate');
 const Claims = require('../database/claims');
+const { default: puppeteer } = require('puppeteer');
 
 class ReportesService {
   constructor() {
     this.claims = new Claims();
   }
+  generateReportePdfPupeteer = async () => {
+    const informe = await this.claims.reportesClaimProcedure();
+    /* const filePath = path.join(__dirname, '../utils/reporte.html');
+    const htmlTemplate = fs.readFileSync(filePath, 'utf-8');
+    const template = handlebars.compile(htmlTemplate);
+    const htmlFinal = template();
 
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.setContent(htmlFinal, { waitUntil: 'load' });
+    const pdfBuffer = await page.pdf({
+      format: 'A4',
+      printBackground: true,
+      margin: { top: '10px', bottom: '10px' },
+    });
+    await browser.close();
+    return pdfBuffer; */
+    return informe;
+  };
   generateReportePdf = async (idReclamoTipo) => {
     try {
       let doc = new PDFDocument({ margin: 30, size: 'A4' });

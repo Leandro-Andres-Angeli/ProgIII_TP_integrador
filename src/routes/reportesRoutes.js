@@ -26,6 +26,17 @@ router.get(
   ],
   reportesController.getReporte
 );
+router.get(
+  '/:formatoReporte/',
+  [
+    param('formatoReporte')
+      .custom(validateReportFormat)
+      .withMessage('error : formatos validos de reporte : pdf , csv'),
+
+    validarCampos,
+  ],
+  reportesController.getInforme
+);
 
 router.get(
   '/totalesReclamosEstados',
