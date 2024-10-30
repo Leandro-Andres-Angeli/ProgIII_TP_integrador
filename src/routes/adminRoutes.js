@@ -22,6 +22,7 @@ router.post(
   empleadoController.createEmpleado
 );
 router.patch('/empleados/:id/delete', empleadoController.deleteEmpleado);
+router.patch('/empleados/:id/reactivar', empleadoController.reactivarEmpleado);
 router.patch(
   '/empleados/:id',
   [validateUpdateUsuario],
