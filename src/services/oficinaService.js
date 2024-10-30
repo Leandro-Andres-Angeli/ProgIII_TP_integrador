@@ -1,5 +1,5 @@
 const Oficina = require('../database/oficina');
-const { checkExisteUsuario } = require('../services/usuarioService');
+const { checkExisteUsuarioActivo } = require('../services/usuarioService');
 
 const oficinaService = {
   createOficina: async (data) => {
@@ -32,7 +32,7 @@ const oficinaService = {
 
   asignarEmpleado: async (idOficina, idEmpleado) => {
     await checkExisteOficina(idOficina);
-    await checkExisteUsuario(idEmpleado, 2);
+    await checkExisteUsuarioActivo(idEmpleado, 2);
     await checkNoExisteOficinaEmpleado(idOficina, idEmpleado);
     await Oficina.asignarEmpleado(idOficina, idEmpleado);
   },
@@ -41,7 +41,7 @@ const oficinaService = {
     await checkExisteOficina(idOficina);
 
     const promise = idsEmpleados.map(async (idEmpleado) => {
-      await checkExisteUsuario(idEmpleado, 2);
+      await checkExisteUsuarioActivo(idEmpleado, 2);
       await checkNoExisteOficinaEmpleado(idOficina, idEmpleado);
     });
     await Promise.all(promise);
