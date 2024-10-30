@@ -62,6 +62,11 @@ const Oficina = {
     }
   },
 
+  reactivarOficina: async (id) => {
+    const query = ` UPDATE oficinas SET activo = 1 WHERE idOficina = ? `;
+    await pool.execute(query, [id]);
+  },
+
   asignarEmpleado: async (idOficina, idEmpleado) => {
     const query = `
       INSERT INTO usuarios_oficinas (idOficina, idUsuario, activo) 
@@ -105,11 +110,19 @@ const Oficina = {
     return result;
   },
 
-  existeOficina: async (id) => {
+  existeOficinaActiva: async (id) => {
     const query = `SELECT 1
     FROM oficinas
     WHERE idOficina = ?
     AND activo = 1`;
+    const [result] = await pool.execute(query, [id]);
+    return result.length > 0;
+  },
+
+  existeOficina: async (id) => {
+    const query = `SELECT 1
+    FROM oficinas
+    WHERE idOficina = ?`;
     const [result] = await pool.execute(query, [id]);
     return result.length > 0;
   },
