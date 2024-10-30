@@ -22,6 +22,7 @@ router.post(
   empleadoController.createEmpleado
 );
 router.patch('/empleados/:id/delete', empleadoController.deleteEmpleado);
+router.patch('/empleados/:id/reactivar', empleadoController.reactivarEmpleado);
 router.patch(
   '/empleados/:id',
   [validateUpdateUsuario],
@@ -42,6 +43,7 @@ router.get('/oficinas', oficinaController.getOficinas);
 router.get('/oficinas/:id', oficinaController.getOficinaById);
 router.post('/oficinas', oficinaController.createOficina);
 router.patch('/oficinas/:id/delete', oficinaController.deleteOficina);
+router.patch('/oficinas/:id/reactivar', oficinaController.reactivarOficina);
 router.patch('/oficinas/:id', oficinaController.updateOficina);
 
 router.post('/oficinas/empleados', oficinaController.asignarEmpleados);
