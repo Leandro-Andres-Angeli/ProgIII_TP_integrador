@@ -11,6 +11,27 @@ class ReportesController {
   }
   getInforme = async (req, res = response) => {
     try {
+      const { formatoReporte } = req.params;
+      if (formatoReporte === 'pdf') {
+        const { headers, buffer } =
+          await this.reportesService.generateReportePdfPupeteer();
+        res.set(headers);
+        res.status(200).end(buffer);
+      } else if (formatoReporte === 'csv') {
+        const { path, header } =
+          await this.reportesService.generateCsvArchivo();
+
+        res.set(header);
+        res.status(200).download(path);
+      }
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ ok: false, message: error.message || 'error de servidor' });
+    }
+  };
+  /*  getInforme = async (req, res = response) => {
+    try {
       const informe = await this.reportesService.generateReportePdfPupeteer();
       console.log(informe);
 
@@ -40,7 +61,7 @@ class ReportesController {
 
       return res.status(500).json({ ok: false, message: 'error de servidor' });
     }
-  };
+  }; */
   getReporte = async (req, res = response) => {
     try {
       const { formatoReporte, idReclamoTipo } = req.params;

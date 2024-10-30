@@ -133,5 +133,13 @@ class Claims {
     const [claims] = await pool.query('call datosPDF()');
     return claims.flat()[0];
   };
+  reportesCsvArchivoQuery = async () => {
+    const sql = `SELECT r.idReclamo as 'reclamo' , rt.descripcion as 'tipo' , re.descripcion as 'estado' ,
+    DATE_FORMAT(r.fechaCreado , '%Y-%m-%d %H:%i:%s') as 'fechaCreado' , CONCAT (u.nombre,' ',u.apellido) as cliente
+    FROM reclamos as r INNER JOIN reclamos_tipo as rt ON rt.idReclamoTipo = r.idReclamoTipo INNER JOIN reclamos_estado as re ON re.idReclamoEstado = r.idReclamoEstado INNER JOIN usuarios as u ON u.idUsuario = r.idUsuarioCreador WHERE r.idReclamoEstado <> 4 ; 
+    `;
+    const [query] = await pool.execute(sql);
+    return query;
+  };
 }
 module.exports = Claims;

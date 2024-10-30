@@ -80,24 +80,18 @@ class ClaimController {
           .status(400)
           .json({ ok: false, message: 'El reclamo ya tiene ese estado' });
       }
-      /* Refactored
-      
-      sendEmail({
-        name: nombre + ' ' + apellido,
-        correoElectronico,
-        status: 'cancelado',
-      }); 
-      Refactored
-      */
-      const { nombre, apellido, correoElectronico } =
-        await this.usuarioService.getUsuarioById(idUsuario, 3);
+
+      const user = await this.usuarioService.getUsuarioById(idUsuario, 3);
+
+      const { nombre, apellido, correoElectronico } = user;
 
       const patchClaim = await this.service.patchClaimClient(
         idReclamo,
         idUsuario,
+        reclamoNuevoStatus,
         {
           name: nombre + ' ' + apellido,
-          correoElectronico,
+          correoElectronico: correoElectronico,
           status: 'cancelado',
         }
       );

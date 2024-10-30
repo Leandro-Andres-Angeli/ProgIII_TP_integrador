@@ -1,0 +1,28 @@
+RECLAMO,TIPO,ESTADO,FECHA CREADO,CLIENTE
+8,Falla de suspensión,Creado,2024-08-15 08:00:00,Khal Drogo
+15,Falla de motor,Creado,2024-08-28 19:26:12,Jose Battaglia
+91,Falla de motor,Creado,2024-10-12 15:27:05,yo pruebamail
+93,Falla de motor,Creado,2024-10-13 01:18:05,Daenerys Targaryen
+109,Falla de motor,Creado,2024-10-29 20:16:24,yo pruebamail
+110,Aprobación de cobertura,Creado,2024-10-29 21:27:10,yo pruebamail
+5,Falla de motor,En Proceso,2024-09-29 10:51:23,Yara Greyjoy
+10,tipo reclamos creado en clase,En Proceso,2024-08-15 09:00:00,Khal Drogo
+11,Falla de suspensión,En Proceso,2024-08-15 15:00:00,Catelyn Stark
+90,Falla de motor,En Proceso,2024-10-12 15:26:54,yo pruebamail
+6,Falla de motor,Cancelado,2024-08-19 07:00:00,Catelyn Stark
+7,Falla de frenos,Cancelado,2024-08-15 07:15:00,Catelyn Stark
+94,Aprobación de cobertura,Cancelado,2024-10-12 20:19:54,Daenerys Targaryen
+95,Aprobación de cobertura,Cancelado,2024-10-12 20:20:19,Daenerys Targaryen
+96,Aprobación de cobertura,Cancelado,2024-10-12 20:28:55,Daenerys Targaryen
+97,Aprobación de cobertura,Cancelado,2024-10-12 20:29:22,Daenerys Targaryen
+98,Aprobación de cobertura,Cancelado,2024-10-17 23:11:18,Daenerys Targaryen
+99,Aprobación de cobertura,Cancelado,2024-10-17 23:11:42,Daenerys Targaryen
+100,Aprobación de cobertura,Cancelado,2024-10-17 23:13:31,Daenerys Targaryen
+101,Aprobación de cobertura,Cancelado,2024-10-17 23:16:19,Daenerys Targaryen
+102,Aprobación de cobertura,Cancelado,2024-10-21 20:07:58,Daenerys Targaryen
+103,Aprobación de cobertura,Cancelado,2024-10-21 20:20:23,Daenerys Targaryen
+104,Aprobación de cobertura,Cancelado,2024-10-21 20:20:50,Jon Snow
+105,Aprobación de cobertura,Cancelado,2024-10-21 20:33:51,Daenerys Targaryen
+106,Aprobación de cobertura,Cancelado,2024-10-21 20:35:24,Samwell Tarly
+107,Falla de motor,Cancelado,2024-10-22 17:34:47,yo pruebamail
+108,Aprobación de cobertura,Cancelado,2024-10-22 17:41:21,yo pruebamail

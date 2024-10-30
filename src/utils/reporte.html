@@ -8,25 +8,22 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
     />
+    <style>
+      body {
+        padding: 3rem;
+      }
+    </style>
   </head>
   <body>
-    <table>
-      <tr>
-        <th>Total de Reclamos</th>
-        <td>{{reclamosTotales}}</td>
-      </tr>
-      <tr>
-        <th>Reclamos Finalizados</th>
-        <td>{{reclamosFinalizados}}</td>
-      </tr>
-      <tr>
-        <th>Reclamos No Finalizados</th>
-        <td>{{reclamosNoFinalizados}}</td>
-      </tr>
-      <tr>
-        <th>Tipo de Reclamos más Frecuente</th>
-        <td>{{cantidadTipoRreclamoFrecuente}}</td>
-      </tr>
-    </table>
+    <h2>Reporte</h2>
+    <article>Total de Reclamos : {{reclamosTotales}}</article>
+
+    <article>Reclamos Finalizados : {{reclamosFinalizados}}</article>
+
+    <article>Reclamos No Finalizados : {{reclamosNoFinalizados}}</article>
+
+    <article>
+      Tipo de Reclamos más Frecuente : {{cantidadTipoRreclamoFrecuente}}
+    </article>
   </body>
 </html>

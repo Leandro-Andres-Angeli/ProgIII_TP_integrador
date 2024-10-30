@@ -9,10 +9,10 @@ const ReportesController = require('../controllers/reportesController');
 const estadisticasController = require('../controllers/estadisticasController');
 
 const router = express.Router();
+
+const reportesController = new ReportesController();
 router.use(handleTokenValidity);
 router.use(isAdmin);
-const reportesController = new ReportesController();
-
 router.get(
   '/:formatoReporte/:idReclamoTipo',
   [
