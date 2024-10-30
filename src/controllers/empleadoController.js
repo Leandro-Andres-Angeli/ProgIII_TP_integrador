@@ -43,13 +43,11 @@ exports.updateEmpleado = async (req, res) => {
 exports.updateCorreoEmpleado = async (req, res) => {
   try {
     await usuarioService.updateCorreo(req.params.id, req.body, 2);
-    res
-      .status(200)
-      .json({
-        ok: true,
-        message:
-          'Correo electrónico actualizado con éxito. Debe volver a loguearse.',
-      });
+    res.status(200).json({
+      ok: true,
+      message:
+        'Correo electrónico actualizado con éxito. Debe volver a loguearse.',
+    });
   } catch (error) {
     return res.status(500).json({ ok: false, message: error.message });
   }
@@ -58,12 +56,10 @@ exports.updateCorreoEmpleado = async (req, res) => {
 exports.updateContraseniaEmpleado = async (req, res) => {
   try {
     await usuarioService.updateContrasenia(req.params.id, req.body, 2);
-    res
-      .status(200)
-      .json({
-        ok: true,
-        message: 'Contraseña actualizada con éxito. Debe volver a loguearse.',
-      });
+    res.status(200).json({
+      ok: true,
+      message: 'Contraseña actualizada con éxito. Debe volver a loguearse.',
+    });
   } catch (error) {
     return res.status(500).json({ ok: false, message: error.message });
   }
@@ -75,6 +71,17 @@ exports.deleteEmpleado = async (req, res) => {
     res
       .status(200)
       .json({ ok: true, message: 'Empleado eliminado con éxito.' });
+  } catch (error) {
+    return res.status(500).json({ ok: false, message: error.message });
+  }
+};
+
+exports.reactivarEmpleado = async (req, res) => {
+  try {
+    await usuarioService.reactivarUsuario(req.params.id, 2);
+    res
+      .status(200)
+      .json({ ok: true, message: 'Empleado reactivado con éxito.' });
   } catch (error) {
     return res.status(500).json({ ok: false, message: error.message });
   }

@@ -101,12 +101,26 @@ const Usuario = {
     await pool.execute(query, [id, idTipo]);
   },
 
-  existeUsuario: async (id, idTipo) => {
+  reactivarUsuario: async (id, idTipo) => {
+    const query = ` UPDATE usuarios SET activo = 1 WHERE idUsuario = ? AND idUsuarioTipo = ? `;
+    await pool.execute(query, [id, idTipo]);
+  },
+
+  existeUsuarioActivo: async (id, idTipo) => {
     const query = `SELECT 1
     FROM usuarios
     WHERE idUsuario = ?
     AND idUsuarioTipo = ?
     AND activo = 1`;
+    const [result] = await pool.execute(query, [id, idTipo]);
+    return result.length > 0;
+  },
+
+  existeUsuario: async (id, idTipo) => {
+    const query = `SELECT 1
+    FROM usuarios
+    WHERE idUsuario = ?
+    AND idUsuarioTipo = ?`;
     const [result] = await pool.execute(query, [id, idTipo]);
     return result.length > 0;
   },
