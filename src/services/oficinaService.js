@@ -1,5 +1,8 @@
 const Oficina = require('../database/oficina');
-const { checkExisteUsuarioActivo } = require('../services/usuarioService');
+const {
+  checkExisteUsuarioActivo,
+  checkExisteUsuario,
+} = require('../services/usuarioService');
 
 const oficinaService = {
   createOficina: async (data) => {
@@ -35,13 +38,6 @@ const oficinaService = {
     await Oficina.reactivarOficina(id);
   },
 
-  asignarEmpleado: async (idOficina, idEmpleado) => {
-    await checkExisteOficinaActiva(idOficina);
-    await checkExisteUsuarioActivo(idEmpleado, 2);
-    await checkNoExisteOficinaEmpleado(idOficina, idEmpleado);
-    await Oficina.asignarEmpleado(idOficina, idEmpleado);
-  },
-
   asignarEmpleados: async (idOficina, idsEmpleados) => {
     await checkExisteOficinaActiva(idOficina);
 
@@ -51,6 +47,16 @@ const oficinaService = {
     });
     await Promise.all(promise);
     await Oficina.asignarEmpleados(idOficina, idsEmpleados);
+  },
+
+  desvincularEmpleados: async (idOficina, idsEmpleados) => {
+    await checkExisteOficina(idOficina);
+    const promise = idsEmpleados.map(async (idEmpleado) => {
+      await checkExisteUsuario(idEmpleado, 2);
+      await checkExisteOficinaEmpleado(idOficina, idEmpleado);
+    });
+    await Promise.all(promise);
+    await Oficina.desvincularEmpleados(idOficina, idsEmpleados);
   },
 
   getEmpleados: async (id) => {
@@ -84,4 +90,13 @@ const checkNoExisteOficinaEmpleado = async (idOficina, idEmpleado) => {
   }
 };
 
+const checkExisteOficinaEmpleado = async (idOficina, idEmpleado) => {
+  const oficinaEmpleado = await Oficina.existeOficinaEmpleado(
+    idOficina,
+    idEmpleado
+  );
+  if (!oficinaEmpleado) {
+    throw new Error(`Empleado no asignado a esa oficina.`);
+  }
+};
 module.exports = oficinaService;
