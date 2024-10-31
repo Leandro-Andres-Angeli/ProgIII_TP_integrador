@@ -1,9 +1,6 @@
 const { response } = require('express');
-const path = require('path');
-const fs = require('fs');
-const handlebars = require('handlebars');
+
 const ReportesService = require('../services/reportesService');
-const puppeteer = require('puppeteer');
 
 class ReportesController {
   constructor() {
@@ -22,7 +19,13 @@ class ReportesController {
           await this.reportesService.generateCsvArchivo();
 
         res.set(header);
-        res.status(200).download(path);
+        res.status(200).download(path, (err) => {
+          if (err) {
+            return res
+              .status(500)
+              .json({ ok: false, message: 'error generando reporte' });
+          }
+        });
       }
     } catch (error) {
       return res

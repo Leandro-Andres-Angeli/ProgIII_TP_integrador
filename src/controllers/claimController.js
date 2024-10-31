@@ -4,7 +4,6 @@ const ClaimsService = require('../services/claimService');
 const ClaimStatusService = require('../services/claimStatusService');
 
 const usuarioService = require('../services/usuarioService');
-const { sendEmail } = require('../utils/sendEmail');
 
 class ClaimController {
   constructor() {
