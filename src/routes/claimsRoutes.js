@@ -125,10 +125,16 @@ router.post(
       .withMessage('campo idReclamoEstado no puede estar vacio')
       .isNumeric()
       .withMessage('campo idReclamoEstado debe ser un numero'),
+    check('idReclamoTipo')
+      .notEmpty()
+      .withMessage('campo idReclamoTipo no puede estar vacio')
+      .isNumeric()
+      .withMessage('campo idReclamoEstado debe ser un numero'),
     check('asunto').notEmpty().withMessage('asunto no puede estar vacio'),
     check('descripcion')
       .notEmpty()
       .withMessage('descripcion no puede estar vacio'),
+
     validarCampos,
   ],
 
