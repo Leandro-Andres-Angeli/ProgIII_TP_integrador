@@ -9,10 +9,12 @@ const {
   validateUpdateContrasenia,
   validateUpdateCorreo,
 } = require('../validations/usuarioValidator');
+const upload = require('../config/multerConfig');
 const tipoReclamoController = require('../controllers/tipoReclamoController');
 
 router.get('/clientes', clienteController.getClientes);
 router.get('/clientes/:id', clienteController.getClienteById);
+router.get('/clientes/:id/imagen', clienteController.getImagenClienteById);
 
 router.get('/empleados', empleadoController.getEmpleados);
 router.get('/empleados/:id', empleadoController.getEmpleadoById);
@@ -37,6 +39,22 @@ router.patch(
   '/empleados/:id/contrasenia',
   [validateUpdateContrasenia],
   empleadoController.updateContraseniaEmpleado
+);
+
+router.get(
+  '/empleados/:id/perfil/imagen',
+  empleadoController.getImagenEmpleadoById
+);
+
+router.patch(
+  '/empleados/perfil/:id/imagen',
+  upload.single('imagenPerfil'),
+  empleadoController.updateImagenEmpleadoById
+);
+
+router.patch(
+  '/empleados/perfil/:id/imagen/borrar',
+  empleadoController.deleteImagenEmpleadoById
 );
 
 router.get('/oficinas', oficinaController.getOficinas);

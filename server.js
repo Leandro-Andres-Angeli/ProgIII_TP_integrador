@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const pool = require('./src/config/dbConfig');
 const passport = require('passport');
+
 const {
   handleTokenValidity,
   passportJWTStrategy,
@@ -13,11 +14,12 @@ const clienteController = require('./src/controllers/clienteController');
 const claimRoutes = require('./src/routes/claimsRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
 const clienteRoutes = require('./src/routes/clienteRoutes');
+const reportesRoutes = require('./src/routes/reportesRoutes');
 
 const { validLogin } = require('./src/validations/validLogin');
 const { validateCreateUsuario } = require('./src/validations/usuarioValidator');
-
 const { isAdmin, isClient } = require('./src/middlewares/authorization');
+
 const dotenv = require('dotenv');
 dotenv.config();
 const PORT = process.env.SERVER_PORT || 3001;
@@ -25,13 +27,10 @@ const PORT = process.env.SERVER_PORT || 3001;
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
 
-const reportesRoutes = require('./src/routes/reportesRoutes');
-
 passport.use(passportJWTStrategy);
 passport.use(passportLocalStrategy);
 
 const server = express();
-
 server.use(express.json());
 
 server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
