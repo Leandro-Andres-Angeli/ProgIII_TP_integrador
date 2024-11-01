@@ -46,7 +46,11 @@ router.patch('/oficinas/:id/delete', oficinaController.deleteOficina);
 router.patch('/oficinas/:id/reactivar', oficinaController.reactivarOficina);
 router.patch('/oficinas/:id', oficinaController.updateOficina);
 
-router.post('/oficinas/empleados', oficinaController.asignarEmpleados);
+router.post('/oficinas/empleados/asignar', oficinaController.asignarEmpleados);
+router.post(
+  '/oficinas/empleados/desvincular',
+  oficinaController.desvincularEmpleados
+);
 router.get('/oficinas/:id/empleados', oficinaController.getEmpleados);
 
 router.post('/tipoReclamos', tipoReclamoController.createTipoReclamo);

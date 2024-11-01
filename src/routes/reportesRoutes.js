@@ -13,6 +13,12 @@ const router = express.Router();
 const reportesController = new ReportesController();
 router.use(handleTokenValidity);
 router.use(isAdmin);
+
+router.get(
+  '/totalesReclamosEstados',
+  estadisticasController.getTotalesReclamosEstados
+);
+
 router.get(
   '/:formatoReporte/:idReclamoTipo',
   [
@@ -26,6 +32,7 @@ router.get(
   ],
   reportesController.getReporte
 );
+
 router.get(
   '/:formatoReporte/',
   [
@@ -36,11 +43,6 @@ router.get(
     validarCampos,
   ],
   reportesController.getInforme
-);
-
-router.get(
-  '/totalesReclamosEstados',
-  estadisticasController.getTotalesReclamosEstados
 );
 
 module.exports = router;

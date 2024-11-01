@@ -38,42 +38,13 @@ const Oficina = {
   },
 
   deleteOficina: async (id) => {
-    const connection = await pool.getConnection();
-    try {
-      connection.beginTransaction();
-      const queries = [
-        connection.execute(
-          ` UPDATE oficinas SET activo = 0 WHERE idOficina = ? `,
-          [id]
-        ),
-        connection.execute(
-          `DELETE FROM usuarios_oficinas WHERE idOficina = ?`,
-          [id]
-        ),
-      ];
-      await Promise.all(queries);
-      await connection.commit();
-      return true;
-    } catch (error) {
-      await connection.rollback();
-      throw new Error('Ocurrió un error al eliminar la oficina');
-    } finally {
-      connection.release();
-    }
+    const query = ` UPDATE oficinas SET activo = 0 WHERE idOficina = ? `;
+    await pool.execute(query, [id]);
   },
 
   reactivarOficina: async (id) => {
     const query = ` UPDATE oficinas SET activo = 1 WHERE idOficina = ? `;
     await pool.execute(query, [id]);
-  },
-
-  asignarEmpleado: async (idOficina, idEmpleado) => {
-    const query = `
-      INSERT INTO usuarios_oficinas (idOficina, idUsuario, activo) 
-      VALUES (?, ?, 1)
-    `;
-    const [result] = await pool.execute(query, [idOficina, idEmpleado]);
-    return result.insertId;
   },
 
   asignarEmpleados: async (idOficina, idsEmpleados) => {
@@ -91,6 +62,25 @@ const Oficina = {
     } catch (error) {
       await connection.rollback();
       throw new Error('Ocurrió un error al asignar empleados');
+    } finally {
+      connection.release();
+    }
+  },
+
+  desvincularEmpleados: async (idOficina, idsEmpleados) => {
+    const connection = await pool.getConnection();
+    try {
+      connection.beginTransaction();
+      const promises = idsEmpleados.map((idEmpleado) => {
+        const query = `DELETE FROM usuarios_oficinas WHERE idOficina = ? AND idUsuario = ?`;
+        return connection.query(query, [idOficina, idEmpleado]);
+      });
+      await Promise.all(promises);
+      await connection.commit();
+      return true;
+    } catch (error) {
+      await connection.rollback();
+      throw new Error('Ocurrió un error al desvincular empleados');
     } finally {
       connection.release();
     }
