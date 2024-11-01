@@ -60,16 +60,37 @@ const Usuario = {
   },
 
   updateUsuario: async (id, data, idTipo) => {
-    const { nombre, apellido, imagen } = data;
+    const { nombre, apellido } = data;
 
     const query = `
       UPDATE usuarios 
-      SET nombre = ?, apellido = ?, imagen = ?
+      SET nombre = ?, apellido = ?
       WHERE idUsuario = ?
       AND idUsuarioTipo = ?
     `;
 
-    await pool.execute(query, [nombre, apellido, imagen, id, idTipo]);
+    await pool.execute(query, [nombre, apellido, id, idTipo]);
+  },
+
+  getImagenUsuario: async (id, idTipo) => {
+    const query = ` SELECT u.imagen FROM usuarios u WHERE idUsuario= ? and idUsuarioTipo=? `;
+    const [rows] = await pool.execute(query, [id, idTipo]);
+    return rows[0]?.imagen;
+  },
+
+  updateImagenUsuario: async (id, rutaImagen, idTipo) => {
+    const query = `
+      UPDATE usuarios 
+      SET imagen = ?
+      WHERE idUsuario = ?
+      AND idUsuarioTipo = ?
+    `;
+    await pool.execute(query, [rutaImagen, id, idTipo]);
+  },
+
+  deleteImagenUsuario: async (id, idTipo) => {
+    const query = ` UPDATE usuarios SET imagen = null  WHERE idUsuario = ? AND idUsuarioTipo = ? `;
+    await pool.execute(query, [id, idTipo]);
   },
 
   updateCorreoUsuario: async (id, data, idTipo) => {

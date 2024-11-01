@@ -1,4 +1,5 @@
 const Usuario = require('../database/usuario');
+const fileUtils = require('../utils/fileUtils');
 
 const checkExisteUsuarioActivo = async (id, idTipo) => {
   const usuario = await Usuario.existeUsuarioActivo(id, idTipo);
@@ -44,6 +45,26 @@ const usuarioService = {
   updateUsuario: async (id, data, idTipo) => {
     await checkExisteUsuarioActivo(id, idTipo);
     await Usuario.updateUsuario(id, data, idTipo);
+  },
+
+  getImagenUsuario: async (id, idTipo) => {
+    await checkExisteUsuarioActivo(id, idTipo);
+    const rutaImagen = await Usuario.getImagenUsuario(id, idTipo);
+    return rutaImagen;
+  },
+
+  updateImagenUsuario: async (id, rutaImagen, idTipo) => {
+    await checkExisteUsuarioActivo(id, idTipo);
+    const usuario = await Usuario.getUsuarioById(id, idTipo);
+    await Usuario.updateImagenUsuario(id, rutaImagen, idTipo);
+    await fileUtils.deleteImagenDelServidor(usuario.imagen);
+  },
+
+  deleteImagenUsuario: async (id, idTipo) => {
+    await checkExisteUsuarioActivo(id, idTipo);
+    const usuario = await Usuario.getUsuarioById(id, idTipo);
+    await Usuario.deleteImagenUsuario(id, idTipo);
+    await fileUtils.deleteImagenDelServidor(usuario.imagen);
   },
 
   updateCorreo: async (id, data, idTipo) => {
