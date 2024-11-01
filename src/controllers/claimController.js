@@ -177,7 +177,12 @@ class ClaimController {
       const { idReclamo } = req.params;
       const reclamoNuevoStatus = Number(req.body.reclamoNuevoStatus);
       const { idUsuario } = req.user;
-
+      if (reclamoNuevoStatus === 3) {
+        return res.status(403).json({
+          ok: false,
+          message: 'Solo los clientes pueden cancelar reclamos',
+        });
+      }
       const checkRightClaim = await this.service.getClaimByClaimIdAndUserId(
         idUsuario,
         idReclamo
@@ -189,13 +194,6 @@ class ClaimController {
         });
       }
 
-      if (checkRightClaim[0].idReclamoEstado === 1) {
-        return res.status(403).json({
-          ok: false,
-          message:
-            'Reclamo no esta en "proceso" , no puede ser modificado su status ',
-        });
-      }
       if (checkRightClaim[0].idReclamoEstado === reclamoNuevoStatus) {
         return res
           .status(400)

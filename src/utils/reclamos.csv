@@ -9,6 +9,7 @@ RECLAMO,TIPO,ESTADO,FECHA CREADO,CLIENTE
 10,tipo reclamos creado en clase,En Proceso,2024-08-15 09:00:00,Khal Drogo
 11,Falla de suspensión,En Proceso,2024-08-15 15:00:00,Catelyn Stark
 90,Falla de motor,En Proceso,2024-10-12 15:26:54,yo pruebamail
+108,Aprobación de cobertura,En Proceso,2024-10-22 17:41:21,yo pruebamail
 6,Falla de motor,Cancelado,2024-08-19 07:00:00,Catelyn Stark
 7,Falla de frenos,Cancelado,2024-08-15 07:15:00,Catelyn Stark
 94,Aprobación de cobertura,Cancelado,2024-10-12 20:19:54,Daenerys Targaryen
@@ -25,4 +26,3 @@ RECLAMO,TIPO,ESTADO,FECHA CREADO,CLIENTE
 105,Aprobación de cobertura,Cancelado,2024-10-21 20:33:51,Daenerys Targaryen
 106,Aprobación de cobertura,Cancelado,2024-10-21 20:35:24,Samwell Tarly
 107,Falla de motor,Cancelado,2024-10-22 17:34:47,yo pruebamail
-108,Aprobación de cobertura,Cancelado,2024-10-22 17:41:21,yo pruebamail
