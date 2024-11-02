@@ -1960,6 +1960,271 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Admin - (Admin)",
+			"item": [
+				{
+					"name": "Obtiene perfil Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/perfil",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"perfil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualiza perfil  Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Admin modificado\",\r\n    \"apellido\": \"Admin Updated\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/perfil",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"perfil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualiza contraseña Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"contrasenia\": \"123456\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/perfil/contrasenia",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"perfil",
+								"contrasenia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualiza correo electrónico  Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"correoElectronico\": \"admin@admin.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/perfil/correo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"perfil",
+								"correo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subir una imagen de perfil  Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imagenPerfil",
+									"type": "file",
+									"src": "/C:/Users/Milton/Desktop/foto perfil/burns.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/perfil/imagen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"perfil",
+								"imagen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar imagen de perfil  Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/perfil/imagen/borrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"perfil",
+								"imagen",
+								"borrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener imagen de perfil Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/perfil/imagen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"perfil",
+								"imagen"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

@@ -351,6 +351,120 @@
         "summary": "Reactiva una oficina"
       }
     },
+    "/api/admin/perfil": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Admin - (Admin)"],
+        "description": "Obtiene perfil Admin",
+        "operationId": "obtienePerfilAdmin",
+        "summary": "Obtiene perfil Admin"
+      },
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "apellido": { "example": "Admin Updated", "type": "string" },
+                "nombre": { "example": "Admin modificado", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Admin - (Admin)"],
+        "description": "Actualiza perfil  Admin",
+        "operationId": "actualizaPerfilAdmin",
+        "summary": "Actualiza perfil  Admin"
+      }
+    },
+    "/api/admin/perfil/contrasenia": {
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "contrasenia": { "example": "123456", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Admin - (Admin)"],
+        "description": "Actualiza contraseña Admin",
+        "operationId": "actualizaContraseAAdmin",
+        "summary": "Actualiza contraseña Admin"
+      }
+    },
+    "/api/admin/perfil/correo": {
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "correoElectronico": {
+                  "example": "admin@admin.com",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Admin - (Admin)"],
+        "description": "Actualiza correo electrónico  Admin",
+        "operationId": "actualizaCorreoElectrNicoAdmin",
+        "summary": "Actualiza correo electrónico  Admin"
+      }
+    },
+    "/api/admin/perfil/imagen": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Admin - (Admin)"],
+        "description": "Obtener imagen de perfil Admin",
+        "operationId": "obtenerImagenDePerfilAdmin",
+        "summary": "Obtener imagen de perfil Admin"
+      },
+      "patch": {
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "format": "binary",
+            "in": "formData",
+            "name": "imagenPerfil",
+            "type": "file"
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Admin - (Admin)"],
+        "description": "Subir una imagen de perfil  Admin",
+        "operationId": "subirUnaImagenDePerfilAdmin",
+        "summary": "Subir una imagen de perfil  Admin"
+      }
+    },
+    "/api/admin/perfil/imagen/borrar": {
+      "patch": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Admin - (Admin)"],
+        "description": "Eliminar imagen de perfil  Admin",
+        "operationId": "eliminarImagenDePerfilAdmin",
+        "summary": "Eliminar imagen de perfil  Admin"
+      }
+    },
     "/api/admin/tipoReclamos": {
       "get": {
         "parameters": [],
@@ -897,6 +1011,7 @@
     { "name": "Tipo Reclamos - (Admin)" },
     { "name": "Tipo Reclamos - (Clientes)" },
     { "name": "Imágenes - (Clientes)" },
-    { "name": "Imágenes - (Admin)" }
+    { "name": "Imágenes - (Admin)" },
+    { "name": "Admin - (Admin)" }
   ]
 }
