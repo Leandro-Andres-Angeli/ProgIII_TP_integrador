@@ -1,5 +1,7 @@
 const usuarioService = require('../services/usuarioService');
 const path = require('path');
+const fs = require('fs');
+
 exports.createCliente = async (req, res) => {
   try {
     let usuario = req.body;
@@ -109,15 +111,19 @@ exports.deleteImagenCliente = async (req, res) => {
 exports.getImagenClienteById = async (req, res) => {
   const clienteID = req.params.id;
   try {
-    const rutaImagen = await usuarioService.getImagenUsuario(clienteID, 3);
-    if (!rutaImagen) {
+    const imagen = await usuarioService.getImagenUsuario(clienteID, 3);
+    if (!imagen) {
       return res
         .status(404)
         .json({ ok: false, message: 'Imagen no encontrada' });
     }
-    res
-      .status(200)
-      .sendFile(path.join('src/public/imagenes', rutaImagen), { root: '.' });
+    const rutaImagen = path.join('src/public/imagenes', imagen);
+
+    if (fs.existsSync(rutaImagen)) {
+      res.status(200).sendFile(rutaImagen, { root: '.' });
+    } else {
+      res.status(404).json({ ok: false, message: 'Imagen no encontrada' });
+    }
   } catch (error) {
     return res.status(500).json({ ok: false, message: error.message });
   }
