@@ -11,6 +11,7 @@ const {
 } = require('../validations/usuarioValidator');
 const upload = require('../config/multerConfig');
 const tipoReclamoController = require('../controllers/tipoReclamoController');
+const adminController = require('../controllers/adminController');
 
 // CLIENTES
 
@@ -88,4 +89,24 @@ router.patch('/tipoReclamos/:id', tipoReclamoController.updateTipoReclamo);
 router.get('/tipoReclamos/:id', tipoReclamoController.getTipoReclamoById);
 router.get('/tipoReclamos', tipoReclamoController.getTipoReclamos);
 
+// ADMIN
+router.get('/perfil', adminController.getPerfilAdmin);
+router.patch('/perfil', [validateUpdateUsuario], adminController.updateAdmin);
+router.get('/perfil/imagen', adminController.getImagenAdmin);
+router.patch(
+  '/perfil/imagen',
+  upload.single('imagenPerfil'),
+  adminController.updateImagenAdmin
+);
+router.patch('/perfil/imagen/borrar', adminController.deleteImagenAdmin);
+router.patch(
+  '/perfil/correo',
+  [validateUpdateCorreo],
+  adminController.updateCorreoAdmin
+);
+router.patch(
+  '/perfil/contrasenia',
+  [validateUpdateContrasenia],
+  adminController.updateContraseniaAdmin
+);
 module.exports = router;
