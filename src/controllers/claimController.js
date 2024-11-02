@@ -364,11 +364,25 @@ class ClaimController {
   };
   //PAGINACION
   getClaimsPagination = async (req, res) => {
-    const { idUsuarioTipo } = req.user;
-    const pagina = Number(req.params.pagina);
-    console.log(userType[idUsuarioTipo]);
-    this.service[`getClaims${userType[idUsuarioTipo]}Pagination`](pagina - 1);
-    return res.status(200).json({ ok: true, message: 'paginacion controller' });
+    try {
+      const { idUsuarioTipo } = req.user;
+      const pagina = Number(req.query.pagina);
+
+      const claims = await this.service[
+        `getClaims${userType[idUsuarioTipo]}Pagination`
+      ](pagina - 1);
+      if (claims.data.length === 0) {
+        return res
+          .status(404)
+          .json({ ok: true, message: 'No hay resultados para esta pagina' });
+      }
+
+      return res.status(200).json({ ok: true, claims });
+    } catch (error) {
+      return res
+        .status(500)
+        .message({ ok: false, message: 'error de servidor' });
+    }
   };
   //PAGINACION
 }

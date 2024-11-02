@@ -79,7 +79,12 @@ class ClaimsService {
   getClaimsAdminPagination = async (pagina) => {
     console.log('admin service');
     const queryRes = await this.claims.claimsAdminPaginated(pagina);
-    console.log(queryRes);
+    return {
+      prev: pagina !== 0,
+
+      next: queryRes.length > 5,
+      data: queryRes.slice(0, -1),
+    };
   };
   getClaimsEmpleadoPagination = async () => {
     console.log('empleado service');
