@@ -28,6 +28,19 @@
         "summary": "Obtiene un cliente por id"
       }
     },
+    "/api/admin/clientes/{id}/imagen": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes - (Admin)"],
+        "description": "Obtener imagen de perfil de un cliente por su id",
+        "operationId": "obtenerImagenDePerfilDeUnClientePorSuId",
+        "summary": "Obtener imagen de perfil de un cliente por su id"
+      }
+    },
     "/api/admin/empleados": {
       "get": {
         "parameters": [],
@@ -49,10 +62,6 @@
                 "contrasenia": { "example": "123456", "type": "string" },
                 "correoElectronico": {
                   "example": "correo_7@empleado.com",
-                  "type": "string"
-                },
-                "imagen": {
-                  "example": "https://upload.wikimedia.org/wikipedia/vi/thumb/7/76/Darth_Vader.jpg/220px-Darth_Vader.jpg",
                   "type": "string"
                 },
                 "nombre": { "example": "Empleado", "type": "string" }
@@ -89,7 +98,6 @@
             "schema": {
               "properties": {
                 "apellido": { "example": "Empleado Updated", "type": "string" },
-                "imagen": { "example": "", "type": "string" },
                 "nombre": { "example": "Empleado Updated", "type": "string" }
               },
               "type": "object"
@@ -114,6 +122,61 @@
         "description": "Elimina un empleado",
         "operationId": "eliminaUnEmpleado",
         "summary": "Elimina un empleado"
+      }
+    },
+    "/api/admin/empleados/{id}/imagen": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes - (Admin)"],
+        "description": "Obtener imagen de perfil de empleado por id",
+        "operationId": "obtenerImagenDePerfilDeEmpleadoPorId",
+        "summary": "Obtener imagen de perfil de empleado por id"
+      },
+      "patch": {
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "format": "binary",
+            "in": "formData",
+            "name": "imagenPerfil",
+            "type": "file"
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes - (Admin)"],
+        "description": "Subir imagen de perfil empleado por id",
+        "operationId": "subirImagenDePerfilEmpleadoPorId",
+        "summary": "Subir imagen de perfil empleado por id"
+      }
+    },
+    "/api/admin/empleados/{id}/imagen/borrar": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes - (Admin)"],
+        "description": "Eliminar imagen de perfil de empleado por id",
+        "operationId": "eliminarImagenDePerfilDeEmpleadoPorId",
+        "summary": "Eliminar imagen de perfil de empleado por id"
+      }
+    },
+    "/api/admin/empleados/{id}/reactivar": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
+        "parameters": [{ "in": "header", "name": "", "type": "string" }],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados - (Admin)"],
+        "description": "Reactiva un empleado",
+        "operationId": "reactivaUnEmpleado",
+        "summary": "Reactiva un empleado"
       }
     },
     "/api/admin/oficinas": {
@@ -147,7 +210,7 @@
         "summary": "Crea una nueva oficina"
       }
     },
-    "/api/admin/oficinas/empleados": {
+    "/api/admin/oficinas/empleados/asignar": {
       "post": {
         "consumes": ["application/json"],
         "parameters": [
@@ -156,10 +219,10 @@
             "name": "body",
             "schema": {
               "properties": {
-                "idOficina": { "example": 8, "type": "number" },
+                "idOficina": { "example": 2, "type": "number" },
                 "idsEmpleados": {
-                  "example": [36],
-                  "items": { "example": 36, "type": "number" },
+                  "example": [22, 31],
+                  "items": { "example": 22, "type": "number" },
                   "type": "array"
                 }
               },
@@ -172,6 +235,33 @@
         "description": "Asocia empleados a una oficina",
         "operationId": "asociaEmpleadosAUnaOficina",
         "summary": "Asocia empleados a una oficina"
+      }
+    },
+    "/api/admin/oficinas/empleados/desvincular": {
+      "post": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "idOficina": { "example": 2, "type": "number" },
+                "idsEmpleados": {
+                  "example": [31, 22],
+                  "items": { "example": 31, "type": "number" },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas-Empleados - (Admin)"],
+        "description": "Desvincula empleados a una oficina",
+        "operationId": "desvinculaEmpleadosAUnaOficina",
+        "summary": "Desvincula empleados a una oficina"
       }
     },
     "/api/admin/oficinas/{id}": {
@@ -223,9 +313,9 @@
         ],
         "responses": { "200": { "description": "" } },
         "tags": ["Oficinas - (Admin)"],
-        "description": "Elimina una oficina y desasigna empleados",
-        "operationId": "eliminaUnaOficinaYDesasignaEmpleados",
-        "summary": "Elimina una oficina y desasigna empleados"
+        "description": "Elimina una oficina",
+        "operationId": "eliminaUnaOficina",
+        "summary": "Elimina una oficina"
       }
     },
     "/api/admin/oficinas/{id}/empleados": {
@@ -239,6 +329,26 @@
         "description": "Obtiene los empleados de una oficina",
         "operationId": "obtieneLosEmpleadosDeUnaOficina",
         "summary": "Obtiene los empleados de una oficina"
+      }
+    },
+    "/api/admin/oficinas/{id}/reactivar": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
+        "consumes": ["text/plain"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": { "format": "binary", "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas - (Admin)"],
+        "description": "Reactiva una oficina",
+        "operationId": "reactivaUnaOficina",
+        "summary": "Reactiva una oficina"
       }
     },
     "/api/admin/tipoReclamos": {
@@ -351,10 +461,6 @@
             "schema": {
               "properties": {
                 "apellido": { "example": "Cliente Updated", "type": "string" },
-                "imagen": {
-                  "example": "https://upload.wikimedia.org/wikipedia/vi/thumb/7/76/Darth_Vader.jpg/220px-Darth_Vader.jpg",
-                  "type": "string"
-                },
                 "nombre": { "example": "Cliente Updated", "type": "string" }
               },
               "type": "object"
@@ -413,6 +519,42 @@
         "description": "Actualiza correo electrónico",
         "operationId": "actualizaCorreoElectrNico",
         "summary": "Actualiza correo electrónico"
+      }
+    },
+    "/api/clientes/perfil/imagen": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes - (Clientes)"],
+        "description": "Obtener imagen de perfil",
+        "operationId": "obtenerImagenDePerfil",
+        "summary": "Obtener imagen de perfil"
+      },
+      "patch": {
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "format": "binary",
+            "in": "formData",
+            "name": "imagenPerfil",
+            "type": "file"
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes - (Clientes)"],
+        "description": "Subir una imagen de perfil",
+        "operationId": "subirUnaImagenDePerfil",
+        "summary": "Subir una imagen de perfil"
+      }
+    },
+    "/api/clientes/perfil/imagen/borrar": {
+      "patch": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes - (Clientes)"],
+        "description": "Eliminar imagen de perfil",
+        "operationId": "eliminarImagenDePerfil",
+        "summary": "Eliminar imagen de perfil"
       }
     },
     "/api/clientes/tipoReclamos": {
@@ -675,7 +817,7 @@
         "summary": "Crear un nuevo cliente"
       }
     },
-    "/api/v1/reportes/totalesReclamosEstados": {
+    "/api/reportes/totalesReclamosEstados": {
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
@@ -753,6 +895,8 @@
     { "name": "Reclamos - (Clientes)" },
     { "name": "Estadísticas - (Admin)" },
     { "name": "Tipo Reclamos - (Admin)" },
-    { "name": "Tipo Reclamos - (Clientes)" }
+    { "name": "Tipo Reclamos - (Clientes)" },
+    { "name": "Imágenes - (Clientes)" },
+    { "name": "Imágenes - (Admin)" }
   ]
 }

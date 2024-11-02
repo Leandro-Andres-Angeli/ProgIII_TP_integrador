@@ -130,7 +130,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Cliente Updated\",\r\n    \"apellido\": \"Cliente Updated\",\r\n    \"imagen\": \"https://upload.wikimedia.org/wikipedia/vi/thumb/7/76/Darth_Vader.jpg/220px-Darth_Vader.jpg\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"Cliente Updated\",\r\n    \"apellido\": \"Cliente Updated\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -271,7 +271,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "33"
+									"value": "39"
 								}
 							]
 						}
@@ -331,7 +331,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Empleado\",\r\n    \"apellido\": \"Empleado\",\r\n    \"correoElectronico\": \"correo_7@empleado.com\",\r\n    \"contrasenia\": \"123456\",\r\n    \"imagen\": \"https://upload.wikimedia.org/wikipedia/vi/thumb/7/76/Darth_Vader.jpg/220px-Darth_Vader.jpg\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"Empleado\",\r\n    \"apellido\": \"Empleado\",\r\n    \"correoElectronico\": \"correo_7@empleado.com\",\r\n    \"contrasenia\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -371,7 +371,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Empleado Updated\",\r\n    \"apellido\": \"Empleado Updated\",\r\n    \"imagen\": \"\"\r\n    }",
+							"raw": "{\r\n    \"nombre\": \"Empleado Updated\",\r\n    \"apellido\": \"Empleado Updated\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -432,7 +432,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "41"
+									"value": "22"
 								}
 							]
 						}
@@ -509,7 +509,53 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "41"
+									"value": "22"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reactiva un empleado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/empleados/:id/reactivar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"empleados",
+								":id",
+								"reactivar"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "22"
 								}
 							]
 						}
@@ -639,7 +685,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "6"
+									"value": "2"
 								}
 							]
 						}
@@ -678,7 +724,7 @@
 					"response": []
 				},
 				{
-					"name": "Elimina una oficina y desasigna empleados",
+					"name": "Elimina una oficina",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -718,7 +764,55 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "8"
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reactiva una oficina",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/oficinas/:id/reactivar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"oficinas",
+								":id",
+								"reactivar"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
 								}
 							]
 						}
@@ -747,7 +841,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"idOficina\": 8,\r\n    \"idsEmpleados\": [36]\r\n}",
+							"raw": "{\r\n    \"idOficina\": 2,\r\n    \"idsEmpleados\": [22,31]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -755,7 +849,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/admin/oficinas/empleados",
+							"raw": "http://localhost:3001/api/admin/oficinas/empleados/asignar",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -765,7 +859,50 @@
 								"api",
 								"admin",
 								"oficinas",
-								"empleados"
+								"empleados",
+								"asignar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Desvincula empleados a una oficina",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idOficina\": 2,\r\n    \"idsEmpleados\": [31,22]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/oficinas/empleados/desvincular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"oficinas",
+								"empleados",
+								"desvincular"
 							]
 						}
 					},
@@ -803,7 +940,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "4"
+									"value": "2"
 								}
 							]
 						}
@@ -1214,7 +1351,6 @@
 							"port": "3001",
 							"path": [
 								"api",
-								"v1",
 								"reportes",
 								"totalesReclamosEstados"
 							]
@@ -1238,7 +1374,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/v1/reportes/:formatoReporte/:idTipoReclamo",
+							"raw": "http://localhost:3001/api/reportes/:formatoReporte/:idTipoReclamo",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1246,7 +1382,6 @@
 							"port": "3001",
 							"path": [
 								"api",
-								"v1",
 								"reportes",
 								":formatoReporte",
 								":idTipoReclamo"
@@ -1535,6 +1670,290 @@
 								"api",
 								"clientes",
 								"tipoReclamos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Imágenes - (Clientes)",
+			"item": [
+				{
+					"name": "Subir una imagen de perfil",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imagenPerfil",
+									"type": "file",
+									"src": "/C:/Users/Milton/Desktop/foto perfil/lisa.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/clientes/perfil/imagen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"clientes",
+								"perfil",
+								"imagen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar imagen de perfil",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/clientes/perfil/imagen/borrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"clientes",
+								"perfil",
+								"imagen",
+								"borrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener imagen de perfil",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/clientes/perfil/imagen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"clientes",
+								"perfil",
+								"imagen"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Imágenes - (Admin)",
+			"item": [
+				{
+					"name": "Subir imagen de perfil empleado por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imagenPerfil",
+									"type": "file",
+									"src": "/C:/Users/Milton/Desktop/foto perfil/carl.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/empleados/:id/imagen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"empleados",
+								":id",
+								"imagen"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "36"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar imagen de perfil de empleado por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/empleados/:id/imagen/borrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"empleados",
+								":id",
+								"imagen",
+								"borrar"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "36"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener imagen de perfil de empleado por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/empleados/:id/imagen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"empleados",
+								":id",
+								"imagen"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "36"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener imagen de perfil de un cliente por su id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/clientes/:id/imagen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"clientes",
+								":id",
+								"imagen"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "39"
+								}
 							]
 						}
 					},
