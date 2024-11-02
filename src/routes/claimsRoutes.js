@@ -9,8 +9,11 @@ const {
   isEmpleado,
   isAdmin,
 } = require('../middlewares/authorization');
-const { check, param } = require('express-validator');
+const { check, param, query } = require('express-validator');
 const { validarCampos } = require('../middlewares/validarCampos');
+const {
+  validatePagePaginationNotZero,
+} = require('../validations/validatePagePaginationNotZero');
 
 const claimController = new ClaimController();
 router.use(handleTokenValidity);
@@ -141,5 +144,21 @@ router.post(
   claimController.postClaimAdmin
 );
 ///ADMIN ROUTES
+//PAGINACION
+router.get(
+  '/paginacion',
+  [
+    query('pagina')
+      .notEmpty()
+      .withMessage('campo pagina requerido')
+      .isNumeric()
+      .withMessage('el campo pagina debe ser un numero')
+      .custom(validatePagePaginationNotZero)
+      .withMessage('el numero de pagina no puede ser cero'),
 
+    validarCampos,
+  ],
+  claimController.getClaimsPagination
+);
+//PAGINACION
 module.exports = router;

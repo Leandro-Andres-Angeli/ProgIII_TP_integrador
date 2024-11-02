@@ -75,5 +75,19 @@ class ClaimsService {
     return await this.claims.postClaimAdmin(data);
   };
   //ADMIN SERVICES
+  //PAGINACION SERVICES
+  getClaimsAdminPagination = async (pagina) => {
+    console.log('admin service');
+    const queryRes = await this.claims.claimsAdminPaginated(pagina);
+    console.log(queryRes);
+  };
+  getClaimsEmpleadoPagination = async () => {
+    console.log('empleado service');
+  };
+  getClaimsClientePagination = async () => {
+    console.log('cliente service');
+  };
+
+  //PAGINACION SERVICES
 }
 module.exports = ClaimsService;

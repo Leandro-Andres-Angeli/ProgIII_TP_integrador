@@ -4,6 +4,7 @@ const ClaimsService = require('../services/claimService');
 const ClaimStatusService = require('../services/claimStatusService');
 
 const usuarioService = require('../services/usuarioService');
+const { userType } = require('../utils/userTypesHelper');
 
 class ClaimController {
   constructor() {
@@ -361,6 +362,15 @@ class ClaimController {
         .json({ ok: false, message: error.message || 'Error de servidor' });
     }
   };
+  //PAGINACION
+  getClaimsPagination = async (req, res) => {
+    const { idUsuarioTipo } = req.user;
+    const pagina = Number(req.params.pagina);
+    console.log(userType[idUsuarioTipo]);
+    this.service[`getClaims${userType[idUsuarioTipo]}Pagination`](pagina - 1);
+    return res.status(200).json({ ok: true, message: 'paginacion controller' });
+  };
+  //PAGINACION
 }
 
 module.exports = ClaimController;

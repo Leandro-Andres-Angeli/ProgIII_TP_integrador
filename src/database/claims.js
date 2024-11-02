@@ -141,5 +141,12 @@ class Claims {
     const [query] = await pool.execute(sql);
     return query;
   };
+  //PAGINACION QUERIES
+  claimsAdminPaginated = async (pagina) => {
+    const sql = `SELECT * FROM reclamos LIMIT  6  OFFSET ? ;`;
+    const [query] = await pool.execute(sql, [pagina * 5]);
+    return query;
+  };
+  //PAGINACION QUERIES
 }
 module.exports = Claims;
