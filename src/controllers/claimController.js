@@ -365,12 +365,12 @@ class ClaimController {
   //PAGINACION
   getClaimsPagination = async (req, res) => {
     try {
-      const { idUsuarioTipo } = req.user;
+      const { idUsuarioTipo, idUsuario } = req.user;
       const pagina = Number(req.query.pagina);
 
       const claims = await this.service[
         `getClaims${userType[idUsuarioTipo]}Pagination`
-      ](pagina - 1);
+      ]({ idUsuario, pagina: pagina - 1 });
       if (claims.data.length === 0) {
         return res
           .status(404)

@@ -76,21 +76,31 @@ class ClaimsService {
   };
   //ADMIN SERVICES
   //PAGINACION SERVICES
-  getClaimsAdminPagination = async (pagina) => {
-    console.log('admin service');
+  getClaimsAdminPagination = async ({ pagina }) => {
     const queryRes = await this.claims.claimsAdminPaginated(pagina);
     return {
       prev: pagina !== 0,
 
       next: queryRes.length > 5,
-      data: queryRes.slice(0, -1),
+      data: queryRes.length > 5 ? queryRes.slice(0, -1) : queryRes,
     };
   };
   getClaimsEmpleadoPagination = async () => {
     console.log('empleado service');
   };
-  getClaimsClientePagination = async () => {
-    console.log('cliente service');
+  getClaimsClientePagination = async ({ idUsuario, pagina }) => {
+    console.log(idUsuario, pagina);
+
+    const queryRes = await this.claims.claimsClientePaginated(
+      idUsuario,
+      pagina
+    );
+    return {
+      prev: pagina !== 0,
+
+      next: queryRes.length > 5,
+      data: queryRes.length > 5 ? queryRes.slice(0, -1) : queryRes,
+    };
   };
 
   //PAGINACION SERVICES

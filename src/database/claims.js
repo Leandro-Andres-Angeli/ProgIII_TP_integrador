@@ -143,10 +143,16 @@ class Claims {
   };
   //PAGINACION QUERIES
   claimsAdminPaginated = async (pagina) => {
-    console.log(pagina);
-
     const sql = `SELECT * FROM reclamos LIMIT  6  OFFSET ? ;`;
     const [query] = await pool.execute(sql, [5 * pagina]);
+
+    return query;
+  };
+  claimsClientePaginated = async (idUsuario, pagina) => {
+    console.log(idUsuario);
+
+    const sql = `SELECT * FROM reclamos r  where r.idUsuarioCreador=? LIMIT  6  OFFSET ? ;`;
+    const [query] = await pool.execute(sql, [idUsuario, 5 * pagina]);
 
     return query;
   };
