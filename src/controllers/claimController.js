@@ -379,9 +379,9 @@ class ClaimController {
 
       return res.status(200).json({ ok: true, claims });
     } catch (error) {
-      return res
-        .status(500)
-        .message({ ok: false, message: 'error de servidor' });
+      console.log(error);
+
+      return res.status(500).json({ ok: false, message: 'error de servidor' });
     }
   };
   //PAGINACION

@@ -149,10 +149,19 @@ class Claims {
     return query;
   };
   claimsClientePaginated = async (idUsuario, pagina) => {
-    console.log(idUsuario);
-
     const sql = `SELECT * FROM reclamos r  where r.idUsuarioCreador=? LIMIT  6  OFFSET ? ;`;
     const [query] = await pool.execute(sql, [idUsuario, 5 * pagina]);
+
+    return query;
+  };
+  claimsEmpleadosPaginated = async (idUsuario, pagina) => {
+    const [query] = await pool.execute(
+      `SELECT r.* FROM reclamos as r 
+        JOIN oficinas as o ON r.idReclamoTipo = o.idReclamoTipo 
+        JOIN usuarios_oficinas as uo ON uo.idOficina = o.idOficina
+        WHERE uo.idUsuario = ?  ORDER BY r.idReclamo LIMIT 6 OFFSET  ? `,
+      [idUsuario, 5 * pagina]
+    );
 
     return query;
   };
