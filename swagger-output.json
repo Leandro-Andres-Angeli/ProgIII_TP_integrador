@@ -35,7 +35,7 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Imágenes - (Admin)"],
+        "tags": ["Imágenes Clientes - (Admin)"],
         "description": "Obtener imagen de perfil de un cliente por su id",
         "operationId": "obtenerImagenDePerfilDeUnClientePorSuId",
         "summary": "Obtener imagen de perfil de un cliente por su id"
@@ -106,9 +106,62 @@
         ],
         "responses": { "200": { "description": "" } },
         "tags": ["Empleados - (Admin)"],
-        "description": "Actualiza un empleado",
-        "operationId": "actualizaUnEmpleado",
-        "summary": "Actualiza un empleado"
+        "description": "Actualiza nombre y apellido de un empleado",
+        "operationId": "actualizaNombreYApellidoDeUnEmpleado",
+        "summary": "Actualiza nombre y apellido de un empleado"
+      }
+    },
+    "/api/admin/empleados/{id}/contrasenia": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "contrasenia": { "example": "654321", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados - (Admin)"],
+        "description": "Actualiza contraseña empleado",
+        "operationId": "actualizaContraseAEmpleado",
+        "summary": "Actualiza contraseña empleado"
+      }
+    },
+    "/api/admin/empleados/{id}/correo": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "correoElectronico": {
+                  "example": "correo_3110@empleado.com",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados - (Admin)"],
+        "description": "Actualiza correo electrónico empleado",
+        "operationId": "actualizaCorreoElectrNicoEmpleado",
+        "summary": "Actualiza correo electrónico empleado"
       }
     },
     "/api/admin/empleados/{id}/delete": {
@@ -131,7 +184,7 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Imágenes - (Admin)"],
+        "tags": ["Imágenes Empleados - (Admin)"],
         "description": "Obtener imagen de perfil de empleado por id",
         "operationId": "obtenerImagenDePerfilDeEmpleadoPorId",
         "summary": "Obtener imagen de perfil de empleado por id"
@@ -147,7 +200,7 @@
           }
         ],
         "responses": { "200": { "description": "" } },
-        "tags": ["Imágenes - (Admin)"],
+        "tags": ["Imágenes Empleados - (Admin)"],
         "description": "Subir imagen de perfil empleado por id",
         "operationId": "subirImagenDePerfilEmpleadoPorId",
         "summary": "Subir imagen de perfil empleado por id"
@@ -160,7 +213,7 @@
       "patch": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Imágenes - (Admin)"],
+        "tags": ["Imágenes Empleados - (Admin)"],
         "description": "Eliminar imagen de perfil de empleado por id",
         "operationId": "eliminarImagenDePerfilDeEmpleadoPorId",
         "summary": "Eliminar imagen de perfil de empleado por id"
@@ -196,7 +249,7 @@
             "name": "body",
             "schema": {
               "properties": {
-                "idReclamoTipo": { "example": 2, "type": "number" },
+                "idReclamoTipo": { "example": 6, "type": "number" },
                 "nombre": { "example": "Oficina", "type": "string" }
               },
               "type": "object"
@@ -219,10 +272,10 @@
             "name": "body",
             "schema": {
               "properties": {
-                "idOficina": { "example": 2, "type": "number" },
+                "idOficina": { "example": 3, "type": "number" },
                 "idsEmpleados": {
-                  "example": [22, 31],
-                  "items": { "example": 22, "type": "number" },
+                  "example": [42],
+                  "items": { "example": 42, "type": "number" },
                   "type": "array"
                 }
               },
@@ -246,10 +299,10 @@
             "name": "body",
             "schema": {
               "properties": {
-                "idOficina": { "example": 2, "type": "number" },
+                "idOficina": { "example": 3, "type": "number" },
                 "idsEmpleados": {
-                  "example": [31, 22],
-                  "items": { "example": 31, "type": "number" },
+                  "example": [3, 42],
+                  "items": { "example": 3, "type": "number" },
                   "type": "array"
                 }
               },
@@ -369,7 +422,7 @@
             "schema": {
               "properties": {
                 "apellido": { "example": "Admin Updated", "type": "string" },
-                "nombre": { "example": "Admin modificado", "type": "string" }
+                "nombre": { "example": "Admin Updated", "type": "string" }
               },
               "type": "object"
             }
@@ -433,7 +486,7 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Admin - (Admin)"],
+        "tags": ["Imágenes Admin - (Admin)"],
         "description": "Obtener imagen de perfil Admin",
         "operationId": "obtenerImagenDePerfilAdmin",
         "summary": "Obtener imagen de perfil Admin"
@@ -449,7 +502,7 @@
           }
         ],
         "responses": { "200": { "description": "" } },
-        "tags": ["Admin - (Admin)"],
+        "tags": ["Imágenes Admin - (Admin)"],
         "description": "Subir una imagen de perfil  Admin",
         "operationId": "subirUnaImagenDePerfilAdmin",
         "summary": "Subir una imagen de perfil  Admin"
@@ -459,7 +512,7 @@
       "patch": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Admin - (Admin)"],
+        "tags": ["Imágenes Admin - (Admin)"],
         "description": "Eliminar imagen de perfil  Admin",
         "operationId": "eliminarImagenDePerfilAdmin",
         "summary": "Eliminar imagen de perfil  Admin"
@@ -639,7 +692,7 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Imágenes - (Clientes)"],
+        "tags": ["Imágenes Clientes - (Clientes)"],
         "description": "Obtener imagen de perfil",
         "operationId": "obtenerImagenDePerfil",
         "summary": "Obtener imagen de perfil"
@@ -655,7 +708,7 @@
           }
         ],
         "responses": { "200": { "description": "" } },
-        "tags": ["Imágenes - (Clientes)"],
+        "tags": ["Imágenes Clientes - (Clientes)"],
         "description": "Subir una imagen de perfil",
         "operationId": "subirUnaImagenDePerfil",
         "summary": "Subir una imagen de perfil"
@@ -665,7 +718,7 @@
       "patch": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Imágenes - (Clientes)"],
+        "tags": ["Imágenes Clientes - (Clientes)"],
         "description": "Eliminar imagen de perfil",
         "operationId": "eliminarImagenDePerfil",
         "summary": "Eliminar imagen de perfil"
@@ -737,7 +790,7 @@
                   "example": "Descripción Updated Admin",
                   "type": "string"
                 },
-                "reclamoNuevoStatus": { "example": 1, "type": "number" }
+                "reclamoNuevoStatus": { "example": 2, "type": "number" }
               },
               "type": "object"
             }
@@ -841,8 +894,6 @@
             "name": "body",
             "schema": {
               "properties": {
-                "asunto": { "example": "Asunto 2", "type": "string" },
-                "descripcion": { "example": "Descripción 2", "type": "string" },
                 "reclamoNuevoStatus": { "example": 3, "type": "number" }
               },
               "type": "object"
@@ -878,15 +929,7 @@
             "name": "body",
             "schema": {
               "properties": {
-                "asunto": {
-                  "example": "Asunto Updated Empleado",
-                  "type": "string"
-                },
-                "descripcion": {
-                  "example": "Descripción Updated Empleado",
-                  "type": "string"
-                },
-                "reclamoNuevoStatus": { "example": 3, "type": "number" }
+                "reclamoNuevoStatus": { "example": 2, "type": "number" }
               },
               "type": "object"
             }
@@ -911,11 +954,7 @@
                 "apellido": { "example": "Cliente", "type": "string" },
                 "contrasenia": { "example": "123456", "type": "string" },
                 "correoElectronico": {
-                  "example": "correo_1@cliente.com",
-                  "type": "string"
-                },
-                "imagen": {
-                  "example": "https://i.pinimg.com/736x/34/88/98/348898fe7e68341c5acba805b9a4dd3f.jpg",
+                  "example": "correo_10@cliente.com",
                   "type": "string"
                 },
                 "nombre": { "example": "Cliente", "type": "string" }
@@ -935,7 +974,7 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Estadísticas - (Admin)"],
+        "tags": ["Reportes - (Admin)"],
         "description": "Totales de reclamos por estados",
         "operationId": "totalesDeReclamosPorEstados",
         "summary": "Totales de reclamos por estados"
@@ -959,7 +998,7 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Estadísticas - (Admin)"],
+        "tags": ["Reportes - (Admin)"],
         "description": "Genera archivo de reclamos debe estar logueado como administrador recibo como parametro el formato que tendra el reporte (pdf o csv) y el id de tipo de reclamos",
         "operationId": "generaArchivoDeReclamos",
         "summary": "Genera archivo de reclamos"
@@ -977,7 +1016,7 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Estadísticas - (Admin)"],
+        "tags": ["Reportes - (Admin)"],
         "description": "Genera archivo de reclamos debe estar logueado como administrador recibo como parametro el formato que tendra el reporte (pdf o csv) ; implementacion como se vio en clase de programacion",
         "operationId": "generaArchivoDeReclamos",
         "summary": "Genera archivo de reclamos"
@@ -1000,6 +1039,7 @@
   "tags": [
     { "name": "Auth" },
     { "name": "Clientes - (Clientes)" },
+    { "name": "Admin - (Admin)" },
     { "name": "Clientes - (Admin)" },
     { "name": "Empleados - (Admin)" },
     { "name": "Oficinas - (Admin)" },
@@ -1007,11 +1047,12 @@
     { "name": "Reclamos - (Admin)" },
     { "name": "Reclamos - (Empleados)" },
     { "name": "Reclamos - (Clientes)" },
-    { "name": "Estadísticas - (Admin)" },
+    { "name": "Reportes - (Admin)" },
     { "name": "Tipo Reclamos - (Admin)" },
     { "name": "Tipo Reclamos - (Clientes)" },
-    { "name": "Imágenes - (Clientes)" },
-    { "name": "Imágenes - (Admin)" },
-    { "name": "Admin - (Admin)" }
+    { "name": "Imágenes Clientes - (Clientes)" },
+    { "name": "Imágenes Empleados - (Admin)" },
+    { "name": "Imágenes Admin - (Admin)" },
+    { "name": "Imágenes Clientes - (Admin)" }
   ]
 }
