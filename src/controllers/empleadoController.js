@@ -31,7 +31,7 @@ exports.getEmpleadoById = async (req, res) => {
   }
 };
 
-exports.updateEmpleado = async (req, res) => {
+exports.updateEmpleadoById = async (req, res) => {
   try {
     await usuarioService.updateUsuario(req.params.id, req.body, 2);
     res
@@ -42,7 +42,7 @@ exports.updateEmpleado = async (req, res) => {
   }
 };
 
-exports.updateCorreoEmpleado = async (req, res) => {
+exports.updateCorreoEmpleadoById = async (req, res) => {
   try {
     await usuarioService.updateCorreo(req.params.id, req.body, 2);
     res.status(200).json({
@@ -55,7 +55,7 @@ exports.updateCorreoEmpleado = async (req, res) => {
   }
 };
 
-exports.updateContraseniaEmpleado = async (req, res) => {
+exports.updateContraseniaEmpleadoById = async (req, res) => {
   try {
     await usuarioService.updateContrasenia(req.params.id, req.body, 2);
     res.status(200).json({
@@ -90,7 +90,6 @@ exports.reactivarEmpleado = async (req, res) => {
 };
 
 exports.updateImagenEmpleadoById = async (req, res) => {
-  console.log('req.file', req.file);
   try {
     if (req.fileValidationError) {
       return res

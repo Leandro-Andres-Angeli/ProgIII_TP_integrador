@@ -24,7 +24,6 @@ exports.updateAdmin = async (req, res) => {
 };
 
 exports.updateImagenAdmin = async (req, res) => {
-  console.log('req.file', req.file);
   try {
     if (req.fileValidationError) {
       return res

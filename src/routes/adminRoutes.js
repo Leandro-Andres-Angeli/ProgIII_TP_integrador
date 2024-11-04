@@ -33,17 +33,17 @@ router.patch('/empleados/:id/reactivar', empleadoController.reactivarEmpleado);
 router.patch(
   '/empleados/:id',
   [validateUpdateUsuario],
-  empleadoController.updateEmpleado
+  empleadoController.updateEmpleadoById
 );
 router.patch(
   '/empleados/:id/correo',
   [validateUpdateCorreo],
-  empleadoController.updateCorreoEmpleado
+  empleadoController.updateCorreoEmpleadoById
 );
 router.patch(
   '/empleados/:id/contrasenia',
   [validateUpdateContrasenia],
-  empleadoController.updateContraseniaEmpleado
+  empleadoController.updateContraseniaEmpleadoById
 );
 router.get('/empleados/:id/imagen', empleadoController.getImagenEmpleadoById);
 router.patch(

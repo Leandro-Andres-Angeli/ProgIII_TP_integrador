@@ -9,8 +9,8 @@ const storage = multer.diskStorage({
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
     const extension = path.extname(file.originalname);
     const filename = uniqueSuffix + extension;
-    cb(null, filename);
     req.savedFilePath = filename;
+    cb(null, filename);
   },
 });
 
@@ -20,7 +20,7 @@ const fileFilter = (req, file, cb) => {
   } else {
     req.fileValidationError =
       'Formato de archivo no soportado. Solo se permiten archivos JPG, PNG, o GIF.';
-    cb(null, false, req.fileValidationError);
+    cb(null, false);
   }
 };
 

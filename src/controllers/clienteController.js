@@ -53,7 +53,6 @@ exports.updateCliente = async (req, res) => {
 };
 
 exports.updateImagenCliente = async (req, res) => {
-  console.log('req.file', req.file);
   try {
     if (req.fileValidationError) {
       return res
@@ -66,10 +65,10 @@ exports.updateImagenCliente = async (req, res) => {
         .json({ ok: false, message: 'No se ha subido ninguna imagen.' });
     }
 
-    const rutaImagen = req.savedFilePath;
+    const imagen = req.savedFilePath;
     const clienteID = req.user.idUsuario;
 
-    await usuarioService.updateImagenUsuario(clienteID, rutaImagen, 3);
+    await usuarioService.updateImagenUsuario(clienteID, imagen, 3);
 
     res
       .status(200)
@@ -82,15 +81,15 @@ exports.updateImagenCliente = async (req, res) => {
 exports.getImagenCliente = async (req, res) => {
   const clienteID = req.user.idUsuario;
   try {
-    const rutaImagen = await usuarioService.getImagenUsuario(clienteID, 3);
-    if (!rutaImagen) {
+    const imagen = await usuarioService.getImagenUsuario(clienteID, 3);
+    if (!imagen) {
       return res
         .status(404)
         .json({ ok: false, message: 'Imagen no encontrada' });
     }
     res
       .status(200)
-      .sendFile(path.join('src/public/imagenes', rutaImagen), { root: '.' });
+      .sendFile(path.join('src/public/imagenes', imagen), { root: '.' });
   } catch (error) {
     return res.status(500).json({ ok: false, message: error.message });
   }
