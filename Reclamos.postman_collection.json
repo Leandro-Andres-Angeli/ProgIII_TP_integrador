@@ -1222,7 +1222,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/reclamos/admin/",
+							"raw": "http://localhost:3001/api/reclamos/admin",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1231,8 +1231,7 @@
 							"path": [
 								"api",
 								"reclamos",
-								"admin",
-								""
+								"admin"
 							]
 						}
 					},
@@ -2324,6 +2323,48 @@
 								{
 									"key": "id",
 									"value": "43"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reclamos Paginación - (Usuarios)",
+			"item": [
+				{
+					"name": "Obtiene reclamos paginados",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/reclamos/paginacion?pagina=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"reclamos",
+								"paginacion"
+							],
+							"query": [
+								{
+									"key": "pagina",
+									"value": "1"
 								}
 							]
 						}
