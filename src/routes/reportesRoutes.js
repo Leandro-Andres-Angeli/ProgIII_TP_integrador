@@ -9,9 +9,15 @@ const ReportesController = require('../controllers/reportesController');
 const estadisticasController = require('../controllers/estadisticasController');
 
 const router = express.Router();
+
+const reportesController = new ReportesController();
 router.use(handleTokenValidity);
 router.use(isAdmin);
-const reportesController = new ReportesController();
+
+router.get(
+  '/totalesReclamosEstados',
+  estadisticasController.getTotalesReclamosEstados
+);
 
 router.get(
   '/:formatoReporte/:idReclamoTipo',
@@ -28,8 +34,15 @@ router.get(
 );
 
 router.get(
-  '/totalesReclamosEstados',
-  estadisticasController.getTotalesReclamosEstados
+  '/:formatoReporte/',
+  [
+    param('formatoReporte')
+      .custom(validateReportFormat)
+      .withMessage('error : formatos validos de reporte : pdf , csv'),
+
+    validarCampos,
+  ],
+  reportesController.getInforme
 );
 
 module.exports = router;

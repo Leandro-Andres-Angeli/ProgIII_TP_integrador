@@ -7,6 +7,7 @@ const {
 const router = express.Router();
 const clienteController = require('../controllers/clienteController');
 const tipoReclamoController = require('../controllers/tipoReclamoController');
+const upload = require('../config/multerConfig');
 
 router.get('/perfil', clienteController.getPerfilCliente);
 
@@ -15,6 +16,16 @@ router.patch(
   [validateUpdateUsuario],
   clienteController.updateCliente
 );
+
+router.get('/perfil/imagen', clienteController.getImagenCliente);
+
+router.patch(
+  '/perfil/imagen',
+  upload.single('imagenPerfil'),
+  clienteController.updateImagenCliente
+);
+
+router.patch('/perfil/imagen/borrar', clienteController.deleteImagenCliente);
 
 router.patch(
   '/perfil/correo',

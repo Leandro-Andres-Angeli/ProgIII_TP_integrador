@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"correoElectronico\": \"admin@admin.com\",\r\n    \"contrasenia\": \"123456\"\r\n}",
+							"raw": "{\r\n    \"correoElectronico\": \"admin2@admin.com\",\r\n    \"contrasenia\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -55,7 +55,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Cliente\",\r\n    \"apellido\": \"Cliente\",\r\n    \"correoElectronico\": \"correo_1@cliente.com\",\r\n    \"contrasenia\": \"123456\",\r\n    \"imagen\": \"https://i.pinimg.com/736x/34/88/98/348898fe7e68341c5acba805b9a4dd3f.jpg\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"Cliente\",\r\n    \"apellido\": \"Cliente\",\r\n    \"correoElectronico\": \"correo_10@cliente.com\",\r\n    \"contrasenia\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -130,7 +130,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Cliente Updated\",\r\n    \"apellido\": \"Cliente Updated\",\r\n    \"imagen\": \"https://upload.wikimedia.org/wikipedia/vi/thumb/7/76/Darth_Vader.jpg/220px-Darth_Vader.jpg\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"Cliente Updated\",\r\n    \"apellido\": \"Cliente Updated\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -211,7 +211,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"correoElectronico\": \"correo_27@cliente.com\"\r\n}",
+							"raw": "{\r\n    \"correoElectronico\": \"correo_2700@cliente.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -228,6 +228,164 @@
 							"path": [
 								"api",
 								"clientes",
+								"perfil",
+								"correo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin - (Admin)",
+			"item": [
+				{
+					"name": "Obtiene perfil Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/perfil",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"perfil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualiza perfil  Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Admin Updated\",\r\n    \"apellido\": \"Admin Updated\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/perfil",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"perfil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualiza contraseña Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"contrasenia\": \"123456\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/perfil/contrasenia",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"perfil",
+								"contrasenia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualiza correo electrónico  Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"correoElectronico\": \"admin2@admin.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/perfil/correo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
 								"perfil",
 								"correo"
 							]
@@ -271,7 +429,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "33"
+									"value": "39"
 								}
 							]
 						}
@@ -331,7 +489,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Empleado\",\r\n    \"apellido\": \"Empleado\",\r\n    \"correoElectronico\": \"correo_7@empleado.com\",\r\n    \"contrasenia\": \"123456\",\r\n    \"imagen\": \"https://upload.wikimedia.org/wikipedia/vi/thumb/7/76/Darth_Vader.jpg/220px-Darth_Vader.jpg\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"Empleado En clase\",\r\n    \"apellido\": \"Empleado\",\r\n    \"correoElectronico\": \"correo_311@empleado.com\",\r\n    \"contrasenia\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -355,7 +513,7 @@
 					"response": []
 				},
 				{
-					"name": "Actualiza un empleado",
+					"name": "Actualiza nombre y apellido de un empleado",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -371,7 +529,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Empleado Updated\",\r\n    \"apellido\": \"Empleado Updated\",\r\n    \"imagen\": \"\"\r\n    }",
+							"raw": "{\r\n    \"nombre\": \"Empleado Updated ahora\",\r\n    \"apellido\": \"Empleado Updated ahora\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -394,7 +552,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "3"
+									"value": "42"
 								}
 							]
 						}
@@ -432,7 +590,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "41"
+									"value": "42"
 								}
 							]
 						}
@@ -509,7 +667,149 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "41"
+									"value": "42"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reactiva un empleado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/empleados/:id/reactivar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"empleados",
+								":id",
+								"reactivar"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualiza contraseña empleado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"contrasenia\": \"654321\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/empleados/:id/contrasenia",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"empleados",
+								":id",
+								"contrasenia"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "42"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualiza correo electrónico empleado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"correoElectronico\": \"correo_3110@empleado.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/empleados/:id/correo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"empleados",
+								":id",
+								"correo"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "42"
 								}
 							]
 						}
@@ -538,7 +838,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Oficina\",\r\n    \"idReclamoTipo\": 2\r\n}",
+							"raw": "{\r\n    \"nombre\": \"Oficina\",\r\n    \"idReclamoTipo\": 6\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -639,7 +939,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "6"
+									"value": "9"
 								}
 							]
 						}
@@ -678,7 +978,7 @@
 					"response": []
 				},
 				{
-					"name": "Elimina una oficina y desasigna empleados",
+					"name": "Elimina una oficina",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -718,7 +1018,55 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "8"
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reactiva una oficina",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/oficinas/:id/reactivar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"oficinas",
+								":id",
+								"reactivar"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "9"
 								}
 							]
 						}
@@ -747,7 +1095,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"idOficina\": 8,\r\n    \"idsEmpleados\": [36]\r\n}",
+							"raw": "{\r\n    \"idOficina\": 3,\r\n    \"idsEmpleados\": [42]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -755,7 +1103,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/admin/oficinas/empleados",
+							"raw": "http://localhost:3001/api/admin/oficinas/empleados/asignar",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -765,7 +1113,50 @@
 								"api",
 								"admin",
 								"oficinas",
-								"empleados"
+								"empleados",
+								"asignar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Desvincula empleados a una oficina",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idOficina\": 3,\r\n    \"idsEmpleados\": [3,42]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/oficinas/empleados/desvincular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"oficinas",
+								"empleados",
+								"desvincular"
 							]
 						}
 					},
@@ -803,7 +1194,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "4"
+									"value": "3"
 								}
 							]
 						}
@@ -864,7 +1255,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"asunto\": \"Asunto Updated Admin\",\r\n    \"descripcion\": \"Descripción Updated Admin\",\r\n    \"reclamoNuevoStatus\": 1\r\n}",
+							"raw": "{\r\n    \"asunto\": \"Asunto Updated Admin\",\r\n    \"descripcion\": \"Descripción Updated Admin\",\r\n    \"reclamoNuevoStatus\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -887,7 +1278,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "20"
+									"value": "26"
 								}
 							]
 						}
@@ -994,7 +1385,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"asunto\": \"Asunto Updated Empleado\",\r\n    \"descripcion\": \"Descripción Updated Empleado\",\r\n    \"reclamoNuevoStatus\": 3\r\n}",
+							"raw": "{\r\n    \"reclamoNuevoStatus\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1017,7 +1408,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "7"
+									"value": "26"
 								}
 							]
 						}
@@ -1091,7 +1482,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "20"
+									"value": "23"
 								}
 							]
 						}
@@ -1099,7 +1490,7 @@
 					"response": []
 				},
 				{
-					"name": "Actualiza un reclamo a cancelado",
+					"name": "Cancela un reclamo",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1115,7 +1506,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"asunto\": \"Asunto 2\",\r\n    \"descripcion\": \"Descripción 2\",\r\n    \"reclamoNuevoStatus\": 3\r\n}",
+							"raw": "{\r\n    \"reclamoNuevoStatus\": 3\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1138,7 +1529,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "20"
+									"value": "26"
 								}
 							]
 						}
@@ -1188,7 +1579,7 @@
 			]
 		},
 		{
-			"name": "Estadísticas - (Admin)",
+			"name": "Reportes - (Admin)",
 			"item": [
 				{
 					"name": "Totales de reclamos por estados",
@@ -1206,7 +1597,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/v1/reportes/totalesReclamosEstados",
+							"raw": "http://localhost:3001/api/reportes/totalesReclamosEstados",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1214,7 +1605,6 @@
 							"port": "3001",
 							"path": [
 								"api",
-								"v1",
 								"reportes",
 								"totalesReclamosEstados"
 							]
@@ -1238,7 +1628,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/v1/reportes/:formatoReporte/:idTipoReclamo",
+							"raw": "http://localhost:3001/api/reportes/:formatoReporte/:idTipoReclamo",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1246,7 +1636,6 @@
 							"port": "3001",
 							"path": [
 								"api",
-								"v1",
 								"reportes",
 								":formatoReporte",
 								":idTipoReclamo"
@@ -1535,6 +1924,407 @@
 								"api",
 								"clientes",
 								"tipoReclamos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Imágenes Clientes - (Clientes)",
+			"item": [
+				{
+					"name": "Subir una imagen de perfil",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imagenPerfil",
+									"type": "file",
+									"src": "/C:/Users/Milton/Desktop/foto perfil/homero.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/clientes/perfil/imagen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"clientes",
+								"perfil",
+								"imagen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar imagen de perfil",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/clientes/perfil/imagen/borrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"clientes",
+								"perfil",
+								"imagen",
+								"borrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener imagen de perfil",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/clientes/perfil/imagen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"clientes",
+								"perfil",
+								"imagen"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Imágenes Empleados - (Admin)",
+			"item": [
+				{
+					"name": "Subir imagen de perfil empleado por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imagenPerfil",
+									"type": "file",
+									"src": "/C:/Users/Milton/Desktop/foto perfil/carl.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/empleados/:id/imagen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"empleados",
+								":id",
+								"imagen"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "42"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar imagen de perfil de empleado por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/empleados/:id/imagen/borrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"empleados",
+								":id",
+								"imagen",
+								"borrar"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "42"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener imagen de perfil de empleado por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/empleados/:id/imagen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"empleados",
+								":id",
+								"imagen"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "42"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Imágenes Admin - (Admin)",
+			"item": [
+				{
+					"name": "Obtener imagen de perfil Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/perfil/imagen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"perfil",
+								"imagen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar imagen de perfil  Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/perfil/imagen/borrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"perfil",
+								"imagen",
+								"borrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subir una imagen de perfil  Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imagenPerfil",
+									"type": "file",
+									"src": "/C:/Users/Milton/Desktop/foto perfil/burns.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/perfil/imagen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"perfil",
+								"imagen"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Imágenes Clientes - (Admin)",
+			"item": [
+				{
+					"name": "Obtener imagen de perfil de un cliente por su id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/clientes/:id/imagen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"clientes",
+								":id",
+								"imagen"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "43"
+								}
 							]
 						}
 					},

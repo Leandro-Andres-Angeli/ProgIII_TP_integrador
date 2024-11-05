@@ -355,9 +355,9 @@ Ejempo respuesta peticion
 
 ### Reportes
 
-#### Reporte PDF
+#### Reporte PDF y CSV
 
-`GET /api/reportes/v1/{formatoReporte}/{idTipoDeReclamo}`
+`GET /api/reportes/{formatoReporte}/{idTipoDeReclamo}`
 
 | Parameter        | Type           | Description                     |
 | :--------------- | :------------- | :------------------------------ |
@@ -365,7 +365,19 @@ Ejempo respuesta peticion
 | formatoReporte   | `string`       | **Requerido**. formatoReporte   |
 | token            | `bearer token` | **Requerido**. token            |
 
-Genera archivo de reclamos debe estar logueado como administrador recibo como parametro el formato que tendra el reporte (pdf o csv) y el id de tipo de reclamos
+Genera archivo de reclamos debe estar logueado como administrador recibe como parametro el formato que tendra el reporte (pdf o csv) y el id de tipo de reclamos
+
+#### Reporte PDF y CSV Como se vio en clase
+
+`GET /api/reportes/{formatoReporte}/`
+
+| Parameter | Type | Description |
+| :-------- | :--- | :---------- |
+
+| formatoReporte | `string` | **Requerido**. formatoReporte |
+| token | `bearer token` | **Requerido**. token |
+
+Genera archivo de reclamos debe estar logueado como administrador recibe como parametro el formato que tendra el reporte (pdf o csv) .Implementacion como se vio en clase
 
 #### Reporte Stored Procedure
 

@@ -9,8 +9,11 @@ const {
   isEmpleado,
   isAdmin,
 } = require('../middlewares/authorization');
-const { check, param } = require('express-validator');
+const { check, param, query } = require('express-validator');
 const { validarCampos } = require('../middlewares/validarCampos');
+const {
+  validatePagePaginationNotZero,
+} = require('../validations/validatePagePaginationNotZero');
 
 const claimController = new ClaimController();
 router.use(handleTokenValidity);
@@ -125,15 +128,37 @@ router.post(
       .withMessage('campo idReclamoEstado no puede estar vacio')
       .isNumeric()
       .withMessage('campo idReclamoEstado debe ser un numero'),
+    check('idReclamoTipo')
+      .notEmpty()
+      .withMessage('campo idReclamoTipo no puede estar vacio')
+      .isNumeric()
+      .withMessage('campo idReclamoEstado debe ser un numero'),
     check('asunto').notEmpty().withMessage('asunto no puede estar vacio'),
     check('descripcion')
       .notEmpty()
       .withMessage('descripcion no puede estar vacio'),
+
     validarCampos,
   ],
 
   claimController.postClaimAdmin
 );
 ///ADMIN ROUTES
+//PAGINACION
+router.get(
+  '/paginacion',
+  [
+    query('pagina')
+      .notEmpty()
+      .withMessage('campo pagina requerido')
+      .isNumeric()
+      .withMessage('el campo pagina debe ser un numero')
+      .custom(validatePagePaginationNotZero)
+      .withMessage('el numero de pagina no puede ser cero'),
 
+    validarCampos,
+  ],
+  claimController.getClaimsPagination
+);
+//PAGINACION
 module.exports = router;

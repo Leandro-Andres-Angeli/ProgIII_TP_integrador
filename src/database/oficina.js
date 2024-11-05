@@ -12,7 +12,7 @@ const Oficina = {
   },
 
   getOficinas: async () => {
-    const query = `SELECT * FROM oficinas WHERE activo=1`;
+    const query = `SELECT * FROM oficinas`;
     const [result] = await pool.execute(query);
     return result;
   },
@@ -38,37 +38,13 @@ const Oficina = {
   },
 
   deleteOficina: async (id) => {
-    const connection = await pool.getConnection();
-    try {
-      connection.beginTransaction();
-      const queries = [
-        connection.execute(
-          ` UPDATE oficinas SET activo = 0 WHERE idOficina = ? `,
-          [id]
-        ),
-        connection.execute(
-          `DELETE FROM usuarios_oficinas WHERE idOficina = ?`,
-          [id]
-        ),
-      ];
-      await Promise.all(queries);
-      await connection.commit();
-      return true;
-    } catch (error) {
-      await connection.rollback();
-      throw new Error('Ocurrió un error al eliminar la oficina');
-    } finally {
-      connection.release();
-    }
+    const query = ` UPDATE oficinas SET activo = 0 WHERE idOficina = ? `;
+    await pool.execute(query, [id]);
   },
 
-  asignarEmpleado: async (idOficina, idEmpleado) => {
-    const query = `
-      INSERT INTO usuarios_oficinas (idOficina, idUsuario, activo) 
-      VALUES (?, ?, 1)
-    `;
-    const [result] = await pool.execute(query, [idOficina, idEmpleado]);
-    return result.insertId;
+  reactivarOficina: async (id) => {
+    const query = ` UPDATE oficinas SET activo = 1 WHERE idOficina = ? `;
+    await pool.execute(query, [id]);
   },
 
   asignarEmpleados: async (idOficina, idsEmpleados) => {
@@ -91,6 +67,25 @@ const Oficina = {
     }
   },
 
+  desvincularEmpleados: async (idOficina, idsEmpleados) => {
+    const connection = await pool.getConnection();
+    try {
+      connection.beginTransaction();
+      const promises = idsEmpleados.map((idEmpleado) => {
+        const query = `DELETE FROM usuarios_oficinas WHERE idOficina = ? AND idUsuario = ?`;
+        return connection.query(query, [idOficina, idEmpleado]);
+      });
+      await Promise.all(promises);
+      await connection.commit();
+      return true;
+    } catch (error) {
+      await connection.rollback();
+      throw new Error('Ocurrió un error al desvincular empleados');
+    } finally {
+      connection.release();
+    }
+  },
+
   getEmpleados: async (id) => {
     const query = `SELECT u.idUsuario, u.nombre, u.apellido, 
     u.correoElectronico, u.idUsuarioTipo, u.imagen, u.activo
@@ -105,11 +100,19 @@ const Oficina = {
     return result;
   },
 
-  existeOficina: async (id) => {
+  existeOficinaActiva: async (id) => {
     const query = `SELECT 1
     FROM oficinas
     WHERE idOficina = ?
     AND activo = 1`;
+    const [result] = await pool.execute(query, [id]);
+    return result.length > 0;
+  },
+
+  existeOficina: async (id) => {
+    const query = `SELECT 1
+    FROM oficinas
+    WHERE idOficina = ?`;
     const [result] = await pool.execute(query, [id]);
     return result.length > 0;
   },

@@ -47,15 +47,12 @@ exports.deleteOficina = async (req, res) => {
   }
 };
 
-exports.asignarEmpleado = async (req, res) => {
+exports.reactivarOficina = async (req, res) => {
   try {
-    await oficinaService.asignarEmpleado(
-      req.params.idOficina,
-      req.params.idEmpleado
-    );
+    await oficinaService.reactivarOficina(req.params.id);
     res
       .status(200)
-      .json({ ok: true, message: 'Empleado asignado a la oficina con éxito.' });
+      .json({ ok: true, message: 'Oficina reactivada con éxito.' });
   } catch (error) {
     return res.status(500).json({ ok: false, message: error.message });
   }
@@ -69,7 +66,22 @@ exports.asignarEmpleados = async (req, res) => {
     );
     res.status(200).json({
       ok: true,
-      message: 'Empleados asignados a la oficina con éxito.',
+      message: 'Empleado/s asignado/s a la oficina con éxito.',
+    });
+  } catch (error) {
+    return res.status(500).json({ ok: false, message: error.message });
+  }
+};
+
+exports.desvincularEmpleados = async (req, res) => {
+  try {
+    await oficinaService.desvincularEmpleados(
+      req.body.idOficina,
+      req.body.idsEmpleados
+    );
+    res.status(200).json({
+      ok: true,
+      message: 'Empleado/s desvinculado/s a la oficina con éxito.',
     });
   } catch (error) {
     return res.status(500).json({ ok: false, message: error.message });

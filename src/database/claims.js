@@ -129,5 +129,42 @@ class Claims {
     );
     return claims;
   };
+  reportesClaimProcedure = async () => {
+    const [claims] = await pool.query('call datosPDF()');
+    return claims.flat()[0];
+  };
+  reportesCsvArchivoQuery = async () => {
+    const sql = `SELECT r.idReclamo as 'reclamo' , rt.descripcion as 'tipo' , re.descripcion as 'estado' ,
+    DATE_FORMAT(r.fechaCreado , '%Y-%m-%d %H:%i:%s') as 'fechaCreado' , CONCAT (u.nombre,' ',u.apellido) as cliente
+    FROM reclamos as r INNER JOIN reclamos_tipo as rt ON rt.idReclamoTipo = r.idReclamoTipo INNER JOIN reclamos_estado as re ON re.idReclamoEstado = r.idReclamoEstado INNER JOIN usuarios as u ON u.idUsuario = r.idUsuarioCreador WHERE r.idReclamoEstado <> 4 ; 
+    `;
+    const [query] = await pool.execute(sql);
+    return query;
+  };
+  //PAGINACION QUERIES
+  claimsAdminPaginated = async (pagina) => {
+    const sql = `SELECT * FROM reclamos LIMIT  6  OFFSET ? ;`;
+    const [query] = await pool.execute(sql, [5 * pagina]);
+
+    return query;
+  };
+  claimsClientePaginated = async (idUsuario, pagina) => {
+    const sql = `SELECT * FROM reclamos r  where r.idUsuarioCreador=? LIMIT  6  OFFSET ? ;`;
+    const [query] = await pool.execute(sql, [idUsuario, 5 * pagina]);
+
+    return query;
+  };
+  claimsEmpleadosPaginated = async (idUsuario, pagina) => {
+    const [query] = await pool.execute(
+      `SELECT r.* FROM reclamos as r 
+        JOIN oficinas as o ON r.idReclamoTipo = o.idReclamoTipo 
+        JOIN usuarios_oficinas as uo ON uo.idOficina = o.idOficina
+        WHERE uo.idUsuario = ?  ORDER BY r.idReclamo LIMIT 6 OFFSET  ? `,
+      [idUsuario, 5 * pagina]
+    );
+
+    return query;
+  };
+  //PAGINACION QUERIES
 }
 module.exports = Claims;

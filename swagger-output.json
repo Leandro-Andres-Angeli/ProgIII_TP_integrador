@@ -28,6 +28,19 @@
         "summary": "Obtiene un cliente por id"
       }
     },
+    "/api/admin/clientes/{id}/imagen": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes Clientes - (Admin)"],
+        "description": "Obtener imagen de perfil de un cliente por su id",
+        "operationId": "obtenerImagenDePerfilDeUnClientePorSuId",
+        "summary": "Obtener imagen de perfil de un cliente por su id"
+      }
+    },
     "/api/admin/empleados": {
       "get": {
         "parameters": [],
@@ -49,10 +62,6 @@
                 "contrasenia": { "example": "123456", "type": "string" },
                 "correoElectronico": {
                   "example": "correo_7@empleado.com",
-                  "type": "string"
-                },
-                "imagen": {
-                  "example": "https://upload.wikimedia.org/wikipedia/vi/thumb/7/76/Darth_Vader.jpg/220px-Darth_Vader.jpg",
                   "type": "string"
                 },
                 "nombre": { "example": "Empleado", "type": "string" }
@@ -89,7 +98,6 @@
             "schema": {
               "properties": {
                 "apellido": { "example": "Empleado Updated", "type": "string" },
-                "imagen": { "example": "", "type": "string" },
                 "nombre": { "example": "Empleado Updated", "type": "string" }
               },
               "type": "object"
@@ -98,9 +106,62 @@
         ],
         "responses": { "200": { "description": "" } },
         "tags": ["Empleados - (Admin)"],
-        "description": "Actualiza un empleado",
-        "operationId": "actualizaUnEmpleado",
-        "summary": "Actualiza un empleado"
+        "description": "Actualiza nombre y apellido de un empleado",
+        "operationId": "actualizaNombreYApellidoDeUnEmpleado",
+        "summary": "Actualiza nombre y apellido de un empleado"
+      }
+    },
+    "/api/admin/empleados/{id}/contrasenia": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "contrasenia": { "example": "654321", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados - (Admin)"],
+        "description": "Actualiza contraseña empleado",
+        "operationId": "actualizaContraseAEmpleado",
+        "summary": "Actualiza contraseña empleado"
+      }
+    },
+    "/api/admin/empleados/{id}/correo": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "correoElectronico": {
+                  "example": "correo_3110@empleado.com",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados - (Admin)"],
+        "description": "Actualiza correo electrónico empleado",
+        "operationId": "actualizaCorreoElectrNicoEmpleado",
+        "summary": "Actualiza correo electrónico empleado"
       }
     },
     "/api/admin/empleados/{id}/delete": {
@@ -114,6 +175,61 @@
         "description": "Elimina un empleado",
         "operationId": "eliminaUnEmpleado",
         "summary": "Elimina un empleado"
+      }
+    },
+    "/api/admin/empleados/{id}/imagen": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes Empleados - (Admin)"],
+        "description": "Obtener imagen de perfil de empleado por id",
+        "operationId": "obtenerImagenDePerfilDeEmpleadoPorId",
+        "summary": "Obtener imagen de perfil de empleado por id"
+      },
+      "patch": {
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "format": "binary",
+            "in": "formData",
+            "name": "imagenPerfil",
+            "type": "file"
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes Empleados - (Admin)"],
+        "description": "Subir imagen de perfil empleado por id",
+        "operationId": "subirImagenDePerfilEmpleadoPorId",
+        "summary": "Subir imagen de perfil empleado por id"
+      }
+    },
+    "/api/admin/empleados/{id}/imagen/borrar": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes Empleados - (Admin)"],
+        "description": "Eliminar imagen de perfil de empleado por id",
+        "operationId": "eliminarImagenDePerfilDeEmpleadoPorId",
+        "summary": "Eliminar imagen de perfil de empleado por id"
+      }
+    },
+    "/api/admin/empleados/{id}/reactivar": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
+        "parameters": [{ "in": "header", "name": "", "type": "string" }],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Empleados - (Admin)"],
+        "description": "Reactiva un empleado",
+        "operationId": "reactivaUnEmpleado",
+        "summary": "Reactiva un empleado"
       }
     },
     "/api/admin/oficinas": {
@@ -133,7 +249,7 @@
             "name": "body",
             "schema": {
               "properties": {
-                "idReclamoTipo": { "example": 2, "type": "number" },
+                "idReclamoTipo": { "example": 6, "type": "number" },
                 "nombre": { "example": "Oficina", "type": "string" }
               },
               "type": "object"
@@ -147,7 +263,7 @@
         "summary": "Crea una nueva oficina"
       }
     },
-    "/api/admin/oficinas/empleados": {
+    "/api/admin/oficinas/empleados/asignar": {
       "post": {
         "consumes": ["application/json"],
         "parameters": [
@@ -156,10 +272,10 @@
             "name": "body",
             "schema": {
               "properties": {
-                "idOficina": { "example": 8, "type": "number" },
+                "idOficina": { "example": 3, "type": "number" },
                 "idsEmpleados": {
-                  "example": [36],
-                  "items": { "example": 36, "type": "number" },
+                  "example": [42],
+                  "items": { "example": 42, "type": "number" },
                   "type": "array"
                 }
               },
@@ -172,6 +288,33 @@
         "description": "Asocia empleados a una oficina",
         "operationId": "asociaEmpleadosAUnaOficina",
         "summary": "Asocia empleados a una oficina"
+      }
+    },
+    "/api/admin/oficinas/empleados/desvincular": {
+      "post": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "idOficina": { "example": 3, "type": "number" },
+                "idsEmpleados": {
+                  "example": [3, 42],
+                  "items": { "example": 3, "type": "number" },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas-Empleados - (Admin)"],
+        "description": "Desvincula empleados a una oficina",
+        "operationId": "desvinculaEmpleadosAUnaOficina",
+        "summary": "Desvincula empleados a una oficina"
       }
     },
     "/api/admin/oficinas/{id}": {
@@ -223,9 +366,9 @@
         ],
         "responses": { "200": { "description": "" } },
         "tags": ["Oficinas - (Admin)"],
-        "description": "Elimina una oficina y desasigna empleados",
-        "operationId": "eliminaUnaOficinaYDesasignaEmpleados",
-        "summary": "Elimina una oficina y desasigna empleados"
+        "description": "Elimina una oficina",
+        "operationId": "eliminaUnaOficina",
+        "summary": "Elimina una oficina"
       }
     },
     "/api/admin/oficinas/{id}/empleados": {
@@ -239,6 +382,140 @@
         "description": "Obtiene los empleados de una oficina",
         "operationId": "obtieneLosEmpleadosDeUnaOficina",
         "summary": "Obtiene los empleados de una oficina"
+      }
+    },
+    "/api/admin/oficinas/{id}/reactivar": {
+      "parameters": [
+        { "in": "path", "name": "id", "required": true, "type": "string" }
+      ],
+      "patch": {
+        "consumes": ["text/plain"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": { "format": "binary", "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Oficinas - (Admin)"],
+        "description": "Reactiva una oficina",
+        "operationId": "reactivaUnaOficina",
+        "summary": "Reactiva una oficina"
+      }
+    },
+    "/api/admin/perfil": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Admin - (Admin)"],
+        "description": "Obtiene perfil Admin",
+        "operationId": "obtienePerfilAdmin",
+        "summary": "Obtiene perfil Admin"
+      },
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "apellido": { "example": "Admin Updated", "type": "string" },
+                "nombre": { "example": "Admin Updated", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Admin - (Admin)"],
+        "description": "Actualiza perfil  Admin",
+        "operationId": "actualizaPerfilAdmin",
+        "summary": "Actualiza perfil  Admin"
+      }
+    },
+    "/api/admin/perfil/contrasenia": {
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "contrasenia": { "example": "123456", "type": "string" }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Admin - (Admin)"],
+        "description": "Actualiza contraseña Admin",
+        "operationId": "actualizaContraseAAdmin",
+        "summary": "Actualiza contraseña Admin"
+      }
+    },
+    "/api/admin/perfil/correo": {
+      "patch": {
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "correoElectronico": {
+                  "example": "admin@admin.com",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Admin - (Admin)"],
+        "description": "Actualiza correo electrónico  Admin",
+        "operationId": "actualizaCorreoElectrNicoAdmin",
+        "summary": "Actualiza correo electrónico  Admin"
+      }
+    },
+    "/api/admin/perfil/imagen": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes Admin - (Admin)"],
+        "description": "Obtener imagen de perfil Admin",
+        "operationId": "obtenerImagenDePerfilAdmin",
+        "summary": "Obtener imagen de perfil Admin"
+      },
+      "patch": {
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "format": "binary",
+            "in": "formData",
+            "name": "imagenPerfil",
+            "type": "file"
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes Admin - (Admin)"],
+        "description": "Subir una imagen de perfil  Admin",
+        "operationId": "subirUnaImagenDePerfilAdmin",
+        "summary": "Subir una imagen de perfil  Admin"
+      }
+    },
+    "/api/admin/perfil/imagen/borrar": {
+      "patch": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes Admin - (Admin)"],
+        "description": "Eliminar imagen de perfil  Admin",
+        "operationId": "eliminarImagenDePerfilAdmin",
+        "summary": "Eliminar imagen de perfil  Admin"
       }
     },
     "/api/admin/tipoReclamos": {
@@ -351,10 +628,6 @@
             "schema": {
               "properties": {
                 "apellido": { "example": "Cliente Updated", "type": "string" },
-                "imagen": {
-                  "example": "https://upload.wikimedia.org/wikipedia/vi/thumb/7/76/Darth_Vader.jpg/220px-Darth_Vader.jpg",
-                  "type": "string"
-                },
                 "nombre": { "example": "Cliente Updated", "type": "string" }
               },
               "type": "object"
@@ -413,6 +686,42 @@
         "description": "Actualiza correo electrónico",
         "operationId": "actualizaCorreoElectrNico",
         "summary": "Actualiza correo electrónico"
+      }
+    },
+    "/api/clientes/perfil/imagen": {
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes Clientes - (Clientes)"],
+        "description": "Obtener imagen de perfil",
+        "operationId": "obtenerImagenDePerfil",
+        "summary": "Obtener imagen de perfil"
+      },
+      "patch": {
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "format": "binary",
+            "in": "formData",
+            "name": "imagenPerfil",
+            "type": "file"
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes Clientes - (Clientes)"],
+        "description": "Subir una imagen de perfil",
+        "operationId": "subirUnaImagenDePerfil",
+        "summary": "Subir una imagen de perfil"
+      }
+    },
+    "/api/clientes/perfil/imagen/borrar": {
+      "patch": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Imágenes Clientes - (Clientes)"],
+        "description": "Eliminar imagen de perfil",
+        "operationId": "eliminarImagenDePerfil",
+        "summary": "Eliminar imagen de perfil"
       }
     },
     "/api/clientes/tipoReclamos": {
@@ -481,7 +790,7 @@
                   "example": "Descripción Updated Admin",
                   "type": "string"
                 },
-                "reclamoNuevoStatus": { "example": 1, "type": "number" }
+                "reclamoNuevoStatus": { "example": 2, "type": "number" }
               },
               "type": "object"
             }
@@ -585,8 +894,6 @@
             "name": "body",
             "schema": {
               "properties": {
-                "asunto": { "example": "Asunto 2", "type": "string" },
-                "descripcion": { "example": "Descripción 2", "type": "string" },
                 "reclamoNuevoStatus": { "example": 3, "type": "number" }
               },
               "type": "object"
@@ -622,15 +929,7 @@
             "name": "body",
             "schema": {
               "properties": {
-                "asunto": {
-                  "example": "Asunto Updated Empleado",
-                  "type": "string"
-                },
-                "descripcion": {
-                  "example": "Descripción Updated Empleado",
-                  "type": "string"
-                },
-                "reclamoNuevoStatus": { "example": 3, "type": "number" }
+                "reclamoNuevoStatus": { "example": 2, "type": "number" }
               },
               "type": "object"
             }
@@ -655,11 +954,7 @@
                 "apellido": { "example": "Cliente", "type": "string" },
                 "contrasenia": { "example": "123456", "type": "string" },
                 "correoElectronico": {
-                  "example": "correo_1@cliente.com",
-                  "type": "string"
-                },
-                "imagen": {
-                  "example": "https://i.pinimg.com/736x/34/88/98/348898fe7e68341c5acba805b9a4dd3f.jpg",
+                  "example": "correo_10@cliente.com",
                   "type": "string"
                 },
                 "nombre": { "example": "Cliente", "type": "string" }
@@ -675,17 +970,17 @@
         "summary": "Crear un nuevo cliente"
       }
     },
-    "/api/v1/reportes/totalesReclamosEstados": {
+    "/api/reportes/totalesReclamosEstados": {
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Estadísticas - (Admin)"],
+        "tags": ["Reportes - (Admin)"],
         "description": "Totales de reclamos por estados",
         "operationId": "totalesDeReclamosPorEstados",
         "summary": "Totales de reclamos por estados"
       }
     },
-    "/api/v1/reportes/{formatoReporte}/{idTipoReclamo}": {
+    "/api/reportes/{formatoReporte}/{idTipoReclamo}": {
       "parameters": [
         {
           "in": "path",
@@ -703,8 +998,26 @@
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
-        "tags": ["Estadísticas - (Admin)"],
+        "tags": ["Reportes - (Admin)"],
         "description": "Genera archivo de reclamos debe estar logueado como administrador recibo como parametro el formato que tendra el reporte (pdf o csv) y el id de tipo de reclamos",
+        "operationId": "generaArchivoDeReclamos",
+        "summary": "Genera archivo de reclamos"
+      }
+    },
+    "/api/reportes/{formatoReporte}/": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "formatoReporte",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reportes - (Admin)"],
+        "description": "Genera archivo de reclamos debe estar logueado como administrador recibo como parametro el formato que tendra el reporte (pdf o csv) ; implementacion como se vio en clase de programacion",
         "operationId": "generaArchivoDeReclamos",
         "summary": "Genera archivo de reclamos"
       }
@@ -726,6 +1039,7 @@
   "tags": [
     { "name": "Auth" },
     { "name": "Clientes - (Clientes)" },
+    { "name": "Admin - (Admin)" },
     { "name": "Clientes - (Admin)" },
     { "name": "Empleados - (Admin)" },
     { "name": "Oficinas - (Admin)" },
@@ -733,8 +1047,12 @@
     { "name": "Reclamos - (Admin)" },
     { "name": "Reclamos - (Empleados)" },
     { "name": "Reclamos - (Clientes)" },
-    { "name": "Estadísticas - (Admin)" },
+    { "name": "Reportes - (Admin)" },
     { "name": "Tipo Reclamos - (Admin)" },
-    { "name": "Tipo Reclamos - (Clientes)" }
+    { "name": "Tipo Reclamos - (Clientes)" },
+    { "name": "Imágenes Clientes - (Clientes)" },
+    { "name": "Imágenes Empleados - (Admin)" },
+    { "name": "Imágenes Admin - (Admin)" },
+    { "name": "Imágenes Clientes - (Admin)" }
   ]
 }

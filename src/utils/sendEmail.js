@@ -4,7 +4,6 @@ const handlebars = require('handlebars');
 const nodemailer = require('nodemailer');
 exports.sendEmail = (userData) => {
   const correoEnviado = userData.correoElectronico;
-  console.log(correoEnviado);
 
   const mensaje = fs.readFileSync(
     path.join(__dirname, '/', 'notificacion.hbs'),

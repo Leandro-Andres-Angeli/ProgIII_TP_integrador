@@ -75,5 +75,45 @@ class ClaimsService {
     return await this.claims.postClaimAdmin(data);
   };
   //ADMIN SERVICES
+  //PAGINACION SERVICES
+  getClaimsAdminPagination = async ({ pagina }) => {
+    const queryRes = await this.claims.claimsAdminPaginated(pagina);
+    return {
+      prev: pagina !== 0,
+
+      next: queryRes.length > 5,
+      data: queryRes.length > 5 ? queryRes.slice(0, -1) : queryRes,
+    };
+  };
+  getClaimsEmpleadoPagination = async () => {
+    console.log('empleado service');
+  };
+  getClaimsClientePagination = async ({ idUsuario, pagina }) => {
+    const queryRes = await this.claims.claimsClientePaginated(
+      idUsuario,
+      pagina
+    );
+    return {
+      prev: pagina !== 0,
+
+      next: queryRes.length > 5,
+      data: queryRes.length > 5 ? queryRes.slice(0, -1) : queryRes,
+    };
+  };
+  getClaimsEmpleadoPagination = async ({ idUsuario, pagina }) => {
+    console.log(idUsuario, pagina);
+    const queryRes = await this.claims.claimsEmpleadosPaginated(
+      idUsuario,
+      pagina
+    );
+    return {
+      prev: pagina !== 0,
+
+      next: queryRes.length > 5,
+      data: queryRes.length > 5 ? queryRes.slice(0, -1) : queryRes,
+    };
+  };
+
+  //PAGINACION SERVICES
 }
 module.exports = ClaimsService;

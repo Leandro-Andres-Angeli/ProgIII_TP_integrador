@@ -4,7 +4,7 @@ const ClaimsService = require('../services/claimService');
 const ClaimStatusService = require('../services/claimStatusService');
 
 const usuarioService = require('../services/usuarioService');
-const { sendEmail } = require('../utils/sendEmail');
+const { userType } = require('../utils/userTypesHelper');
 
 class ClaimController {
   constructor() {
@@ -80,24 +80,18 @@ class ClaimController {
           .status(400)
           .json({ ok: false, message: 'El reclamo ya tiene ese estado' });
       }
-      /* Refactored
-      
-      sendEmail({
-        name: nombre + ' ' + apellido,
-        correoElectronico,
-        status: 'cancelado',
-      }); 
-      Refactored
-      */
-      const { nombre, apellido, correoElectronico } =
-        await this.usuarioService.getUsuarioById(idUsuario, 3);
+
+      const user = await this.usuarioService.getUsuarioById(idUsuario, 3);
+
+      const { nombre, apellido, correoElectronico } = user;
 
       const patchClaim = await this.service.patchClaimClient(
         idReclamo,
         idUsuario,
+        reclamoNuevoStatus,
         {
           name: nombre + ' ' + apellido,
-          correoElectronico,
+          correoElectronico: correoElectronico,
           status: 'cancelado',
         }
       );
@@ -184,7 +178,12 @@ class ClaimController {
       const { idReclamo } = req.params;
       const reclamoNuevoStatus = Number(req.body.reclamoNuevoStatus);
       const { idUsuario } = req.user;
-
+      if (reclamoNuevoStatus === 3) {
+        return res.status(403).json({
+          ok: false,
+          message: 'Solo los clientes pueden cancelar reclamos',
+        });
+      }
       const checkRightClaim = await this.service.getClaimByClaimIdAndUserId(
         idUsuario,
         idReclamo
@@ -196,13 +195,6 @@ class ClaimController {
         });
       }
 
-      if (checkRightClaim[0].idReclamoEstado === 1) {
-        return res.status(403).json({
-          ok: false,
-          message:
-            'Reclamo no esta en "proceso" , no puede ser modificado su status ',
-        });
-      }
       if (checkRightClaim[0].idReclamoEstado === reclamoNuevoStatus) {
         return res
           .status(400)
@@ -370,6 +362,29 @@ class ClaimController {
         .json({ ok: false, message: error.message || 'Error de servidor' });
     }
   };
+  //PAGINACION
+  getClaimsPagination = async (req, res) => {
+    try {
+      const { idUsuarioTipo, idUsuario } = req.user;
+      const pagina = Number(req.query.pagina);
+
+      const claims = await this.service[
+        `getClaims${userType[idUsuarioTipo]}Pagination`
+      ]({ idUsuario, pagina: pagina - 1 });
+      if (claims.data.length === 0) {
+        return res
+          .status(404)
+          .json({ ok: true, message: 'No hay resultados para esta pagina' });
+      }
+
+      return res.status(200).json({ ok: true, claims });
+    } catch (error) {
+      console.log(error);
+
+      return res.status(500).json({ ok: false, message: 'error de servidor' });
+    }
+  };
+  //PAGINACION
 }
 
 module.exports = ClaimController;
