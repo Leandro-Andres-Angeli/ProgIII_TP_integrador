@@ -760,7 +760,7 @@
         "summary": "Loguearse"
       }
     },
-    "/api/reclamos/admin/": {
+    "/api/reclamos/admin": {
       "get": {
         "parameters": [],
         "responses": { "200": { "description": "" } },
@@ -942,6 +942,16 @@
         "summary": "Actualiza un reclamo"
       }
     },
+    "/api/reclamos/paginacion": {
+      "get": {
+        "parameters": [{ "in": "query", "name": "pagina", "type": "string" }],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Reclamos Paginación - (Usuarios)"],
+        "description": "Obtiene reclamos paginados",
+        "operationId": "obtieneReclamosPaginados",
+        "summary": "Obtiene reclamos paginados"
+      }
+    },
     "/api/registro": {
       "post": {
         "consumes": ["application/json"],
@@ -1053,6 +1063,7 @@
     { "name": "Imágenes Clientes - (Clientes)" },
     { "name": "Imágenes Empleados - (Admin)" },
     { "name": "Imágenes Admin - (Admin)" },
-    { "name": "Imágenes Clientes - (Admin)" }
+    { "name": "Imágenes Clientes - (Admin)" },
+    { "name": "Reclamos Paginación - (Usuarios)" }
   ]
 }
